@@ -1,60 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trendora AI – Discover Winning Dropshipping Products</title>
-  <meta name="description" content="Discover top trending dropshipping products with AI. Use Trendora AI to get real-time product updates, insights, and more. Try for free today.">
-  <meta property="og:title" content="Trendora AI – Discover Winning Dropshipping Products">
-  <meta property="og:description" content="Discover top trending dropshipping products with AI. Use Trendora AI to get real-time product updates, insights, and more.">
+  <title>Trendora AI – Winning Dropshipping Products with AI</title>
+  <meta name="description" content="Use Trendora AI to discover top trending dropshipping products. Get daily insights, filters, and AI-powered recommendations.">
+  <meta property="og:title" content="Trendora AI – Winning Dropshipping Products with AI">
+  <meta property="og:description" content="Use Trendora AI to discover top trending dropshipping products. Get daily insights, filters, and AI-powered recommendations.">
   <meta property="og:image" content="https://trendora-ai.github.io/logo.png">
   <meta property="og:url" content="https://trendora-ai.github.io">
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
-    header, footer { background: #101820; color: white; padding: 1rem 2rem; text-align: center; }
-    main { padding: 2rem; }
-    .pricing-table { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
-    .plan { background: white; border-radius: 10px; padding: 2rem; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .plan h2 { color: #0078d7; }
-    .plan ul { list-style: none; padding: 0; }
-    .plan ul li { margin-bottom: 0.5rem; }
-    .button { background: #0078d7; color: white; text-decoration: none; padding: 0.8rem 1.2rem; border-radius: 5px; display: inline-block; margin-top: 1rem; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; color: #333; line-height: 1.6; }
+    header { background: #101820; color: white; padding: 2rem 0; text-align: center; }
+    header h1 { font-size: 2.5rem; }
+    header p { font-size: 1.2rem; color: #ccc; }
+    main { padding: 3rem 2rem; max-width: 1100px; margin: auto; }
+    .pricing-section { text-align: center; margin-bottom: 3rem; }
+    .pricing-cards { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
+    .card { background: white; border-radius: 15px; padding: 2rem; width: 300px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: 0.3s ease; }
+    .card:hover { transform: translateY(-5px); }
+    .card h2 { font-size: 1.6rem; color: #0078d7; margin-bottom: 1rem; }
+    .card ul { list-style: none; text-align: left; padding-left: 0; margin-bottom: 1rem; }
+    .card ul li { padding: 0.4rem 0; border-bottom: 1px solid #eee; }
+    .card .price { font-size: 1.8rem; margin: 1rem 0; font-weight: bold; }
+    .button { background: #0078d7; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 30px; display: inline-block; font-weight: bold; transition: 0.3s; }
+    .button:hover { background: #005bb5; }
+    footer { background: #101820; color: white; text-align: center; padding: 1.5rem 2rem; margin-top: 3rem; }
   </style>
 </head>
 <body>
   <header>
     <h1>Trendora AI</h1>
-    <p>Discover Winning Dropshipping Products with AI</p>
+    <p>Discover Winning Dropshipping Products with Artificial Intelligence</p>
   </header>
   <main>
-    <h2 style="text-align:center;">Pricing Plans</h2>
-    <div class="pricing-table">
-      <div class="plan">
-        <h2>Free Plan</h2>
-        <ul>
-          <li>3 products/day</li>
-          <li>Basic filters</li>
-          <li>No export</li>
-          <li>3-day access</li>
-        </ul>
-        <a href="https://checkout.paddle.com/pri_01jyrncgswz1e7m215fc8avqj3" class="button">Start Free Trial</a>
+    <section class="pricing-section">
+      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Choose Your Plan</h2>
+      <div class="pricing-cards">
+        <div class="card">
+          <h2>Free Plan</h2>
+          <ul>
+            <li>3 products/day</li>
+            <li>Basic filters only</li>
+            <li>No export options</li>
+            <li>Limited access features</li>
+          </ul>
+          <p class="price">$0/month</p>
+          <a href="https://checkout.paddle.com/pri_01jyrncgswz1e7m215fc8avqj3" class="button">Start for Free</a>
+        </div>
+        <div class="card">
+          <h2>Pro Plan</h2>
+          <ul>
+            <li>Unlimited product access</li>
+            <li>Advanced filters</li>
+            <li>Export to CSV</li>
+            <li>Priority AI updates & support</li>
+          </ul>
+          <p class="price">$29/month</p>
+          <a href="https://checkout.paddle.com/pri_01jyvvxqw2n2v6tkaj78fqy5n0" class="button">Start 3-Day Trial</a>
+        </div>
       </div>
-      <div class="plan">
-        <h2>Pro Plan – $29/mo</h2>
-        <ul>
-          <li>Unlimited products</li>
-          <li>Advanced filters</li>
-          <li>Export to CSV</li>
-          <li>Priority support</li>
-          <li>3-day free trial</li>
-        </ul>
-        <a href="https://checkout.paddle.com/pri_01jyvvxqw2n2v6tkaj78fqy5n0" class="button">Upgrade to Pro</a>
-      </div>
-    </div>
+    </section>
   </main>
   <footer>
     <p>© 2025 Trendora AI. All rights reserved.</p>
   </footer>
 </body>
 </html>
+
