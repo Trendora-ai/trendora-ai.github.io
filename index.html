@@ -3,104 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Trendora AI – Discover trending eCommerce products using AI insights." />
-  <meta name="keywords" content="Trendora, AI product research, trending products, dropshipping tools" />
-  <meta name="author" content="Trendora AI" />
-  <title>Trendora AI – Discover Winning Products</title>
+  <title>Trendora AI – AI Powered Product Research Tool</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    .platform-icons img {
-      height: 48px;
-      max-height: 48px;
-      filter: grayscale(100%);
-      transition: filter 0.3s;
-    }
-    .platform-icons img:hover {
-      filter: grayscale(0%);
-    }
-  </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md fixed w-full z-50 top-0">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
+      <nav class="space-x-6 hidden md:flex">
+        <a href="index.html" class="text-gray-600 hover:text-blue-600">Home</a>
+        <a href="features.html" class="text-gray-600 hover:text-blue-600">Features</a>
+        <a href="pricing.html" class="text-gray-600 hover:text-blue-600">Pricing</a>
+        <a href="faq.html" class="text-gray-600 hover:text-blue-600">FAQ</a>
+      </nav>
+      <a href="https://trendora-ai.paddle.com" class="bg-blue-600 text-white px-4 py-2 rounded-md hidden md:inline-block">Get Started</a>
+    </div>
+  </header>
+  <div class="h-16"></div>
 
   <!-- Hero Section -->
-  <section class="text-center py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-    <h1 class="text-5xl font-extrabold mb-4">Trendora AI</h1>
-    <p class="text-xl max-w-2xl mx-auto mb-6">AI-powered platform to discover winning dropshipping products daily.</p>
-    <a href="pricing.html" class="bg-white text-purple-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">View Pricing</a>
+  <section class="text-center py-20 bg-gradient-to-br from-blue-50 to-white">
+    <div class="max-w-4xl mx-auto px-6">
+      <h1 class="text-5xl font-extrabold mb-4">Discover Winning Dropshipping Products</h1>
+      <p class="text-xl mb-6 text-gray-700">Trendora AI helps you find high-converting products using real-time data and AI-powered insights.</p>
+      <a href="pricing.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700">Start Free Trial</a>
+    </div>
   </section>
 
-  <!-- Features -->
-  <section class="py-16">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold mb-12">Why Choose Trendora?</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-        <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
-          <h4 class="text-xl font-semibold mb-2">Daily Trending Products</h4>
-          <p>Discover viral products daily with real-time AI analysis to stay ahead of competitors.</p>
-        </div>
-        <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
-          <h4 class="text-xl font-semibold mb-2">Competitor Insights</h4>
-          <p>Track what your competitors are selling, pricing strategies, and ad performance.</p>
-        </div>
-        <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
-          <h4 class="text-xl font-semibold mb-2">Built for eCommerce</h4>
-          <p>Optimized for Shopify, WooCommerce, Amazon, and other major platforms.</p>
-        </div>
+  <!-- Platforms Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-semibold mb-4">Compatible With Major Platforms</h2>
+      <p class="mb-10 text-gray-600">Seamlessly integrate with popular e-commerce platforms</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <span>Shopify</span>
+        <span>WooCommerce</span>
+        <span>AliExpress</span>
+        <span>Amazon</span>
+        <span>eBay</span>
+        <span>Facebook</span>
+        <span>Etsy</span>
+        <span>Walmart</span>
+        <span>BigCommerce</span>
       </div>
     </div>
   </section>
 
-  <!-- Supported Platforms -->
-  <section class="py-16 bg-gray-50 text-center">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-3xl font-bold mb-8">Compatible with Major Platforms</h3>
-      <div class="flex justify-center gap-6 flex-wrap platform-icons">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/shopify.svg" alt="Shopify" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/woocommerce.svg" alt="WooCommerce" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/aliexpress.svg" alt="AliExpress" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/amazon.svg" alt="Amazon" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/ebay.svg" alt="eBay" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/etsy.svg" alt="Etsy" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/walmart.svg" alt="Walmart" class="h-12" />
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/bigcommerce.svg" alt="BigCommerce" class="h-12" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section class="py-16 bg-white text-center">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-3xl font-bold mb-8">What Our Users Say</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="p-6 border rounded-lg shadow-sm">
-          <p class="text-gray-700">"Trendora has changed my store game! I find winning products every week."</p>
-          <span class="block mt-4 font-semibold">– Sarah K, Store Owner</span>
+  <!-- Testimonials Section -->
+  <section class="bg-blue-50 py-16">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-6">What Users Are Saying</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p>"I found 3 winning products within a week using Trendora AI. Highly recommended!"</p>
+          <span class="block mt-4 font-semibold text-blue-600">– Sarah M.</span>
         </div>
-        <div class="p-6 border rounded-lg shadow-sm">
-          <p class="text-gray-700">"I used to spend hours on research. Now I get better results in minutes."</p>
-          <span class="block mt-4 font-semibold">– Adam R, Dropshipper</span>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p>"Super accurate trends and powerful dashboard. Made my product research 10x faster."</p>
+          <span class="block mt-4 font-semibold text-blue-600">– Omar R.</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p>"A must-have tool for dropshippers. Clean UI and very easy to use."</p>
+          <span class="block mt-4 font-semibold text-blue-600">– Jason T.</span>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- Call to Action -->
-  <section class="py-20 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-    <h3 class="text-3xl font-bold mb-4">Start Your Free Trial</h3>
-    <p class="text-lg mb-6">Unlock powerful product research tools and insights with Trendora AI.</p>
-    <a href="signup.html" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">Get Started</a>
   </section>
 
   <!-- Footer -->
-  <footer class="py-8 text-center text-sm text-gray-500 bg-gray-100">
-    <p>&copy; 2025 Trendora AI. All rights reserved.</p>
-    <div class="mt-2 space-x-4">
-      <a href="terms.html" class="hover:text-gray-700">Terms</a>
-      <a href="privacy.html" class="hover:text-gray-700">Privacy</a>
-      <a href="refund.html" class="hover:text-gray-700">Refund</a>
-      <a href="pricing.html" class="hover:text-gray-700">Pricing</a>
+  <footer class="bg-white border-t py-6 text-center text-sm text-gray-600">
+    <div class="space-x-4">
+      <a href="terms.html" class="hover:text-blue-600">Terms of Service</a>
+      <a href="privacy.html" class="hover:text-blue-600">Privacy Policy</a>
+      <a href="refund.html" class="hover:text-blue-600">Refund Policy</a>
     </div>
+    <p class="mt-2">© 2025 Trendora AI. All rights reserved.</p>
   </footer>
 
 </body>
