@@ -1,17 +1,63 @@
+<!-- contact.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Contact Us - Trendora AI</title>
-  <meta name="description" content="Get in touch with the Trendora AI team.">
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; color: #333; }
-    h1 { color: #0078d7; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us – Trendora AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>Contact Us</h1>
-  <p>Have a question or feedback? We’d love to hear from you!</p>
-  <p>Email us at: <a href="mailto:trendoraaiofficial@gmail.com">trendoraaiofficial@gmail.com</a></p>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md w-full sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
+      <nav class="space-x-6 hidden md:flex">
+        <a href="index.html" class="text-gray-600 hover:text-blue-600">Home</a>
+        <a href="features.html" class="text-gray-600 hover:text-blue-600">Features</a>
+        <a href="pricing.html" class="text-gray-600 hover:text-blue-600">Pricing</a>
+        <a href="faq.html" class="text-gray-600 hover:text-blue-600">FAQ</a>
+        <a href="contact.html" class="text-blue-600 font-semibold">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <div class="h-16"></div>
+
+  <!-- Contact Section -->
+  <section class="max-w-4xl mx-auto py-16 px-4">
+    <h1 class="text-4xl font-bold mb-6 text-center">Contact Us</h1>
+    <p class="mb-12 text-center text-gray-600">Have questions, feedback, or need help? We'd love to hear from you.</p>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">Send us a message</h2>
+        <form class="space-y-4">
+          <input type="text" placeholder="Your Name" class="w-full p-3 border rounded-md" required />
+          <input type="email" placeholder="Your Email" class="w-full p-3 border rounded-md" required />
+          <textarea rows="5" placeholder="Your Message" class="w-full p-3 border rounded-md" required></textarea>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700">Send Message</button>
+        </form>
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">Contact Information</h2>
+        <p class="mb-4"><strong>Email:</strong> <a href="mailto:trendoraaiofficial@gmail.com" class="text-blue-600">trendoraaiofficial@gmail.com</a></p>
+        <p class="mb-4"><strong>Business Hours:</strong> Mon – Fri, 9 AM – 6 PM</p>
+        <p class="mb-4"><strong>Address:</strong> Lahore, Pakistan (Online-based business)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t py-6 text-center text-sm text-gray-600">
+    <div class="space-x-4">
+      <a href="terms.html" class="hover:text-blue-600">Terms of Service</a>
+      <a href="privacy.html" class="hover:text-blue-600">Privacy Policy</a>
+      <a href="refund.html" class="hover:text-blue-600">Refund Policy</a>
+      <a href="contact.html" class="hover:text-blue-600">Contact</a>
+    </div>
+    <p class="mt-2">© 2025 Trendora AI. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
