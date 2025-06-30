@@ -29,6 +29,11 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
+  <!-- Loader -->
+  <div id="loader" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+    <div class="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent"></div>
+  </div>
+
   <!-- Header -->
   <header class="bg-white shadow-md fixed w-full z-50 top-0">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -105,6 +110,15 @@
     <p class="mt-2">© 2025 Trendora AI. All rights reserved.</p>
   </footer>
 
+  <!-- Loader Script -->
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      loader.style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>
+
 
