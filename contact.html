@@ -1,16 +1,15 @@
-<!-- contact.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact Us – Trendora AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trendora AI – AI Powered Product Research Tool</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50 text-gray-800">
 
   <!-- Header -->
-  <header class="bg-white shadow-md w-full sticky top-0 z-50">
+  <header class="bg-white shadow-md fixed w-full z-50 top-0">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
       <nav class="space-x-6 hidden md:flex">
@@ -18,32 +17,58 @@
         <a href="features.html" class="text-gray-600 hover:text-blue-600">Features</a>
         <a href="pricing.html" class="text-gray-600 hover:text-blue-600">Pricing</a>
         <a href="faq.html" class="text-gray-600 hover:text-blue-600">FAQ</a>
-        <a href="contact.html" class="text-blue-600 font-semibold">Contact</a>
+        <a href="contact.html" class="text-gray-600 hover:text-blue-600">Contact</a>
       </nav>
+      <a href="https://trendora-ai.paddle.com" class="bg-blue-600 text-white px-4 py-2 rounded-md hidden md:inline-block">Get Started</a>
     </div>
   </header>
   <div class="h-16"></div>
 
-  <!-- Contact Section -->
-  <section class="max-w-4xl mx-auto py-16 px-4">
-    <h1 class="text-4xl font-bold mb-6 text-center">Contact Us</h1>
-    <p class="mb-12 text-center text-gray-600">Have questions, feedback, or need help? We'd love to hear from you.</p>
-    
-    <div class="grid md:grid-cols-2 gap-8">
-      <div>
-        <h2 class="text-2xl font-semibold mb-4">Send us a message</h2>
-        <form class="space-y-4">
-          <input type="text" placeholder="Your Name" class="w-full p-3 border rounded-md" required />
-          <input type="email" placeholder="Your Email" class="w-full p-3 border rounded-md" required />
-          <textarea rows="5" placeholder="Your Message" class="w-full p-3 border rounded-md" required></textarea>
-          <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700">Send Message</button>
-        </form>
+  <!-- Hero Section -->
+  <section class="text-center py-20 bg-gradient-to-br from-blue-50 to-white">
+    <div class="max-w-4xl mx-auto px-6">
+      <h1 class="text-5xl font-extrabold mb-4">Discover Winning Dropshipping Products</h1>
+      <p class="text-xl mb-6 text-gray-700">Trendora AI helps you find high-converting products using real-time data and AI-powered insights.</p>
+      <a href="pricing.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700">Start Free Trial</a>
+    </div>
+  </section>
+
+  <!-- Platforms Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-semibold mb-4">Compatible With Major Platforms</h2>
+      <p class="mb-10 text-gray-600">Seamlessly integrate with popular e-commerce platforms</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <span>Shopify</span>
+        <span>WooCommerce</span>
+        <span>AliExpress</span>
+        <span>Amazon</span>
+        <span>eBay</span>
+        <span>Facebook</span>
+        <span>Etsy</span>
+        <span>Walmart</span>
+        <span>BigCommerce</span>
       </div>
-      <div>
-        <h2 class="text-2xl font-semibold mb-4">Contact Information</h2>
-        <p class="mb-4"><strong>Email:</strong> <a href="mailto:trendoraaiofficial@gmail.com" class="text-blue-600">trendoraaiofficial@gmail.com</a></p>
-        <p class="mb-4"><strong>Business Hours:</strong> Mon – Fri, 9 AM – 6 PM</p>
-        <p class="mb-4"><strong>Address:</strong> Lahore, Pakistan (Online-based business)</p>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="bg-blue-50 py-16">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-6">What Users Are Saying</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p>"I found 3 winning products within a week using Trendora AI. Highly recommended!"</p>
+          <span class="block mt-4 font-semibold text-blue-600">– Sarah M.</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p>"Super accurate trends and powerful dashboard. Made my product research 10x faster."</p>
+          <span class="block mt-4 font-semibold text-blue-600">– Omar R.</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+          <p>"A must-have tool for dropshippers. Clean UI and very easy to use."</p>
+          <span class="block mt-4 font-semibold text-blue-600">– Jason T.</span>
+        </div>
       </div>
     </div>
   </section>
