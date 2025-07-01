@@ -38,14 +38,27 @@
   <header class="bg-white shadow-md fixed w-full z-40 top-0">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
-      <nav class="space-x-6 hidden md:flex">
-        <a href="index.html" class="text-gray-600 hover:text-blue-600">Home</a>
-        <a href="features.html" class="text-gray-600 hover:text-blue-600">Features</a>
-        <a href="pricing.html" class="text-gray-600 hover:text-blue-600">Pricing</a>
-        <a href="faq.html" class="text-gray-600 hover:text-blue-600">FAQ</a>
-        <a href="contact.html" class="text-gray-600 hover:text-blue-600">Contact</a>
+
+      <!-- Mobile Menu Button -->
+      <button id="menu-toggle" class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <!-- Navigation -->
+      <nav id="menu" class="hidden absolute top-full left-0 w-full bg-white shadow-md md:shadow-none md:static md:flex md:space-x-6 md:items-center md:w-auto md:bg-transparent">
+        <a href="index.html" class="block px-4 py-2 md:p-0 text-gray-600 hover:text-blue-600">Home</a>
+        <a href="features.html" class="block px-4 py-2 md:p-0 text-gray-600 hover:text-blue-600">Features</a>
+        <a href="pricing.html" class="block px-4 py-2 md:p-0 text-gray-600 hover:text-blue-600">Pricing</a>
+        <a href="faq.html" class="block px-4 py-2 md:p-0 text-gray-600 hover:text-blue-600">FAQ</a>
+        <a href="contact.html" class="block px-4 py-2 md:p-0 text-gray-600 hover:text-blue-600">Contact</a>
+        <a href="https://trendora-ai.paddle.com" class="block md:hidden bg-blue-600 text-white text-center px-4 py-2 rounded-md mt-2 mx-4">Get Started</a>
       </nav>
-      <a href="https://trendora-ai.paddle.com" class="bg-blue-600 text-white px-4 py-2 rounded-md hidden md:inline-block">Get Started</a>
+
+      <!-- Desktop CTA Button -->
+      <a href="https://trendora-ai.paddle.com" class="hidden md:inline-block bg-blue-600 text-white px-4 py-2 rounded-md">Get Started</a>
     </div>
   </header>
   <div class="h-16"></div>
@@ -70,57 +83,4 @@
         <span>AliExpress</span>
         <span>Amazon</span>
         <span>eBay</span>
-        <span>Facebook</span>
-        <span>Etsy</span>
-        <span>Walmart</span>
-        <span>BigCommerce</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials Section -->
-  <section class="bg-blue-50 py-16">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h2 class="text-3xl font-bold mb-6">What Users Are Saying</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-lg shadow">
-          <p>"I found 3 winning products within a week using Trendora AI. Highly recommended!"</p>
-          <span class="block mt-4 font-semibold text-blue-600">– Sarah M.</span>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-          <p>"Super accurate trends and powerful dashboard. Made my product research 10x faster."</p>
-          <span class="block mt-4 font-semibold text-blue-600">– Omar R.</span>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-          <p>"A must-have tool for dropshippers. Clean UI and very easy to use."</p>
-          <span class="block mt-4 font-semibold text-blue-600">– Jason T.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-white border-t py-6 text-center text-sm text-gray-600">
-    <div class="space-x-4">
-      <a href="terms.html" class="hover:text-blue-600">Terms of Service</a>
-      <a href="privacy.html" class="hover:text-blue-600">Privacy Policy</a>
-      <a href="refund.html" class="hover:text-blue-600">Refund Policy</a>
-      <a href="contact.html" class="hover:text-blue-600">Contact</a>
-    </div>
-    <p class="mt-2">© 2025 Trendora AI. All rights reserved.</p>
-  </footer>
-
-  <!-- Loader Script -->
-  <script>
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('loader');
-      loader.style.opacity = '0';
-      loader.style.transition = 'opacity 0.5s ease';
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, 500);
-    });
-  </script>
-
-</body>
-</html>
+        <span>
