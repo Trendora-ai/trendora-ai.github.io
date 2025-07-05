@@ -3,67 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trendora – Products</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Products – Trendora AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 text-gray-800">
 
   <!-- Header -->
-  <header class="bg-white shadow-md fixed top-0 w-full z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
+  <header class="bg-white shadow-md fixed w-full top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="dashboard.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
       <nav class="space-x-4 hidden md:flex">
-        <a href="dashboard.html" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+        <a href="dashboard.html" class="text-gray-700 hover:text-blue-600">Dashboard</a>
         <a href="products.html" class="text-blue-600 font-semibold">Products</a>
-        <a href="insights.html" class="text-gray-600 hover:text-blue-600">Insights</a>
-        <a href="login.html" class="text-gray-600 hover:text-red-500">Logout</a>
+        <a href="insights.html" class="text-gray-700 hover:text-blue-600">Insights</a>
+        <a href="login.html" class="text-red-500 hover:text-red-600">Logout</a>
       </nav>
     </div>
   </header>
   <div class="h-16"></div>
 
-  <!-- Main Content -->
-  <main class="max-w-6xl mx-auto px-4 py-12">
+  <!-- Products Grid -->
+  <main class="max-w-6xl mx-auto px-6 py-12">
     <h1 class="text-3xl font-bold mb-8 text-center">Top Trending Products</h1>
-    <div class="grid md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
       <!-- Product 1 -->
-      <div class="bg-white rounded-lg shadow p-4">
-        <img src="assets/products/smart-led-strip-1.jpg" alt="Smart LED Lights" class="rounded mb-4 w-full h-48 object-cover">
-        <h2 class="text-xl font-semibold mb-2">Smart LED Strip 1</h2>
-        <p class="text-gray-600 text-sm mb-2">Color-changing LED strip with remote control. Easy to install and perfect for room decor.</p>
-        <span class="text-green-600 font-medium">+78% Trending</span>
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <img src="assets/smart-led-strip-1.jpg" alt="Smart LED Strip 1" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2">Smart LED Strip</h2>
+          <p class="text-gray-600 text-sm mb-3">Customizable RGB LED light strip with app control, ideal for room aesthetics and ambiance.</p>
+          <span class="text-green-600 font-bold">Trending +78%</span>
+        </div>
       </div>
 
       <!-- Product 2 -->
-      <div class="bg-white rounded-lg shadow p-4">
-        <img src="assets/products/smart-led-strip-2.jpg" alt="Smart LED Strip" class="rounded mb-4 w-full h-48 object-cover">
-        <h2 class="text-xl font-semibold mb-2">Smart LED Strip 2</h2>
-        <p class="text-gray-600 text-sm mb-2">Bluetooth-enabled strip lights with app control and music sync feature.</p>
-        <span class="text-green-600 font-medium">+65% Trending</span>
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <img src="assets/smart-led-strip-2.jpg" alt="Smart LED Strip 2" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2">Smart LED Strip (Music Sync)</h2>
+          <p class="text-gray-600 text-sm mb-3">LED strip reacts to music beats and enhances party and gaming setups with dynamic colors.</p>
+          <span class="text-green-600 font-bold">Trending +65%</span>
+        </div>
       </div>
 
       <!-- Product 3 -->
-      <div class="bg-white rounded-lg shadow p-4">
-        <img src="assets/products/smart-led-strip-3.jpg" alt="Smart LED Strip" class="rounded mb-4 w-full h-48 object-cover">
-        <h2 class="text-xl font-semibold mb-2">Smart LED Strip 3</h2>
-        <p class="text-gray-600 text-sm mb-2">Waterproof RGB strip lights with USB power – ideal for TV backlighting and gaming setups.</p>
-        <span class="text-green-600 font-medium">+59% Trending</span>
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <img src="assets/smart-led-strip-3.jpg" alt="Smart LED Strip 3" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="text-xl font-semibold mb-2">Smart LED Strip (WiFi)</h2>
+          <p class="text-gray-600 text-sm mb-3">WiFi-enabled LED light strip with voice assistant compatibility for smart homes.</p>
+          <span class="text-green-600 font-bold">Trending +59%</span>
+        </div>
       </div>
 
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-white border-t mt-12 py-6 text-center text-sm text-gray-600">
+  <footer class="bg-white border-t py-6 text-center text-sm text-gray-600 mt-12">
     <div class="space-x-4">
       <a href="terms.html" class="hover:text-blue-600">Terms</a>
       <a href="privacy.html" class="hover:text-blue-600">Privacy</a>
       <a href="contact.html" class="hover:text-blue-600">Contact</a>
     </div>
-    <p class="mt-2">© 2025 Trendora AI. All rights reserved.</p>
+    <p class="mt-2">© 2025 Trendora AI</p>
   </footer>
-
 </body>
 </html>
