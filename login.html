@@ -1,13 +1,57 @@
-<form onsubmit="loginRedirect(event)" class="space-y-4">
-  <input type="email" placeholder="Email" required class="w-full px-4 py-2 border rounded" />
-  <input type="password" placeholder="Password" required class="w-full px-4 py-2 border rounded" />
-  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Login</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Trendora AI</title>
+  <link rel="icon" href="favicon.ico" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
 
-<script>
-  function loginRedirect(event) {
-    event.preventDefault();
-    // Normally you'd verify login here
-    window.location.href = "dashboard.html";
-  }
-</script>
+  <!-- Header -->
+  <header class="bg-white shadow fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
+      <nav class="space-x-4 hidden md:flex">
+        <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="features.html" class="text-gray-700 hover:text-blue-600">Features</a>
+        <a href="pricing.html" class="text-gray-700 hover:text-blue-600">Pricing</a>
+        <a href="signup.html" class="text-gray-700 hover:text-blue-600">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+  <div class="h-16"></div>
+
+  <!-- Login Form -->
+  <section class="flex justify-center items-center min-h-screen px-4 bg-gray-100">
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+      <h2 class="text-3xl font-bold text-center text-blue-600 mb-6">Login to Trendora</h2>
+      <form onsubmit="loginRedirect(event)" class="space-y-5">
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Email</label>
+          <input type="email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="you@example.com">
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Password</label>
+          <input type="password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••••••">
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Login</button>
+      </form>
+      <p class="text-sm text-center mt-4 text-gray-600">Don't have an account?
+        <a href="signup.html" class="text-blue-600 hover:underline">Sign up</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Redirect Script -->
+  <script>
+    function loginRedirect(event) {
+      event.preventDefault();
+      // Add login validation logic here (future)
+      window.location.href = "dashboard.html";
+    }
+  </script>
+
+</body>
+</html>
