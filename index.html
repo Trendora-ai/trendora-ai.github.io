@@ -56,9 +56,14 @@
         <a href="about.html" class="block text-gray-600 hover:text-blue-600 py-1">About Us</a>
         <a href="blog.html" class="block text-gray-600 hover:text-blue-600 py-1">Blog</a>
         <a href="contact.html" class="block text-gray-600 hover:text-blue-600 py-1">Contact</a>
-        <a href="https://trendora-ai.paddle.com" class="block md:hidden mt-2 bg-blue-600 text-white px-4 py-2 rounded-md text-center">Get Started</a>
+        <a href="signup.html" class="block text-gray-600 hover:text-blue-600 py-1">Sign Up</a>
+        <a href="login.html" class="block text-gray-600 hover:text-blue-600 py-1">Login</a>
+        <a href="https://trendora-ai.paddle.com" class="block md:hidden mt-2 bg-blue-600 text-white px-4 py-2 rounded-md text-center">Dashboard</a>
       </nav>
-      <a href="https://trendora-ai.paddle.com" class="bg-blue-600 text-white px-4 py-2 rounded-md hidden md:inline-block">Get Started</a>
+      <div class="hidden md:flex gap-4 items-center">
+        <a href="login.html" class="text-gray-700 hover:text-blue-600">Login</a>
+        <a href="signup.html" class="bg-blue-600 text-white px-4 py-2 rounded-md">Sign Up</a>
+      </div>
     </div>
   </header>
   <div class="h-16"></div>
@@ -139,7 +144,6 @@
 
   <!-- Scripts -->
   <script>
-    // Loader fade-out
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       loader.style.opacity = '0';
@@ -149,14 +153,12 @@
       }, 500);
     });
 
-    // Mobile nav toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-button');
     const navMenu = document.getElementById('main-nav');
     mobileMenuBtn.addEventListener('click', () => {
       navMenu.classList.toggle('hidden');
     });
 
-    // Popup Newsletter
     const popup = document.getElementById('popup-newsletter');
     const closeBtn = document.getElementById('close-popup');
     let popupShown = false;
@@ -172,7 +174,6 @@
       popup.classList.add('hidden');
     });
 
-    // Thank You message
     document.getElementById('newsletter-form').addEventListener('submit', function (e) {
       e.preventDefault();
       const form = e.target;
