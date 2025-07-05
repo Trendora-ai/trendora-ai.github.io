@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trendora Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Sidebar -->
+  <div class="flex min-h-screen">
+    <aside class="w-64 bg-white shadow-md">
+      <div class="p-6 text-center border-b">
+        <h1 class="text-2xl font-bold text-blue-600">Trendora AI</h1>
+        <p class="text-sm text-gray-500">Welcome, User</p>
+      </div>
+      <nav class="mt-6 space-y-2 px-6">
+        <a href="dashboard.html" class="block text-blue-600 font-semibold">Dashboard</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Products</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Insights</a>
+        <a href="login.html" class="block text-gray-700 hover:text-red-500 mt-10">Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <h2 class="text-3xl font-bold mb-6">Dashboard</h2>
+
+      <!-- Product Search Widget -->
+      <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-4">Search for a Product</h3>
+        <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
+      </div>
+
+      <!-- Trending Products -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-xl font-semibold mb-4">Top Trending Products</h3>
+        <ul class="space-y-2">
+          <li class="flex justify-between border-b py-2">
+            <span>Smart LED Lights</span>
+            <span class="text-green-600 font-semibold">+78%</span>
+          </li>
+          <li class="flex justify-between border-b py-2">
+            <span>Portable Blenders</span>
+            <span class="text-green-600 font-semibold">+65%</span>
+          </li>
+          <li class="flex justify-between py-2">
+            <span>Pet Grooming Gloves</span>
+            <span class="text-green-600 font-semibold">+59%</span>
+          </li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
