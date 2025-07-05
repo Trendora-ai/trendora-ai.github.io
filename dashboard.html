@@ -2,82 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trendora AI – Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products – Trendora AI</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@heroicons/vue@2.0.16/24/outline/index.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-800">
 
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-md hidden md:block">
-      <div class="p-6 border-b text-center">
-        <h1 class="text-2xl font-extrabold text-blue-600">Trendora AI</h1>
+    <aside class="w-64 bg-white shadow-md">
+      <div class="p-6 text-center border-b">
+        <h1 class="text-2xl font-bold text-blue-600">Trendora AI</h1>
         <p class="text-sm text-gray-500">Welcome, User</p>
       </div>
       <nav class="mt-6 space-y-2 px-6">
-        <a href="dashboard.html" class="flex items-center gap-2 text-blue-600 font-semibold py-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m4-8l2 2m-2-2V4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          Dashboard
-        </a>
-        <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-blue-600 py-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M20 13V7a2 2 0 00-2-2H6a2 2 0 00-2 2v6m16 0v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m16 0H4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Products
-        </a>
-        <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-blue-600 py-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M9 17v-2a4 4 0 118 0v2m-2 4h-4a4 4 0 01-4-4v-2a4 4 0 018 0v2a4 4 0 01-4 4z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Insights
-        </a>
-        <a href="login.html" class="flex items-center gap-2 text-red-600 hover:text-red-700 py-2 mt-8">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 11-6 0V7a3 3 0 116 0v1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Logout
-        </a>
+        <a href="dashboard.html" class="block text-gray-700 hover:text-blue-600">Dashboard</a>
+        <a href="products.html" class="block text-blue-600 font-semibold">Products</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Insights</a>
+        <a href="login.html" class="block text-gray-700 hover:text-red-500 mt-10">Logout</a>
       </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6 md:p-10">
-      <h2 class="text-3xl font-bold mb-6">Dashboard Overview</h2>
+    <main class="flex-1 p-8">
+      <h2 class="text-3xl font-bold mb-6">Products</h2>
 
-      <!-- Search Section -->
-      <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-3">Search Products</h3>
-        <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Product 1 -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="assets/product-1.jpg" alt="Product 1" class="w-full h-40 object-cover rounded mb-4">
+          <h3 class="text-lg font-semibold">Smart LED Lights</h3>
+          <p class="text-sm text-gray-600 mt-1">Trending ambient lighting for bedrooms and desks.</p>
+        </div>
 
-      <!-- Trending Products -->
-      <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-4">Trending Products</h3>
-        <ul class="divide-y">
-          <li class="flex justify-between py-3">
-            <span>📈 Smart LED Lights</span>
-            <span class="text-green-600 font-medium">+78%</span>
-          </li>
-          <li class="flex justify-between py-3">
-            <span>🥤 Portable Blenders</span>
-            <span class="text-green-600 font-medium">+65%</span>
-          </li>
-          <li class="flex justify-between py-3">
-            <span>🐶 Pet Grooming Gloves</span>
-            <span class="text-green-600 font-medium">+59%</span>
-          </li>
-        </ul>
-      </div>
+        <!-- Product 2 -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="assets/product-2.jpg" alt="Product 2" class="w-full h-40 object-cover rounded mb-4">
+          <h3 class="text-lg font-semibold">Portable Blender</h3>
+          <p class="text-sm text-gray-600 mt-1">USB rechargeable smoothie blender, best for fitness lovers.</p>
+        </div>
 
-      <!-- Insights Placeholder -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-xl font-semibold mb-4">Market Insights (Coming Soon)</h3>
-        <p class="text-gray-500">Real-time analytics, product trends, and performance charts will be available soon.</p>
+        <!-- Product 3 -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="assets/product-3.jpg" alt="Product 3" class="w-full h-40 object-cover rounded mb-4">
+          <h3 class="text-lg font-semibold">Pet Grooming Glove</h3>
+          <p class="text-sm text-gray-600 mt-1">Easily remove loose fur while petting your cat or dog.</p>
+        </div>
       </div>
     </main>
   </div>
