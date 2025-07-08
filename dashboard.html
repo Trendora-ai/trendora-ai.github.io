@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trendora Dashboard</title>
-  <link rel="icon" href="favicon.ico" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@heroicons/vue@1.0.6/outline/index.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Sidebar + Main Container -->
+  <!-- Sidebar + Header Wrapper -->
   <div class="flex min-h-screen">
-
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-md">
+    <aside class="w-64 bg-white shadow-md flex flex-col">
       <div class="p-6 text-center border-b">
         <img src="assets/logo.png" alt="Trendora Logo" class="h-12 mx-auto mb-2">
         <h1 class="text-xl font-bold text-blue-600">Trendora AI</h1>
@@ -22,77 +22,94 @@
       <nav class="mt-6 space-y-2 px-6">
         <a href="dashboard.html" class="block text-blue-600 font-semibold">Dashboard</a>
         <a href="products.html" class="block text-gray-700 hover:text-blue-600">Products</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Trending Products</a>
         <a href="#" class="block text-gray-700 hover:text-blue-600">Sales Tracker</a>
         <a href="#" class="block text-gray-700 hover:text-blue-600">Competitor Research</a>
         <a href="#" class="block text-gray-700 hover:text-blue-600">Product Database</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Supplier Database</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Ad Spot Intelligence</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Suppliers</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Ad Spot</a>
         <a href="#" class="block text-gray-700 hover:text-blue-600">Portfolio</a>
         <a href="login.html" class="block text-gray-700 hover:text-red-500 mt-10">Logout</a>
       </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-8 overflow-y-auto">
-      <h2 class="text-3xl font-bold mb-6">Dashboard Overview</h2>
-
-      <!-- Charts Section -->
-      <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <div class="bg-white shadow rounded-lg p-6">
-          <h3 class="text-lg font-semibold mb-4">Monthly Sales Chart</h3>
-          <img src="assets/chart-placeholder.png" alt="Sales Chart" class="w-full h-48 object-contain">
-        </div>
-        <div class="bg-white shadow rounded-lg p-6">
-          <h3 class="text-lg font-semibold mb-4">Competitor Trends</h3>
-          <img src="assets/chart-placeholder.png" alt="Trends Chart" class="w-full h-48 object-contain">
+    <main class="flex-1 p-8">
+      <!-- Header Bar -->
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold">Dashboard</h2>
+        <div class="flex space-x-4 items-center">
+          <!-- Dark Mode Toggle -->
+          <button class="text-gray-600 hover:text-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.485-8.485l-.707.707M3.515 3.515l-.707.707M21 12h1M2 12H1m15.364 6.364l-.707.707M6.343 6.343l-.707.707" />
+            </svg>
+          </button>
+          <!-- Notifications -->
+          <button class="relative text-gray-600 hover:text-gray-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405M15 17v-2a4 4 0 00-3-3.874M6 17h.01M4 21h16M4 3v2a3 3 0 003 3h10a3 3 0 003-3V3" />
+            </svg>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
+          </button>
+          <!-- User Profile -->
+          <img src="assets/user.jpg" class="h-8 w-8 rounded-full border-2 border-blue-500" alt="User" />
         </div>
       </div>
 
-      <!-- Trending Products Section -->
+      <!-- Product Search -->
       <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-4">Top Trending Products</h3>
-        <ul class="space-y-2">
-          <li class="flex justify-between border-b py-2">
-            <span>Smart LED Lights</span>
-            <span class="text-green-600 font-semibold">+78%</span>
-          </li>
-          <li class="flex justify-between border-b py-2">
-            <span>Portable Blenders</span>
-            <span class="text-green-600 font-semibold">+65%</span>
-          </li>
-          <li class="flex justify-between py-2">
-            <span>Pet Grooming Gloves</span>
-            <span class="text-green-600 font-semibold">+59%</span>
-          </li>
-        </ul>
+        <h3 class="text-xl font-semibold mb-4">🔍 Search for a Product</h3>
+        <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
       </div>
 
-      <!-- Additional Tools -->
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg font-semibold mb-2">Sales Tracker</h4>
-          <p class="text-gray-600 text-sm">Track sales of selected products across multiple platforms.</p>
+      <!-- Main Features Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center mb-4">
+            <svg class="h-6 w-6 text-blue-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M3 9h18M9 21V9m6 12V9"/></svg>
+            <h4 class="text-lg font-semibold">Sales Tracker</h4>
+          </div>
+          <p class="text-sm text-gray-600">Monitor product sales performance in real-time.</p>
         </div>
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg font-semibold mb-2">Competitor Research</h4>
-          <p class="text-gray-600 text-sm">See what top competitors are selling right now.</p>
+
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center mb-4">
+            <svg class="h-6 w-6 text-purple-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-4a4 4 0 014-4h4"/></svg>
+            <h4 class="text-lg font-semibold">Competitor Research</h4>
+          </div>
+          <p class="text-sm text-gray-600">Analyze competitors' best-selling products and pricing.</p>
         </div>
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg font-semibold mb-2">Supplier Database</h4>
-          <p class="text-gray-600 text-sm">Verified suppliers and shipping sources with ratings.</p>
+
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center mb-4">
+            <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+            <h4 class="text-lg font-semibold">Product Database</h4>
+          </div>
+          <p class="text-sm text-gray-600">Explore a full database of AI-curated trending products.</p>
         </div>
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg font-semibold mb-2">Ad Spot Intelligence</h4>
-          <p class="text-gray-600 text-sm">Track best performing ad creatives on TikTok, IG, FB, etc.</p>
+
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center mb-4">
+            <svg class="h-6 w-6 text-yellow-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16l4-4 4 4"/></svg>
+            <h4 class="text-lg font-semibold">Supplier Finder</h4>
+          </div>
+          <p class="text-sm text-gray-600">Find verified suppliers with shipping & price data.</p>
         </div>
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg font-semibold mb-2">Product Database</h4>
-          <p class="text-gray-600 text-sm">Explore thousands of AI-curated products from various niches.</p>
+
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center mb-4">
+            <svg class="h-6 w-6 text-red-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7"/></svg>
+            <h4 class="text-lg font-semibold">Ad Spot Insights</h4>
+          </div>
+          <p class="text-sm text-gray-600">Track best-performing ads from Facebook & TikTok.</p>
         </div>
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg font-semibold mb-2">Portfolio</h4>
-          <p class="text-gray-600 text-sm">Save and manage your favorite product picks in one place.</p>
+
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+          <div class="flex items-center mb-4">
+            <svg class="h-6 w-6 text-indigo-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <h4 class="text-lg font-semibold">Portfolio Manager</h4>
+          </div>
+          <p class="text-sm text-gray-600">Save, manage and revisit your favorite products.</p>
         </div>
       </div>
     </main>
