@@ -4,45 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trendora Dashboard</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" href="favicon.ico" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
+
+  <!-- Sidebar + Main Container -->
   <div class="flex min-h-screen">
+
     <!-- Sidebar -->
     <aside class="w-64 bg-white shadow-md">
       <div class="p-6 text-center border-b">
-        <h1 class="text-2xl font-bold text-blue-600">Trendora AI</h1>
+        <img src="assets/logo.png" alt="Trendora Logo" class="h-12 mx-auto mb-2">
+        <h1 class="text-xl font-bold text-blue-600">Trendora AI</h1>
         <p class="text-sm text-gray-500">Welcome, User</p>
       </div>
       <nav class="mt-6 space-y-2 px-6">
-        <a href="dashboard.html" class="block text-blue-600 font-semibold"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
-        <a href="products.html" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-box-open mr-2"></i>Products</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-bolt mr-2"></i>Trending Products</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-chart-line mr-2"></i>Sales Tracker</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-user-secret mr-2"></i>Competitor Research</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-database mr-2"></i>Product Database</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-truck mr-2"></i>Suppliers</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-bullhorn mr-2"></i>Ad Spot</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-briefcase mr-2"></i>Portfolio</a>
-        <a href="login.html" class="block text-gray-700 hover:text-red-500 mt-10"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
+        <a href="dashboard.html" class="block text-blue-600 font-semibold">Dashboard</a>
+        <a href="products.html" class="block text-gray-700 hover:text-blue-600">Products</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Trending Products</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Sales Tracker</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Competitor Research</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Product Database</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Supplier Database</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Ad Spot Intelligence</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600">Portfolio</a>
+        <a href="login.html" class="block text-gray-700 hover:text-red-500 mt-10">Logout</a>
       </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-8">
-      <h2 class="text-3xl font-bold mb-6">Dashboard</h2>
+    <main class="flex-1 p-8 overflow-y-auto">
+      <h2 class="text-3xl font-bold mb-6">Dashboard Overview</h2>
 
-      <!-- Product Search Widget -->
-      <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-4">Search for a Product</h3>
-        <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
+      <!-- Charts Section -->
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white shadow rounded-lg p-6">
+          <h3 class="text-lg font-semibold mb-4">Monthly Sales Chart</h3>
+          <img src="assets/chart-placeholder.png" alt="Sales Chart" class="w-full h-48 object-contain">
+        </div>
+        <div class="bg-white shadow rounded-lg p-6">
+          <h3 class="text-lg font-semibold mb-4">Competitor Trends</h3>
+          <img src="assets/chart-placeholder.png" alt="Trends Chart" class="w-full h-48 object-contain">
+        </div>
       </div>
 
-      <!-- Trending Products -->
+      <!-- Trending Products Section -->
       <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-4">Trending Products</h3>
+        <h3 class="text-xl font-semibold mb-4">Top Trending Products</h3>
         <ul class="space-y-2">
           <li class="flex justify-between border-b py-2">
             <span>Smart LED Lights</span>
@@ -59,16 +68,32 @@
         </ul>
       </div>
 
-      <!-- Ad Spot Section -->
-      <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-4">Ad Spot</h3>
-        <div class="text-gray-600">Your Ad Campaigns will appear here.</div>
-      </div>
-
-      <!-- Portfolio Section -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-xl font-semibold mb-4">My Portfolio</h3>
-        <div class="text-gray-600">Saved and tracked products will appear here.</div>
+      <!-- Additional Tools -->
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg font-semibold mb-2">Sales Tracker</h4>
+          <p class="text-gray-600 text-sm">Track sales of selected products across multiple platforms.</p>
+        </div>
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg font-semibold mb-2">Competitor Research</h4>
+          <p class="text-gray-600 text-sm">See what top competitors are selling right now.</p>
+        </div>
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg font-semibold mb-2">Supplier Database</h4>
+          <p class="text-gray-600 text-sm">Verified suppliers and shipping sources with ratings.</p>
+        </div>
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg font-semibold mb-2">Ad Spot Intelligence</h4>
+          <p class="text-gray-600 text-sm">Track best performing ad creatives on TikTok, IG, FB, etc.</p>
+        </div>
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg font-semibold mb-2">Product Database</h4>
+          <p class="text-gray-600 text-sm">Explore thousands of AI-curated products from various niches.</p>
+        </div>
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg font-semibold mb-2">Portfolio</h4>
+          <p class="text-gray-600 text-sm">Save and manage your favorite product picks in one place.</p>
+        </div>
       </div>
     </main>
   </div>
