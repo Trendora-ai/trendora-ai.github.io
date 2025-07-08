@@ -3,81 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trendora AI Dashboard</title>
+  <title>Trendora Dashboard</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
-
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg hidden md:block">
-      <div class="p-6 border-b text-center">
+    <aside class="w-64 bg-white shadow-md">
+      <div class="p-6 text-center border-b">
         <h1 class="text-2xl font-bold text-blue-600">Trendora AI</h1>
         <p class="text-sm text-gray-500">Welcome, User</p>
       </div>
-      <nav class="mt-6 space-y-4 px-6">
-        <a href="dashboard.html" class="flex items-center space-x-2 text-blue-600 font-semibold">
-          <i data-lucide="layout-dashboard"></i><span>Dashboard</span>
-        </a>
-        <a href="products.html" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-          <i data-lucide="shopping-bag"></i><span>Products</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-          <i data-lucide="bar-chart-3"></i><span>Insights</span>
-        </a>
-        <a href="#" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-          <i data-lucide="megaphone"></i><span>Ad Campaigns</span>
-        </a>
-        <a href="login.html" class="flex items-center space-x-2 text-gray-700 hover:text-red-500 mt-10">
-          <i data-lucide="log-out"></i><span>Logout</span>
-        </a>
+      <nav class="mt-6 space-y-2 px-6">
+        <a href="dashboard.html" class="block text-blue-600 font-semibold"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+        <a href="products.html" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-box-open mr-2"></i>Products</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-bolt mr-2"></i>Trending Products</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-chart-line mr-2"></i>Sales Tracker</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-user-secret mr-2"></i>Competitor Research</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-database mr-2"></i>Product Database</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-truck mr-2"></i>Suppliers</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-bullhorn mr-2"></i>Ad Spot</a>
+        <a href="#" class="block text-gray-700 hover:text-blue-600"><i class="fas fa-briefcase mr-2"></i>Portfolio</a>
+        <a href="login.html" class="block text-gray-700 hover:text-red-500 mt-10"><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
       </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-bold">Dashboard</h2>
-        <div class="flex items-center gap-4">
-          <button class="bg-white px-4 py-2 rounded-md shadow hover:bg-gray-50 text-sm">🔔 Notifications</button>
-          <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">U</div>
-        </div>
-      </div>
+    <main class="flex-1 p-8">
+      <h2 class="text-3xl font-bold mb-6">Dashboard</h2>
 
-      <!-- KPIs -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white p-4 rounded shadow">
-          <p class="text-gray-500">Total Products</p>
-          <h3 class="text-2xl font-bold">128</h3>
-        </div>
-        <div class="bg-white p-4 rounded shadow">
-          <p class="text-gray-500">Top Conversion Rate</p>
-          <h3 class="text-2xl font-bold">12.4%</h3>
-        </div>
-        <div class="bg-white p-4 rounded shadow">
-          <p class="text-gray-500">Active Ads</p>
-          <h3 class="text-2xl font-bold">18</h3>
-        </div>
-      </div>
-
-      <!-- Product Search -->
-      <div class="bg-white p-6 rounded shadow mb-8">
-        <h3 class="text-xl font-semibold mb-4">Search Products</h3>
+      <!-- Product Search Widget -->
+      <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-4">Search for a Product</h3>
         <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
       </div>
 
-      <!-- Product Trends Chart -->
-      <div class="bg-white p-6 rounded shadow mb-8">
-        <h3 class="text-xl font-semibold mb-4">Product Trends</h3>
-        <canvas id="trendsChart" height="100"></canvas>
-      </div>
-
       <!-- Trending Products -->
-      <div class="bg-white p-6 rounded shadow">
+      <div class="bg-white rounded-lg shadow p-6 mb-8">
         <h3 class="text-xl font-semibold mb-4">Trending Products</h3>
         <ul class="space-y-2">
           <li class="flex justify-between border-b py-2">
@@ -94,36 +58,19 @@
           </li>
         </ul>
       </div>
+
+      <!-- Ad Spot Section -->
+      <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-4">Ad Spot</h3>
+        <div class="text-gray-600">Your Ad Campaigns will appear here.</div>
+      </div>
+
+      <!-- Portfolio Section -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-xl font-semibold mb-4">My Portfolio</h3>
+        <div class="text-gray-600">Saved and tracked products will appear here.</div>
+      </div>
     </main>
   </div>
-
-  <!-- Scripts -->
-  <script>
-    lucide.createIcons();
-
-    const ctx = document.getElementById('trendsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        datasets: [{
-          label: 'Search Volume',
-          data: [20, 35, 40, 30, 50, 65, 80],
-          fill: true,
-          borderColor: '#2563eb',
-          backgroundColor: 'rgba(37, 99, 235, 0.1)',
-          tension: 0.4
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false }
-        }
-      }
-    });
-  </script>
-
 </body>
 </html>
-``
