@@ -2,93 +2,102 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trendora AI – Product Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products – Trendora AI</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <div class="min-h-screen flex">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white p-6 shadow-md">
-      <h1 class="text-2xl font-bold text-blue-600 mb-4">Trendora AI</h1>
-      <nav class="space-y-3">
-        <a href="dashboard.html" class="block text-gray-700 hover:text-blue-600">Dashboard</a>
-        <a href="products.html" class="block text-blue-600 font-semibold">Product Database</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Sales Tracker</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Competitor Research</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Portfolio</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Suppliers</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Logout</a>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md fixed w-full top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="dashboard.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
+      <nav class="space-x-4 hidden md:flex">
+        <a href="dashboard.html" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+        <a href="products.html" class="text-blue-600 font-semibold">Products</a>
+        <a href="login.html" class="text-gray-700 hover:text-blue-600">Logout</a>
       </nav>
-    </aside>
+    </div>
+  </header>
+  <div class="h-16"></div>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-8">
-      <h2 class="text-3xl font-bold mb-6">Product Database</h2>
+  <!-- Products Section -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold mb-10 text-center">Trending Products</h1>
+    <div id="product-grid" class="grid md:grid-cols-3 sm:grid-cols-2 gap-8">
+      <!-- JavaScript will insert products here -->
+    </div>
+  </section>
 
-      <!-- Product Table -->
-      <div class="overflow-x-auto bg-white p-6 rounded-lg shadow">
-        <table class="min-w-full table-auto">
-          <thead>
-            <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700">
-              <th class="p-4">Product</th>
-              <th class="p-4">Price</th>
-              <th class="p-4">Monthly Sales</th>
-              <th class="p-4">Monthly Revenue</th>
-              <th class="p-4">Action</th>
-            </tr>
-          </thead>
-          <tbody class="text-sm divide-y divide-gray-200">
-            <tr>
-              <td class="p-4 flex items-center space-x-3">
-                <img src="assets/smart-led-strip-1.jpg" alt="Smart LED Strip" class="w-12 h-12 rounded object-cover">
-                <div>
-                  <a href="#" class="font-semibold text-blue-600 hover:underline">Smart LED Strip Lights</a>
-                  <p class="text-gray-500 text-xs">glowstore.com</p>
-                </div>
-              </td>
-              <td class="p-4">$29.99</td>
-              <td class="p-4">412</td>
-              <td class="p-4">$12,355.88</td>
-              <td class="p-4">
-                <button class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 text-sm">Track</button>
-              </td>
-            </tr>
-            <tr>
-              <td class="p-4 flex items-center space-x-3">
-                <img src="assets/smart-led-strip-2.jpg" alt="Mini Blender" class="w-12 h-12 rounded object-cover">
-                <div>
-                  <a href="#" class="font-semibold text-blue-600 hover:underline">Portable Blender Pro</a>
-                  <p class="text-gray-500 text-xs">blendrush.com</p>
-                </div>
-              </td>
-              <td class="p-4">$39.50</td>
-              <td class="p-4">218</td>
-              <td class="p-4">$8,611.00</td>
-              <td class="p-4">
-                <button class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 text-sm">Track</button>
-              </td>
-            </tr>
-            <tr>
-              <td class="p-4 flex items-center space-x-3">
-                <img src="assets/smart-led-strip-3.jpg" alt="Pet Grooming Gloves" class="w-12 h-12 rounded object-cover">
-                <div>
-                  <a href="#" class="font-semibold text-blue-600 hover:underline">Pet Grooming Gloves</a>
-                  <p class="text-gray-500 text-xs">pawcaretools.com</p>
-                </div>
-              </td>
-              <td class="p-4">$15.20</td>
-              <td class="p-4">388</td>
-              <td class="p-4">$5,897.60</td>
-              <td class="p-4">
-                <button class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 text-sm">Track</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </div>
+  <!-- Footer -->
+  <footer class="bg-white border-t py-6 text-center text-sm text-gray-600">
+    <p>© 2025 Trendora AI. All rights reserved.</p>
+  </footer>
+
+  <!-- JS for dynamic product rendering -->
+  <script>
+    const products = [
+      {
+        image: "assets/smart-led-strip-1.jpg",
+        title: "Smart LED Strip Lights",
+        price: "$19.99",
+        category: "Home Decor",
+        trend: "+78%"
+      },
+      {
+        image: "assets/smart-led-strip-2.jpg",
+        title: "Portable Blender Bottle",
+        price: "$24.99",
+        category: "Kitchen",
+        trend: "+65%"
+      },
+      {
+        image: "assets/smart-led-strip-3.jpg",
+        title: "Pet Grooming Glove",
+        price: "$12.49",
+        category: "Pet Supplies",
+        trend: "+59%"
+      },
+      {
+        image: "assets/smart-led-strip-1.jpg",
+        title: "Wireless Earbuds Pro",
+        price: "$49.99",
+        category: "Electronics",
+        trend: "+72%"
+      },
+      {
+        image: "assets/smart-led-strip-2.jpg",
+        title: "Multifunction Chopper",
+        price: "$17.95",
+        category: "Kitchen Tools",
+        trend: "+88%"
+      },
+      {
+        image: "assets/smart-led-strip-3.jpg",
+        title: "Magnetic Phone Holder",
+        price: "$9.99",
+        category: "Accessories",
+        trend: "+47%"
+      }
+    ];
+
+    const container = document.getElementById("product-grid");
+
+    products.forEach(product => {
+      const div = document.createElement("div");
+      div.className = "bg-white rounded-xl shadow p-5 hover:shadow-xl transition";
+
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" class="h-48 w-full object-cover rounded mb-4">
+        <h3 class="text-xl font-bold mb-2">${product.title}</h3>
+        <p class="text-gray-600 mb-1"><strong>Category:</strong> ${product.category}</p>
+        <p class="text-gray-800 font-semibold mb-2"><strong>Price:</strong> ${product.price}</p>
+        <span class="text-green-600 font-semibold">Trend: ${product.trend}</span>
+      `;
+
+      container.appendChild(div);
+    });
+  </script>
 </body>
 </html>
