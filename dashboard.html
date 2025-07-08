@@ -11,7 +11,6 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Sidebar & Topbar Wrapper -->
   <div class="flex min-h-screen">
     <!-- Sidebar -->
     <aside class="w-64 bg-white shadow-lg hidden md:block">
@@ -40,11 +39,12 @@
 
     <!-- Main Content -->
     <main class="flex-1 p-6">
+      <!-- Header -->
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold">Dashboard</h2>
         <div class="flex items-center gap-4">
           <button class="bg-white px-4 py-2 rounded-md shadow hover:bg-gray-50 text-sm">🔔 Notifications</button>
-          <div class="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center text-white font-bold">U</div>
+          <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">U</div>
         </div>
       </div>
 
@@ -70,7 +70,7 @@
         <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
       </div>
 
-      <!-- Chart -->
+      <!-- Product Trends Chart -->
       <div class="bg-white p-6 rounded shadow mb-8">
         <h3 class="text-xl font-semibold mb-4">Product Trends</h3>
         <canvas id="trendsChart" height="100"></canvas>
@@ -97,6 +97,7 @@
     </main>
   </div>
 
+  <!-- Scripts -->
   <script>
     lucide.createIcons();
 
@@ -125,3 +126,4 @@
 
 </body>
 </html>
+``
