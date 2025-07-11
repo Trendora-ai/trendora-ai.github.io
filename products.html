@@ -2,102 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Products – Trendora AI</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-100 text-gray-800">
 
   <!-- Header -->
-  <header class="bg-white shadow-md fixed w-full top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <a href="dashboard.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
-      <nav class="space-x-4 hidden md:flex">
-        <a href="dashboard.html" class="text-gray-700 hover:text-blue-600">Dashboard</a>
-        <a href="products.html" class="text-blue-600 font-semibold">Products</a>
-        <a href="login.html" class="text-gray-700 hover:text-blue-600">Logout</a>
-      </nav>
-    </div>
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-blue-600">Trendora AI</h1>
+    <nav class="space-x-4">
+      <a href="dashboard.html" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+      <a href="products.html" class="text-blue-600 font-semibold">Products</a>
+    </nav>
   </header>
-  <div class="h-16"></div>
 
-  <!-- Products Section -->
-  <section class="max-w-6xl mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold mb-10 text-center">Trending Products</h1>
-    <div id="product-grid" class="grid md:grid-cols-3 sm:grid-cols-2 gap-8">
-      <!-- JavaScript will insert products here -->
+  <!-- Products Grid -->
+  <main class="p-6">
+    <h2 class="text-3xl font-semibold mb-6">📦 Trending Products</h2>
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Products will be injected here -->
     </div>
-  </section>
+  </main>
 
-  <!-- Footer -->
-  <footer class="bg-white border-t py-6 text-center text-sm text-gray-600">
-    <p>© 2025 Trendora AI. All rights reserved.</p>
-  </footer>
+  <!-- Template for JS rendering -->
+  <template id="product-template">
+    <div class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition">
+      <img class="w-full h-48 object-cover mb-4 rounded" src="" alt="Product Image">
+      <h3 class="text-lg font-semibold product-name"></h3>
+      <p class="text-sm text-gray-600"><strong>Category:</strong> <span class="product-category"></span></p>
+      <p class="text-sm text-gray-600"><strong>Price:</strong> $<span class="product-price"></span></p>
+      <p class="text-sm text-green-600 font-medium"><strong>Trend:</strong> <span class="product-trend"></span></p>
+    </div>
+  </template>
 
-  <!-- JS for dynamic product rendering -->
   <script>
-    const products = [
-      {
-        image: "assets/smart-led-strip-1.jpg",
-        title: "Smart LED Strip Lights",
-        price: "$19.99",
-        category: "Home Decor",
-        trend: "+78%"
-      },
-      {
-        image: "assets/smart-led-strip-2.jpg",
-        title: "Portable Blender Bottle",
-        price: "$24.99",
-        category: "Kitchen",
-        trend: "+65%"
-      },
-      {
-        image: "assets/smart-led-strip-3.jpg",
-        title: "Pet Grooming Glove",
-        price: "$12.49",
-        category: "Pet Supplies",
-        trend: "+59%"
-      },
-      {
-        image: "assets/smart-led-strip-1.jpg",
-        title: "Wireless Earbuds Pro",
-        price: "$49.99",
-        category: "Electronics",
-        trend: "+72%"
-      },
-      {
-        image: "assets/smart-led-strip-2.jpg",
-        title: "Multifunction Chopper",
-        price: "$17.95",
-        category: "Kitchen Tools",
-        trend: "+88%"
-      },
-      {
-        image: "assets/smart-led-strip-3.jpg",
-        title: "Magnetic Phone Holder",
-        price: "$9.99",
-        category: "Accessories",
-        trend: "+47%"
-      }
-    ];
+    const grid = document.getElementById('product-grid');
+    const template = document.getElementById('product-template');
 
-    const container = document.getElementById("product-grid");
-
-    products.forEach(product => {
-      const div = document.createElement("div");
-      div.className = "bg-white rounded-xl shadow p-5 hover:shadow-xl transition";
-
-      div.innerHTML = `
-        <img src="${product.image}" alt="${product.title}" class="h-48 w-full object-cover rounded mb-4">
-        <h3 class="text-xl font-bold mb-2">${product.title}</h3>
-        <p class="text-gray-600 mb-1"><strong>Category:</strong> ${product.category}</p>
-        <p class="text-gray-800 font-semibold mb-2"><strong>Price:</strong> ${product.price}</p>
-        <span class="text-green-600 font-semibold">Trend: ${product.trend}</span>
-      `;
-
-      container.appendChild(div);
-    });
+    fetch('assets/data/trending-products.json')
+      .then(res => {
+        if (!res.ok) throw new Error("File not found or network error.");
+        return res.json();
+      })
+      .then(data => {
+        data.forEach(product => {
+          const clone = template.content.cloneNode(true);
+          clone.querySelector('img').src = 'assets/' + product.image;
+          clone.querySelector('.product-name').textContent = product.name;
+          clone.querySelector('.product-category').textContent = product.category;
+          clone.querySelector('.product-price').textContent = product.price;
+          clone.querySelector('.product-trend').textContent = product.trend;
+          grid.appendChild(clone);
+        });
+      })
+      .catch(err => {
+        grid.innerHTML = `<p class="text-red-500">Failed to load products: ${err.message}</p>`;
+        console.error("Error loading products:", err);
+      });
   </script>
+
 </body>
 </html>
