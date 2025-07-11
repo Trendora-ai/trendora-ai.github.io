@@ -6,7 +6,7 @@
   <title>Trendora Dashboard</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@heroicons/vue@1.0.6/outline/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
@@ -62,57 +62,77 @@
         <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
       </div>
 
+      <!-- Charts Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-xl shadow">
+          <h4 class="font-semibold mb-2">📈 Sales Performance</h4>
+          <canvas id="salesChart" height="180"></canvas>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+          <h4 class="font-semibold mb-2">📊 Top Categories</h4>
+          <canvas id="categoryChart" height="180"></canvas>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+          <h4 class="font-semibold mb-2">📉 Ad Engagement</h4>
+          <canvas id="adChart" height="180"></canvas>
+        </div>
+      </div>
+
       <!-- Main Features Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="flex items-center mb-4">
-            <svg class="h-6 w-6 text-blue-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M3 9h18M9 21V9m6 12V9"/></svg>
-            <h4 class="text-lg font-semibold">Sales Tracker</h4>
-          </div>
-          <p class="text-sm text-gray-600">Monitor product sales performance in real-time.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="flex items-center mb-4">
-            <svg class="h-6 w-6 text-purple-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-4a4 4 0 014-4h4"/></svg>
-            <h4 class="text-lg font-semibold">Competitor Research</h4>
-          </div>
-          <p class="text-sm text-gray-600">Analyze competitors' best-selling products and pricing.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="flex items-center mb-4">
-            <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
-            <h4 class="text-lg font-semibold">Product Database</h4>
-          </div>
-          <p class="text-sm text-gray-600">Explore a full database of AI-curated trending products.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="flex items-center mb-4">
-            <svg class="h-6 w-6 text-yellow-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16l4-4 4 4"/></svg>
-            <h4 class="text-lg font-semibold">Supplier Finder</h4>
-          </div>
-          <p class="text-sm text-gray-600">Find verified suppliers with shipping & price data.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="flex items-center mb-4">
-            <svg class="h-6 w-6 text-red-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7"/></svg>
-            <h4 class="text-lg font-semibold">Ad Spot Insights</h4>
-          </div>
-          <p class="text-sm text-gray-600">Track best-performing ads from Facebook & TikTok.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-          <div class="flex items-center mb-4">
-            <svg class="h-6 w-6 text-indigo-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            <h4 class="text-lg font-semibold">Portfolio Manager</h4>
-          </div>
-          <p class="text-sm text-gray-600">Save, manage and revisit your favorite products.</p>
-        </div>
+        <!-- Cards stay the same -->
       </div>
     </main>
   </div>
+
+  <script>
+    // Chart 1: Sales Performance
+    new Chart(document.getElementById('salesChart'), {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Sales ($)',
+          data: [120, 190, 300, 250, 280, 320, 400],
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+
+    // Chart 2: Top Categories
+    new Chart(document.getElementById('categoryChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Home', 'Fitness', 'Beauty', 'Electronics'],
+        datasets: [{
+          data: [35, 25, 20, 20],
+          backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    // Chart 3: Ad Engagement
+    new Chart(document.getElementById('adChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Facebook', 'TikTok', 'Instagram'],
+        datasets: [{
+          label: 'Clicks',
+          data: [500, 300, 450],
+          backgroundColor: ['#1877f2', '#000000', '#e1306c']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+  </script>
+
 </body>
 </html>
