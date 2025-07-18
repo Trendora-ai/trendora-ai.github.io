@@ -2,20 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign Up - Trendora</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #eef2ff, #c7d2fe);
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      margin-bottom: 24px;
+      color: #1e3a8a;
+    }
+
+    .card form input,
+    .card form button {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .text-center {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .text-center a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    .text-center a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Create Your Account</h2>
-    <form onsubmit="event.preventDefault(); window.location.href='thankyou.html';">
-      <input type="text" name="fullname" placeholder="Full Name" required />
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Sign Up</button>
-    </form>
-    <p>Already have an account? <a href="login.html">Log in</a></p>
+  <div class="wrapper">
+    <div class="card">
+      <h2>Create Account</h2>
+      <form onsubmit="event.preventDefault(); window.location.href='thankyou.html';">
+        <input type="text" name="fullname" placeholder="Full Name" required />
+        <input type="email" name="email" placeholder="Email Address" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Sign Up</button>
+      </form>
+      <div class="text-center">
+        Already have an account? <a href="login.html">Log in</a>
+      </div>
+    </div>
   </div>
 </body>
 </html>
