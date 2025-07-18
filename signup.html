@@ -2,37 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign Up – Trendora AI</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup - Trendora</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      padding: 40px;
+      text-align: center;
+    }
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body>
 
-  <form action="https://formsubmit.co/your-email@example.com" method="POST" class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-    <h2 class="text-2xl font-bold text-center mb-6 text-blue-600">Create Your Account</h2>
+  <h2>Signup to Trendora</h2>
 
-    <!-- FormSubmit Hidden Config -->
-    <input type="hidden" name="_next" value="https://your-domain.com/thank-you.html">
-    <input type="hidden" name="_captcha" value="false">
+  <form action="https://formspree.io/f/mvgqgbdn" method="POST">
+    <input type="text" name="name" placeholder="Your Full Name" required />
+    <input type="email" name="email" placeholder="Your Email Address" required />
+    
+    <!-- Hidden redirect to thank you page -->
+    <input type="hidden" name="_redirect" value="https://trendora.github.io/thankyou.html" />
 
-    <!-- Fields -->
-    <div class="mb-4">
-      <label for="name" class="block text-gray-700 font-semibold mb-1">Full Name</label>
-      <input type="text" id="name" name="name" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-    </div>
-
-    <div class="mb-4">
-      <label for="email" class="block text-gray-700 font-semibold mb-1">Email Address</label>
-      <input type="email" id="email" name="email" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-    </div>
-
-    <div class="mb-6">
-      <label for="password" class="block text-gray-700 font-semibold mb-1">Password</label>
-      <input type="password" id="password" name="password" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-    </div>
-
-    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">Sign Up</button>
+    <button type="submit">Sign Up</button>
   </form>
 
 </body>
