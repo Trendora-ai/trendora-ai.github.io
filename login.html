@@ -1,120 +1,20 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Trendora</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background: linear-gradient(to right, #f0f4ff, #dbeafe);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      background-color: #ffffff;
-      padding: 40px 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      color: #1f2937;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      margin: 10px 0;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: border 0.2s;
-    }
-
-    input:focus {
-      border-color: #2563eb;
-      outline: none;
-    }
-
-    .forgot-password {
-      text-align: right;
-      margin-top: 5px;
-      font-size: 14px;
-    }
-
-    .forgot-password a {
-      text-decoration: none;
-      color: #2563eb;
-    }
-
-    .forgot-password a:hover {
-      text-decoration: underline;
-    }
-
-    button {
-      background-color: #2563eb;
-      color: white;
-      padding: 14px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      width: 100%;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #1d4ed8;
-    }
-
-    .signup-link {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 14px;
-      color: #6b7280;
-    }
-
-    .signup-link a {
-      color: #2563eb;
-      text-decoration: none;
-    }
-
-    .signup-link a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <div class="container">
-    <h2>Login to Trendora</h2>
-    <form action="#" method="POST">
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="password" name="password" placeholder="Enter Password" required />
-      <div class="forgot-password">
-        <a href="#">Forgot password?</a>
-      </div>
+    <h2>Login</h2>
+    <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <a href="forgot.html">Forgot Password?</a>
       <button type="submit">Login</button>
     </form>
-    <div class="signup-link">
-      Don’t have an account? <a href="signup.html">Sign up</a>
-    </div>
+    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
   </div>
-
 </body>
 </html>
