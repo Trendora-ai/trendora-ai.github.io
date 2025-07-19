@@ -3,74 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Trendora</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Trendora Login</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f2f2f2;
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f7fb;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
-    .container {
-      background: white;
+    .login-container {
+      background: #ffffff;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 10px;
       width: 100%;
       max-width: 400px;
-      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
     }
     h2 {
+      text-align: center;
       margin-bottom: 20px;
       color: #333;
     }
     input {
       width: 100%;
       padding: 12px;
-      margin: 10px 0;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 16px;
     }
     button {
       width: 100%;
       padding: 12px;
-      background: #007bff;
-      border: none;
+      background-color: #4c70ff;
       color: white;
+      border: none;
+      border-radius: 6px;
       font-size: 16px;
-      border-radius: 8px;
       cursor: pointer;
-      margin-top: 10px;
     }
     button:hover {
-      background: #0056b3;
+      background-color: #3a5edb;
     }
-    p {
+    .link {
+      text-align: center;
       margin-top: 15px;
       font-size: 14px;
     }
-    a {
-      color: #007bff;
+    .link a {
+      color: #4c70ff;
       text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Login to Trendora</h2>
-    <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
-      <input type="email" placeholder="Email" required />
-      <input type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+  <div class="login-container">
+    <h2>Welcome Back</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="login()">Login</button>
+    <div class="link">
+      <a href="forgot.html">Forgot Password?</a><br><br>
+      Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
   </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
+      authDomain: "trendora-auth.firebaseapp.com",
+      projectId: "trendora-auth",
+      storageBucket: "trendora-auth.appspot.com",
+      messagingSenderId: "169775124553",
+      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Login successful!");
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    };
+  </script>
 </body>
 </html>
