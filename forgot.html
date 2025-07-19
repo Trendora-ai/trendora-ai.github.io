@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forgot Password - Trendora</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .forgot-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4c70ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3a5edb;
+    }
+    .link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .link a {
+      color: #4c70ff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="forgot-container">
+    <h2>Reset Password</h2>
+    <input type="email" id="email" placeholder="Enter your email" required />
+    <button onclick="resetPassword()">Send Reset Link</button>
+    <div class="link">
+      <a href="login.html">Back to Login</a>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
+      authDomain: "trendora-auth.firebaseapp.com",
+      projectId: "trendora-auth",
+      storageBucket: "trendora-auth.appspot.com",
+      messagingSenderId: "169775124553",
+      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    window.resetPassword = function () {
+      const email = document.getElementById("email").value;
+
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          alert("Password reset link sent to your email.");
+          window.location.href = "login.html";
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    };
+  </script>
+</body>
+</html>
