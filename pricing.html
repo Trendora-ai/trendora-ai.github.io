@@ -1,78 +1,38 @@
-<!-- pricing.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pricing – Trendora AI</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-50 text-gray-800">
+<section class="pricing-section" style="padding: 40px; font-family: Arial, sans-serif; background-color: #f8f9fb;">
+  <h2 style="text-align: center; font-size: 2em; color: #1d3557;">Choose Your Plan</h2>
 
-  <!-- Header -->
-  <header class="bg-white shadow-md fixed w-full z-50 top-0">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
-      <nav class="space-x-6 hidden md:flex">
-        <a href="index.html" class="text-gray-600 hover:text-blue-600">Home</a>
-        <a href="features.html" class="text-gray-600 hover:text-blue-600">Features</a>
-        <a href="pricing.html" class="text-blue-600 font-semibold">Pricing</a>
-        <a href="faq.html" class="text-gray-600 hover:text-blue-600">FAQ</a>
-      </nav>
-      <a href="https://trendora-ai.paddle.com" class="bg-blue-600 text-white px-4 py-2 rounded-md hidden md:inline-block">Get Started</a>
+  <div class="pricing-cards" style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 30px;">
+
+    <!-- Free Plan -->
+    <div class="card" style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); width: 320px; padding: 25px;">
+      <h3 style="color: #1d3557;">Free Plan</h3>
+      <p style="color: #888;">Free forever • 1 product/day • Limited features</p>
+      <h1 style="color: #007bff; font-size: 2.5em;">$0<span style="font-size: 0.5em;">/month</span></h1>
+      <ul style="list-style: none; padding-left: 0; line-height: 1.8;">
+        <li>✔️ 1 Product Search / Day</li>
+        <li>✔️ Limited Data Access</li>
+        <li>✔️ Basic Filters</li>
+        <li>❌ No Analytics</li>
+        <li>❌ No CSV Export</li>
+      </ul>
+      <a href="/signup.html" style="display: block; text-align: center; background: #007bff; color: white; padding: 12px; border-radius: 6px; text-decoration: none; margin-top: 20px;">Start for Free</a>
     </div>
-  </header>
-  <div class="h-16"></div>
 
-  <!-- Pricing Section -->
-  <section class="py-20 px-4 max-w-6xl mx-auto">
-    <h1 class="text-4xl font-bold text-center mb-12">Choose Your Plan</h1>
-
-    <div class="grid md:grid-cols-2 gap-8">
-      <!-- Free Plan -->
-      <div class="bg-white shadow-lg rounded-lg p-8 border border-gray-200">
-        <h2 class="text-2xl font-bold mb-2">Free Plan</h2>
-        <p class="text-gray-500 mb-4">Free forever plan, 1 product/day, limited features</p>
-        <div class="text-4xl font-extrabold text-blue-600 mb-4">$0<span class="text-lg font-normal">/month</span></div>
-        <ul class="text-gray-700 mb-6 space-y-2">
-          <li>✔ 1 Product Search / day</li>
-          <li>✔ Limited Data Access</li>
-          <li>✔ Basic Filters</li>
-          <li>✘ No Analytics</li>
-          <li>✘ No CSV Export</li>
-        </ul>
-        <a href="https://trendora-ai.paddle.com" class="block bg-blue-600 text-white text-center py-2 rounded-md">Start for Free</a>
-      </div>
-
-      <!-- Pro Plan -->
-      <div class="bg-white shadow-lg rounded-lg p-8 border-2 border-blue-600">
-        <h2 class="text-2xl font-bold mb-2">Pro Plan – Monthly</h2>
-        <p class="text-gray-500 mb-4">Full access to all features with 3-day free trial</p>
-        <div class="text-4xl font-extrabold text-blue-600 mb-4">$29<span class="text-lg font-normal">/month</span></div>
-        <ul class="text-gray-700 mb-6 space-y-2">
-          <li>✔ Unlimited Product Searches</li>
-          <li>✔ Access to Winning Product Data</li>
-          <li>✔ Analytics & Insights</li>
-          <li>✔ CSV Export</li>
-          <li>✔ Priority Support</li>
-          <li>✔ Generate High-Converting Ad Images</li>
-        </ul>
-        <a href="https://trendora-ai.paddle.com" class="block bg-blue-600 text-white text-center py-2 rounded-md">Start Free Trial</a>
-      </div>
+    <!-- Pro Plan -->
+    <div class="card" style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 320px; padding: 25px; border: 2px solid #007bff;">
+      <h3 style="color: #1d3557;">Pro Plan – Monthly</h3>
+      <p style="color: #888;">3-day free trial • Full access to all features</p>
+      <h1 style="color: #007bff; font-size: 2.5em;">$29<span style="font-size: 0.5em;">/month</span></h1>
+      <ul style="list-style: none; padding-left: 0; line-height: 1.8;">
+        <li>✔️ Unlimited Product Searches</li>
+        <li>✔️ Access to Winning Product Data</li>
+        <li>✔️ Analytics & Insights</li>
+        <li>✔️ CSV Export</li>
+        <li>✔️ Priority Support</li>
+        <li>✔️ Generate Ad Images</li>
+      </ul>
+      <a href="/signup.html" style="display: block; text-align: center; background: #007bff; color: white; padding: 12px; border-radius: 6px; text-decoration: none; margin-top: 20px;">Start Free Trial</a>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="bg-white border-t py-6 text-center text-sm text-gray-600">
-    <div class="space-x-4">
-      <a href="terms.html" class="hover:text-blue-600">Terms of Service</a>
-      <a href="privacy.html" class="hover:text-blue-600">Privacy Policy</a>
-      <a href="refund.html" class="hover:text-blue-600">Refund Policy</a>
-    </div>
-    <p class="mt-2">© 2025 Trendora AI. All rights reserved.</p>
-  </footer>
-
-</body>
-</html>
-
-
+  </div>
+</section>
