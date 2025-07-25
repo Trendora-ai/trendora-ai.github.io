@@ -1,38 +1,109 @@
-<section class="pricing-section" style="padding: 40px; font-family: Arial, sans-serif; background-color: #f8f9fb;">
-  <h2 style="text-align: center; font-size: 2em; color: #1d3557;">Choose Your Plan</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pricing - Trendora AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+    }
+    .plan-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 20px;
+      padding: 30px;
+      transition: transform 0.3s ease;
+      background: white;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+    .plan-card:hover {
+      transform: scale(1.02);
+      border-color: #0d6efd;
+    }
+    .price {
+      font-size: 2.5rem;
+      color: #0d6efd;
+    }
+    .btn-primary {
+      background-color: #0d6efd;
+      border: none;
+      border-radius: 8px;
+    }
+    .btn-primary:hover {
+      background-color: #0b5ed7;
+    }
+    .feature-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .feature-list li {
+      margin-bottom: 10px;
+    }
+    .check {
+      color: green;
+      margin-right: 8px;
+    }
+    .cross {
+      color: red;
+      margin-right: 8px;
+    }
+    .header-title {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 40px;
+      color: #0d6efd;
+    }
+  </style>
+</head>
+<body>
 
-  <div class="pricing-cards" style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 30px;">
+  <div class="container py-5">
+    <h1 class="header-title">Choose Your Plan</h1>
+    <div class="row g-4 justify-content-center">
 
-    <!-- Free Plan -->
-    <div class="card" style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); width: 320px; padding: 25px;">
-      <h3 style="color: #1d3557;">Free Plan</h3>
-      <p style="color: #888;">Free forever • 1 product/day • Limited features</p>
-      <h1 style="color: #007bff; font-size: 2.5em;">$0<span style="font-size: 0.5em;">/month</span></h1>
-      <ul style="list-style: none; padding-left: 0; line-height: 1.8;">
-        <li>✔️ 1 Product Search / Day</li>
-        <li>✔️ Limited Data Access</li>
-        <li>✔️ Basic Filters</li>
-        <li>❌ No Analytics</li>
-        <li>❌ No CSV Export</li>
-      </ul>
-      <a href="/signup.html" style="display: block; text-align: center; background: #007bff; color: white; padding: 12px; border-radius: 6px; text-decoration: none; margin-top: 20px;">Start for Free</a>
+      <!-- Free Plan -->
+      <div class="col-md-5">
+        <div class="plan-card">
+          <h3 class="text-center">Free Plan</h3>
+          <p class="text-muted text-center">Free forever plan, 1 product/day, limited features</p>
+          <p class="price text-center">$0<span class="fs-5">/month</span></p>
+          <ul class="feature-list">
+            <li><span class="check">✔</span> 1 Product Search / day</li>
+            <li><span class="check">✔</span> Limited Data Access</li>
+            <li><span class="check">✔</span> Basic Filters</li>
+            <li><span class="cross">✖</span> No Analytics</li>
+            <li><span class="cross">✖</span> No CSV Export</li>
+          </ul>
+          <div class="text-center mt-4">
+            <a href="/signup.html" class="btn btn-primary px-4">Start for Free</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pro Plan -->
+      <div class="col-md-5">
+        <div class="plan-card border-primary">
+          <h3 class="text-center">Pro Plan – Monthly</h3>
+          <p class="text-muted text-center">Full access to all features with 3-day free trial</p>
+          <p class="price text-center">$29<span class="fs-5">/month</span></p>
+          <ul class="feature-list">
+            <li><span class="check">✔</span> Unlimited Product Searches</li>
+            <li><span class="check">✔</span> Access to Winning Product Data</li>
+            <li><span class="check">✔</span> Analytics & Insights</li>
+            <li><span class="check">✔</span> CSV Export</li>
+            <li><span class="check">✔</span> Priority Support</li>
+            <li><span class="check">✔</span> Generate High-Converting Ad Images</li>
+          </ul>
+          <div class="text-center mt-4">
+            <a href="#" class="btn btn-primary px-4">Start Free Trial</a>
+          </div>
+        </div>
+      </div>
+
     </div>
-
-    <!-- Pro Plan -->
-    <div class="card" style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 320px; padding: 25px; border: 2px solid #007bff;">
-      <h3 style="color: #1d3557;">Pro Plan – Monthly</h3>
-      <p style="color: #888;">3-day free trial • Full access to all features</p>
-      <h1 style="color: #007bff; font-size: 2.5em;">$29<span style="font-size: 0.5em;">/month</span></h1>
-      <ul style="list-style: none; padding-left: 0; line-height: 1.8;">
-        <li>✔️ Unlimited Product Searches</li>
-        <li>✔️ Access to Winning Product Data</li>
-        <li>✔️ Analytics & Insights</li>
-        <li>✔️ CSV Export</li>
-        <li>✔️ Priority Support</li>
-        <li>✔️ Generate Ad Images</li>
-      </ul>
-      <a href="/signup.html" style="display: block; text-align: center; background: #007bff; color: white; padding: 12px; border-radius: 6px; text-decoration: none; margin-top: 20px;">Start Free Trial</a>
-    </div>
-
   </div>
-</section>
+
+</body>
+</html>
