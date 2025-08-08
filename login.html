@@ -7,66 +7,68 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1e1e1e, #111);
+            background-color: #f8f9fc;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #fff;
         }
         .container {
-            background: #1c1c1c;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            width: 100%;
             max-width: 400px;
+            margin: 70px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         h2 {
             text-align: center;
-            margin-bottom: 1.5rem;
-            color: #00b894; /* Trendora accent */
+            color: #2C3E50;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 6px;
         }
         input {
             width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border: none;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #dcdcdc;
             border-radius: 8px;
-            background: #2c2c2c;
-            color: #fff;
-            font-size: 1rem;
+            font-size: 14px;
         }
         input:focus {
             outline: none;
-            border: 2px solid #00b894;
+            border-color: #4CAF50; /* Trendora Signup Page Green */
+            box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
         }
-        button {
-            width: 100%;
-            padding: 0.8rem;
-            background: #00b894;
-            border: none;
-            border-radius: 8px;
+        .btn {
+            background-color: #4CAF50; /* Trendora Signup Page Green */
             color: white;
-            font-size: 1rem;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s;
+            font-weight: bold;
         }
-        button:hover {
-            background: #019874;
+        .btn:hover {
+            background-color: #43a047;
         }
-        p {
+        .link {
             text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
+            margin-top: 15px;
+            font-size: 14px;
         }
-        a {
-            color: #00b894;
+        .link a {
+            color: #4CAF50;
             text-decoration: none;
+            font-weight: 500;
         }
-        a:hover {
+        .link a:hover {
             text-decoration: underline;
         }
     </style>
@@ -76,17 +78,23 @@
     <div class="container">
         <h2>Login to Trendora</h2>
         <form id="loginForm">
-            <input type="email" id="loginEmail" placeholder="Email Address" required>
-            <input type="password" id="loginPassword" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+
+            <button type="submit" class="btn">Login</button>
         </form>
-        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+        <div class="link">
+            <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+            <p><a href="forgot-password.html">Forgot Password?</a></p>
+        </div>
     </div>
 
     <script type="module">
-        // Firebase Config
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
@@ -98,15 +106,16 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+        const auth = getAuth();
 
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
+        document.getElementById("loginForm").addEventListener("submit", (e) => {
             e.preventDefault();
-            const email = document.getElementById("loginEmail").value;
-            const password = document.getElementById("loginPassword").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
+                    alert("Login successful!");
                     window.location.href = "dashboard.html";
                 })
                 .catch((error) => {
