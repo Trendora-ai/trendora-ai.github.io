@@ -1,57 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Trendora Signup</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trendora - Sign Up</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 350px;
+      text-align: center;
+      color: white;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 14px;
+    }
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4cafef;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #379bd6;
+    }
+    p {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    a {
+      color: #4cafef;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <h2>Signup</h2>
+  <div class="container">
+    <h2>Create Account</h2>
+    <input type="email" id="signupEmail" placeholder="Email" required />
+    <input type="password" id="signupPassword" placeholder="Password" required />
+    <button id="signupBtn">Sign Up</button>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
 
-    <form id="signupForm">
-        <input type="email" id="email" placeholder="Email" required><br><br>
-        <input type="password" id="password" placeholder="Password" required><br><br>
-        <button type="submit">Signup</button>
-    </form>
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
 
-    <p id="message" style="color:red;"></p>
+  <!-- Firebase Config -->
+  <script src="firebase-config.js"></script>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  <script>
+    const auth = firebase.auth();
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
-            authDomain: "trendora-auth.firebaseapp.com",
-            projectId: "trendora-auth",
-            storageBucket: "trendora-auth.firebasestorage.app",
-            messagingSenderId: "169775124553",
-            appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
-        };
+    document.getElementById("signupBtn").addEventListener("click", function () {
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
 
-        // Init Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Signup form submit
-        document.getElementById("signupForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const messageEl = document.getElementById("message");
-
-            try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                messageEl.style.color = "green";
-                messageEl.textContent = "Signup successful! Redirecting...";
-                setTimeout(() => {
-                    window.location.href = "login.html";
-                }, 1500);
-            } catch (error) {
-                messageEl.style.color = "red";
-                messageEl.textContent = error.message;
-            }
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Signup successful!");
+          window.location.href = "login.html";
+        })
+        .catch(error => {
+          alert(error.message);
         });
-    </script>
+    });
+  </script>
 </body>
 </html>
