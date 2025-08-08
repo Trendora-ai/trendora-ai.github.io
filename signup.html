@@ -1,3 +1,4 @@
+
   <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,31 +74,26 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
-      authDomain: "trendora-auth.firebaseapp.com",
-      projectId: "trendora-auth",
-      storageBucket: "trendora-auth.appspot.com",
-      messagingSenderId: "169775124553",
-      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
-    };
+    import { firebaseConfig } from "./firebase-config.js"; // API key yahan se aayegi
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
     window.signup = function() {
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!name || !email || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          updateProfile(userCredential.user, {
-            displayName: name
-          });
+          updateProfile(userCredential.user, { displayName: name });
           alert("Signup successful!");
-          window.location.href = "dashboard.html"; // your actual dashboard
+          window.location.href = "dashboard.html";
         })
         .catch((error) => {
           alert(error.message);
