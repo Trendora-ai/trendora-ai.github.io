@@ -1,128 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trendora - Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fc;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 400px;
-            margin: 70px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        h2 {
-            text-align: center;
-            color: #2C3E50;
-            margin-bottom: 20px;
-        }
-        label {
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-            display: block;
-            margin-bottom: 6px;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid #dcdcdc;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        input:focus {
-            outline: none;
-            border-color: #4CAF50; /* Trendora Signup Page Green */
-            box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
-        }
-        .btn {
-            background-color: #4CAF50; /* Trendora Signup Page Green */
-            color: white;
-            padding: 12px;
-            border: none;
-            width: 100%;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn:hover {
-            background-color: #43a047;
-        }
-        .link {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        .link a {
-            color: #4CAF50;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trendora - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #1a73e8, #004aad);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 380px;
+    }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #004aad;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.3s;
+    }
+    input:focus {
+      border-color: #1a73e8;
+    }
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      background: #1a73e8;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #004aad;
+    }
+    .signup-link {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 14px;
+    }
+    .signup-link a {
+      color: #1a73e8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+    .error-message {
+      color: red;
+      font-size: 13px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-
-    <div class="container">
-        <h2>Login to Trendora</h2>
-        <form id="loginForm">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="Enter your email" required>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" required>
-
-            <button type="submit" class="btn">Login</button>
-        </form>
-        <div class="link">
-            <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
-            <p><a href="forgot-password.html">Forgot Password?</a></p>
-        </div>
+  <div class="login-container">
+    <h2>Log In</h2>
+    <div class="error-message" id="error-message"></div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required />
     </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" required />
+    </div>
+    <button id="loginBtn">Log In</button>
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+  </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
+  
+  <!-- Firebase Config -->
+  <script src="firebase-config.js"></script>
 
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+  <script>
+    const auth = firebase.auth();
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("error-message");
 
-        document.getElementById("loginForm").addEventListener("submit", (e) => {
-            e.preventDefault();
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+      if (!email || !password) {
+        errorMsg.style.display = "block";
+        errorMsg.innerText = "Please fill in all fields.";
+        return;
+      }
 
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    alert("Login successful!");
-                    window.location.href = "dashboard.html";
-                })
-                .catch((error) => {
-                    alert(error.message);
-                });
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+          window.location.href = "dashboard.html";
+        })
+        .catch(error => {
+          errorMsg.style.display = "block";
+          errorMsg.innerText = error.message;
         });
-    </script>
-
+    });
+  </script>
 </body>
 </html>
