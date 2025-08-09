@@ -1,130 +1,55 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Trendora — Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --brand-1:#1a73e8;
-      --brand-2:#004aad;
-      --card:#ffffff;
-      --accent:#1a73e8;
-      --focus: rgba(26,115,232,0.18);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: 'Poppins',system-ui,Arial, sans-serif;
-      background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-    }
-    .card{
-      width:100%;
-      max-width:420px;
-      background:var(--card);
-      border-radius:12px;
-      padding:28px;
-      box-shadow:0 10px 30px rgba(2,6,23,0.2);
-    }
-    h1{margin:0 0 12px; color:var(--brand-2); font-size:1.5rem; text-align:center}
-    p.lead{margin:0 0 18px; color:#475569; text-align:center}
-    .field{margin-bottom:12px}
-    label{display:block; font-size:13px; color:#334155; margin-bottom:6px; font-weight:600}
-    input[type="email"],input[type="password"]{
-      width:100%;
-      padding:12px 14px;
-      border:1px solid #e6e9ef;
-      border-radius:8px;
-      font-size:14px;
-      outline:none;
-      transition:box-shadow .15s,border-color .15s;
-    }
-    input:focus{border-color:var(--accent); box-shadow:0 6px 18px var(--focus)}
-    .btn{
-      width:100%;
-      padding:12px;
-      background:var(--brand-1);
-      color:white;
-      border:none;
-      border-radius:8px;
-      font-weight:600;
-      cursor:pointer;
-      font-size:15px;
-    }
-    .btn:hover{background:var(--brand-2)}
-    .muted{font-size:13px; color:#64748b; text-align:center; margin-top:14px}
-    .muted a{color:var(--brand-1); text-decoration:none; font-weight:600}
-    .error{color:#dc2626; font-size:13px; margin-top:10px; display:none}
-    @media (max-width:420px){ .card{padding:20px} }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trendora - Login</title>
+<style>
+    body { font-family: Arial, sans-serif; background-color: #f4f6f8; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    .container { background: white; padding: 30px; border-radius: 10px; width: 350px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; color: #004aad; }
+    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+    button { width: 100%; background-color: #004aad; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background-color: #003080; }
+    p { text-align: center; margin-top: 10px; }
+</style>
 </head>
 <body>
-  <main class="card" aria-live="polite">
-    <h1>Welcome back to Trendora</h1>
-    <p class="lead">Sign in to continue to your dashboard</p>
+<div class="container">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+</div>
 
-    <div id="error" class="error"></div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
-    <div class="field">
-      <label for="email">Email</label>
-      <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
-    </div>
-    <div class="field">
-      <label for="password">Password</label>
-      <input id="password" type="password" placeholder="Your password" autocomplete="current-password" />
-    </div>
+    const firebaseConfig = {
+        apiKey: "YOUR_FIREBASE_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
 
-    <button id="loginBtn" class="btn">Log in</button>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    <p class="muted">
-      <a href="forgot.html">Forgot password?</a> ·
-      <a href="signup.html">Create account</a>
-    </p>
-  </main>
+    window.login = function() {
+        const email = document.getElementById("loginEmail").value;
+        const password = document.getElementById("loginPassword").value;
 
-  <script type="module">
-    import { auth } from './firebase-config.js';
-    import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
-    const emailEl = document.getElementById('email');
-    const passEl = document.getElementById('password');
-    const btn = document.getElementById('loginBtn');
-    const errorEl = document.getElementById('error');
-
-    function showError(msg){ errorEl.style.display='block'; errorEl.textContent=msg; }
-    function clearError(){ errorEl.style.display='none'; errorEl.textContent=''; }
-
-    // If already signed-in, go straight to dashboard
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.location.href = 'dashboard.html';
-      }
-    });
-
-    btn.addEventListener('click', async () => {
-      clearError();
-      const email = emailEl.value.trim();
-      const password = passEl.value;
-      if (!email || !password) { showError('Please fill in all fields.'); return; }
-      btn.disabled = true;
-      btn.textContent = 'Signing in...';
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        // onAuthStateChanged above will redirect, but ensure redirect here too
-        window.location.href = 'dashboard.html';
-      } catch (err) {
-        showError(err.message || 'Login failed');
-        btn.disabled = false;
-        btn.textContent = 'Log in';
-      }
-    });
-  </script>
+        signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            alert("Login successful!");
+            window.location.href = "dashboard.html";
+        })
+        .catch(error => alert(error.message));
+    }
+</script>
 </body>
 </html>
