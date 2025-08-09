@@ -1,54 +1,143 @@
+<!-- signup.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trendora - Sign Up</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trendora — Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand-1:#1a73e8;
+      --brand-2:#004aad;
+      --card:#ffffff;
+      --accent:#1a73e8;
+      --focus: rgba(26,115,232,0.18);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Poppins',system-ui,Arial, sans-serif;
+      background: linear-gradient(90deg,var(--brand-1),var(--brand-2));
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:var(--card);
+      border-radius:12px;
+      padding:28px;
+      box-shadow:0 10px 30px rgba(2,6,23,0.2);
+    }
+    h1{margin:0 0 12px; color:var(--brand-2); font-size:1.5rem; text-align:center}
+    p.lead{margin:0 0 18px; color:#475569; text-align:center}
+    .field{margin-bottom:12px}
+    label{display:block; font-size:13px; color:#334155; margin-bottom:6px; font-weight:600}
+    input[type="text"],input[type="email"],input[type="password"]{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #e6e9ef;
+      border-radius:8px;
+      font-size:14px;
+      outline:none;
+      transition:box-shadow .15s,border-color .15s;
+    }
+    input:focus{border-color:var(--accent); box-shadow:0 6px 18px var(--focus)}
+    .btn{
+      width:100%;
+      padding:12px;
+      background:var(--brand-1);
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .btn:hover{background:var(--brand-2)}
+    .muted{font-size:13px; color:#64748b; text-align:center; margin-top:14px}
+    .muted a{color:var(--brand-1); text-decoration:none; font-weight:600}
+    .error{color:#dc2626; font-size:13px; margin-top:10px; display:none}
+    @media (max-width:420px){ .card{padding:20px} }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Create Your Trendora Account</h2>
-    
-    <form id="signupForm" class="space-y-4">
-      <input type="text" id="name" placeholder="Full Name" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-      <input type="email" id="email" placeholder="Email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-      <input type="password" id="password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+<body>
+  <main class="card" aria-live="polite">
+    <h1>Create your Trendora account</h1>
+    <p class="lead">Get product insights and AI-powered research — free trial available.</p>
 
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Sign Up</button>
-    </form>
+    <div id="error" class="error"></div>
 
-    <p class="text-center text-gray-600 mt-4">
-      Already have an account? 
-      <a href="login.html" class="text-blue-600 hover:underline">Login</a>
-    </p>
-  </div>
+    <div class="field">
+      <label for="name">Full name</label>
+      <input id="name" type="text" placeholder="Your full name" autocomplete="name" />
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="Choose a strong password" autocomplete="new-password" />
+    </div>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-    };
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    <button id="signupBtn" class="btn">Create account</button>
 
-    document.getElementById("signupForm").addEventListener("submit", function(e){
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          alert("Signup successful!");
-          window.location.href = "login.html";
-        })
-        .catch(error => {
-          alert(error.message);
-        });
+    <p class="muted">Already have an account? <a href="login.html">Log in</a></p>
+  </main>
+
+  <script type="module">
+    import { auth } from './firebase-config.js';
+    import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+    const nameEl = document.getElementById('name');
+    const emailEl = document.getElementById('email');
+    const passEl = document.getElementById('password');
+    const btn = document.getElementById('signupBtn');
+    const errorEl = document.getElementById('error');
+
+    function showError(msg){
+      errorEl.style.display = 'block';
+      errorEl.textContent = msg;
+    }
+    function clearError(){
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
+
+    btn.addEventListener('click', async () => {
+      clearError();
+      const name = nameEl.value.trim();
+      const email = emailEl.value.trim();
+      const password = passEl.value;
+
+      if (!name || !email || !password) {
+        showError('Please fill in all fields.');
+        return;
+      }
+      if (password.length < 6) {
+        showError('Password should be at least 6 characters.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // set display name
+        await updateProfile(userCredential.user, { displayName: name });
+        // redirect to login so they can sign in
+        window.location.href = 'login.html';
+      } catch (err) {
+        showError(err.message || 'Signup failed');
+        btn.disabled = false;
+        btn.textContent = 'Create account';
+      }
     });
   </script>
 </body>
