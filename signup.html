@@ -1,55 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trendora - Sign Up</title>
-<style>
-    body { font-family: Arial, sans-serif; background-color: #f4f6f8; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    .container { background: white; padding: 30px; border-radius: 10px; width: 350px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    h2 { text-align: center; color: #004aad; }
-    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-    button { width: 100%; background-color: #004aad; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background-color: #003080; }
-    p { text-align: center; margin-top: 10px; }
-</style>
+  <meta charset="UTF-8">
+  <title>Signup</title>
 </head>
 <body>
-<div class="container">
-    <h2>Sign Up</h2>
-    <input type="email" id="signupEmail" placeholder="Email">
-    <input type="password" id="signupPassword" placeholder="Password">
-    <button onclick="signUp()">Sign Up</button>
-    <p>Already have an account? <a href="login.html">Login</a></p>
-</div>
+  <h2>Signup</h2>
+  <input type="email" id="signupEmail" placeholder="Email"><br><br>
+  <input type="password" id="signupPassword" placeholder="Password"><br><br>
+  <button id="signupBtn">Signup</button>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+  <p>Already have an account? <a href="login.html">Login</a></p>
 
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // 🔹 Apna Firebase Config yahan lagao
     const firebaseConfig = {
-        apiKey: "YOUR_FIREBASE_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    window.signUp = function() {
-        const email = document.getElementById("signupEmail").value;
-        const password = document.getElementById("signupPassword").value;
+    document.getElementById("signupBtn").addEventListener("click", () => {
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
 
-        createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
-            alert("Account created successfully!");
-            window.location.href = "login.html";
+          alert("Signup successful!");
+          window.location.href = "login.html";
         })
-        .catch(error => alert(error.message));
-    }
-</script>
+        .catch((error) => {
+          alert(error.message);
+        });
+    });
+  </script>
 </body>
 </html>
