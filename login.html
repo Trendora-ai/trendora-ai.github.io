@@ -4,133 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trendora - Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #1a73e8, #004aad);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .login-container {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
-      width: 100%;
-      max-width: 380px;
-    }
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #004aad;
-    }
-    .form-group {
-      margin-bottom: 1rem;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-      color: #333;
-    }
-    input {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-      transition: border 0.3s;
-    }
-    input:focus {
-      border-color: #1a73e8;
-    }
-    button {
-      width: 100%;
-      padding: 0.9rem;
-      background: #1a73e8;
-      border: none;
-      color: white;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #004aad;
-    }
-    .signup-link {
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 14px;
-    }
-    .signup-link a {
-      color: #1a73e8;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .signup-link a:hover {
-      text-decoration: underline;
-    }
-    .error-message {
-      color: red;
-      font-size: 13px;
-      margin-bottom: 1rem;
-      display: none;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="login-container">
-    <h2>Log In</h2>
-    <div class="error-message" id="error-message"></div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Enter your email" required />
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Enter your password" required />
-    </div>
-    <button id="loginBtn">Log In</button>
-    <div class="signup-link">
-      Don't have an account? <a href="signup.html">Sign Up</a>
-    </div>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Login to Trendora</h2>
+    
+    <form id="loginForm" class="space-y-4">
+      <input type="email" id="email" placeholder="Email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <input type="password" id="password" placeholder="Password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Login</button>
+    </form>
+
+    <p class="text-center text-gray-600 mt-4">
+      Don't have an account? 
+      <a href="signup.html" class="text-blue-600 hover:underline">Sign Up</a>
+    </p>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
-  
-  <!-- Firebase Config -->
-  <script src="firebase-config.js"></script>
-
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+    };
+    const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    document.getElementById("loginBtn").addEventListener("click", () => {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const errorMsg = document.getElementById("error-message");
-
-      if (!email || !password) {
-        errorMsg.style.display = "block";
-        errorMsg.innerText = "Please fill in all fields.";
-        return;
-      }
-
-      firebase.auth().signInWithEmailAndPassword(email, password)
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      
+      auth.signInWithEmailAndPassword(email, password)
         .then(() => {
+          alert("Login successful!");
           window.location.href = "dashboard.html";
         })
         .catch(error => {
-          errorMsg.style.display = "block";
-          errorMsg.innerText = error.message;
+          alert(error.message);
         });
     });
   </script>
