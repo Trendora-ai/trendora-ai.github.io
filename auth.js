@@ -1,56 +1,68 @@
-// Import Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } 
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
-// Firebase config
+// Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
-  authDomain: "trendora-auth.firebaseapp.com",
-  projectId: "trendora-auth",
-  storageBucket: "trendora-auth.firebasestorage.app",
-  messagingSenderId: "169775124553",
-  appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
+    apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
+    authDomain: "trendora-auth.firebaseapp.com",
+    projectId: "trendora-auth",
+    storageBucket: "trendora-auth.firebasestorage.app",
+    messagingSenderId: "169775124553",
+    appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
 };
 
-// Init Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Signup
-window.signup = function() {
-  const email = document.getElementById("signupEmail").value;
-  const password = document.getElementById("signupPassword").value;
+// Form toggle
+let isSignup = true;
+document.getElementById("toggle-link").addEventListener("click", function(e) {
+    e.preventDefault();
+    isSignup = !isSignup;
+    document.getElementById("form-title").innerText = isSignup ? "Signup" : "Login";
+    document.getElementById("submitBtn").innerText = isSignup ? "Signup" : "Login";
+    document.getElementById("toggle-text").innerHTML = isSignup 
+        ? `Already have an account? <a href="#" id="toggle-link">Login here</a>` 
+        : `Don't have an account? <a href="#" id="toggle-link">Signup here</a>`;
+});
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      alert("Account created successfully!");
-      window.location.href = "dashboard.html";
-    })
-    .catch(err => alert(err.message));
-};
+// Submit button click
+document.getElementById("submitBtn").addEventListener("click", function() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const messageEl = document.getElementById("message");
 
-// Login
-window.login = function() {
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
+    if (!email || !password) {
+        messageEl.innerText = "Please fill in all fields.";
+        return;
+    }
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      alert("Login successful!");
-      window.location.href = "dashboard.html";
-    })
-    .catch(err => alert(err.message));
-};
-
-// Forgot Password
-window.forgotPassword = function() {
-  const email = document.getElementById("loginEmail").value;
-  if (!email) {
-    alert("Please enter your email first.");
-    return;
-  }
-  sendPasswordResetEmail(auth, email)
-    .then(() => alert("Password reset email sent!"))
-    .catch(err => alert(err.message));
-};
+    if (isSignup) {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                messageEl.style.color = "green";
+                messageEl.innerText = "Signup successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 1500);
+            })
+            .catch(err => {
+                messageEl.style.color = "red";
+                messageEl.innerText = err.message;
+            });
+    } else {
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                messageEl.style.color = "green";
+                messageEl.innerText = "Login successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "dashboard.html";
+                }, 1500);
+            })
+            .catch(err => {
+                messageEl.style.color = "red";
+                messageEl.innerText = err.message;
+            });
+    }
+});
