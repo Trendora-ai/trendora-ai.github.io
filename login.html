@@ -1,39 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Trendora — Login</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Trendora - Login</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="auth-container">
-    <div class="brand">
-      <div class="logo">T</div>
-      <div>
-        <h1 class="logo-text">Trendora</h1>
-        <div class="sub" style="margin-top:4px">Welcome back</div>
-      </div>
-    </div>
-
-    <h2>Sign in to your account</h2>
-    <p class="sub">Access your Trendora dashboard</p>
-
-    <form id="login-form" novalidate>
-      <div class="form-group">
-        <input type="email" id="login-email" placeholder="Email address" required>
-      </div>
-      <div class="form-group">
-        <input type="password" id="login-password" placeholder="Password" required>
-      </div>
-
-      <button class="primary" type="submit">Sign in</button>
-      <p style="margin-top:8px;text-align:right"><a href="#" id="forgot-link">Forgot password?</a></p>
-    </form>
-
-    <div id="login-msg" class="msg"></div>
-
-    <p class="note">New to Trendora? <a href="signup.html">Create an account</a></p>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <a href="signup.html">Create an account</a>
+    <a href="#" onclick="forgotPassword()">Forgot Password?</a>
   </div>
 
   <script type="module" src="auth.js"></script>
