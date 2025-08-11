@@ -1,19 +1,28 @@
-import { auth } from "./firebase-config.js";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+// src/signup.js
+import { auth } from "./firebase.js";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
-document.getElementById("signupForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+// Agar already logged in hai → dashboard bhejo
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "dashboard.html";
+  }
+});
 
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
+document.getElementById("signupBtn").addEventListener("click", () => {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // ✅ Signup successful
-            alert("Signup successful! Redirecting to login...");
-            window.location.href = "login.html"; // Redirect to login page
-        })
-        .catch((error) => {
-            alert(error.message);
-        });
+  if (!email || !password) {
+    alert("Please fill all fields!");
+    return;
+  }
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      window.location.href = "dashboard.html";
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
 });
