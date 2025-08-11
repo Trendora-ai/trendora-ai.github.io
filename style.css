@@ -1,143 +1,75 @@
-/* style.css - Trendora light + blue modern look */
-
-:root{
-  --primary: #2563eb;
-  --primary-600: #1f54d1;
-  --bg: #ffffff;
-  --muted: #64748b;
-  --card: #f8fafc;
-  --radius: 14px;
+/* Trendora Theme Colors */
+:root {
+  --primary-color: #1e1e2f; /* Dark background */
+  --accent-color: #00c896;  /* Trendora green */
+  --text-color: #ffffff;    /* White text */
+  --input-bg: #2c2c3e;      /* Dark input background */
+  --input-border: #00c896;  /* Green border */
 }
 
-*{box-sizing:border-box}
-body{
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg,#fbfdff 0%, #ffffff 100%);
-  margin:0;
-  color: #0f172a;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  padding:24px;
+/* General reset */
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* container */
-.auth-container{
-  width:100%;
-  max-width:420px;
-  background:var(--card);
-  border-radius:var(--radius);
-  padding:28px;
-  box-shadow: 0 8px 30px rgba(19,38,63,0.08);
-  border: 1px solid rgba(37,99,235,0.06);
+/* Container */
+.container {
+  background-color: #242438;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  width: 350px;
+  text-align: center;
 }
 
-/* header */
-.brand {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:16px;
-}
-.brand .logo {
-  width:44px;
-  height:44px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-600));
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-weight:700;
-  font-size:18px;
-}
-.brand h1{
-  font-size:20px;
-  margin:0;
+/* Heading */
+h2 {
+  margin-bottom: 20px;
+  color: var(--accent-color);
 }
 
-/* title + subtitle */
-h2{
-  margin:6px 0 18px;
-  font-size:20px;
-  color:#0b1220;
-}
-.sub {
-  color:var(--muted);
-  font-size:14px;
-  margin-bottom:18px;
-}
-
-/* form */
-.form-group{margin-bottom:12px}
-input[type="text"],
-input[type="email"],
-input[type="password"]{
-  width:100%;
-  padding:12px 14px;
-  border-radius:10px;
-  border:1px solid #e6eefc;
-  background: #ffffff;
-  font-size:14px;
-  color:#071033;
-  transition: box-shadow .15s, border-color .15s;
-}
-input::placeholder{color:#94a3b8}
-input:focus{
-  outline: none;
-  border-color: rgba(37,99,235,0.8);
-  box-shadow: 0 6px 18px rgba(37,99,235,0.08);
+/* Input fields */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  color: var(--text-color);
 }
 
-/* button */
-button.primary {
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  background:var(--primary);
-  color:#fff;
-  font-weight:600;
-  font-size:15px;
-  cursor:pointer;
-  transition: transform .08s ease, background .12s;
-}
-button.primary:hover{ background:var(--primary-600); transform: translateY(-1px); }
-.secondary {
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  background:transparent;
-  border:1px solid rgba(6,8,32,0.04);
-  color:var(--muted);
-  cursor:pointer;
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-/* links and small text */
-.note {
-  margin-top:14px;
-  font-size:14px;
-  color:var(--muted);
-  text-align:center;
-}
-.note a {
-  color:var(--primary);
-  text-decoration:none;
-  font-weight:600;
+button:hover {
+  background-color: #00a87a;
 }
 
-/* error / success */
-.msg {
-  margin-top:10px;
-  font-size:13px;
-  text-align:center;
+/* Links */
+a {
+  display: block;
+  margin-top: 10px;
+  color: var(--accent-color);
+  text-decoration: none;
 }
-.msg.error { color:#e11d48; } /* red-600 */
-.msg.success { color:#059669; } /* green-600 */
 
-/* responsive */
-@media (max-width:420px){
-  .auth-container{ padding:20px; border-radius:12px; }
-  h2{ font-size:18px; }
-  }
+a:hover {
+  text-decoration: underline;
+}
