@@ -1,7 +1,8 @@
-// src/firebase.js
+// src/firebase-config.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
+// 🔹 Tumhari Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
   authDomain: "trendora-auth.firebaseapp.com",
@@ -11,5 +12,6 @@ const firebaseConfig = {
   appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
