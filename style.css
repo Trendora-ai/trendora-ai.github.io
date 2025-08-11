@@ -1,75 +1,53 @@
-/* Trendora Theme Colors */
-:root {
-  --primary-color: #1e1e2f; /* Dark background */
-  --accent-color: #00c896;  /* Trendora green */
-  --text-color: #ffffff;    /* White text */
-  --input-bg: #2c2c3e;      /* Dark input background */
-  --input-border: #00c896;  /* Green border */
-}
-
-/* General reset */
 body {
-  font-family: Arial, sans-serif;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Container */
 .container {
-  background-color: #242438;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  width: 350px;
-  text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
 }
 
-/* Heading */
 h2 {
-  margin-bottom: 20px;
-  color: var(--accent-color);
+    margin-bottom: 20px;
 }
 
-/* Input fields */
 input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: 6px;
-  color: var(--text-color);
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
-/* Button */
 button {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--accent-color);
-  color: var(--primary-color);
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
+    width: 100%;
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 button:hover {
-  background-color: #00a87a;
+    background: #45a049;
 }
 
-/* Links */
-a {
-  display: block;
-  margin-top: 10px;
-  color: var(--accent-color);
-  text-decoration: none;
+#toggle-text {
+    margin-top: 15px;
 }
 
-a:hover {
-  text-decoration: underline;
+#message {
+    margin-top: 10px;
+    color: red;
+    font-size: 14px;
 }
