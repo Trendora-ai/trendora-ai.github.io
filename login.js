@@ -1,8 +1,8 @@
 // src/login.js
-import { auth } from "./firebase.js";
+import { auth } from "./firebase-config.js";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
-// Agar already logged in hai → dashboard bhejo
+// Already logged-in user → dashboard bhejo
 onAuthStateChanged(auth, (user) => {
   if (user) {
     window.location.href = "dashboard.html";
