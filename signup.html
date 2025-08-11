@@ -1,43 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Trendora — Sign up</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Trendora - Sign Up</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="auth-container">
-    <div class="brand">
-      <div class="logo">T</div>
-      <div>
-        <p class="brand-title">Trendora</p>
-      </div>
-    </div>
-
-    <h2>Create your account</h2>
-    <p class="sub">Start your free trial — no credit card required.</p>
-
-    <form id="signup-form" novalidate>
-      <div class="form-group">
-        <input type="text" id="signup-name" placeholder="Full name (optional)">
-      </div>
-      <div class="form-group">
-        <input type="email" id="signup-email" placeholder="Email address" required>
-      </div>
-      <div class="form-group">
-        <input type="password" id="signup-password" placeholder="Create password" required>
-      </div>
-
-      <button class="primary" type="submit">Create account</button>
-    </form>
-
-    <div id="signup-msg" class="msg"></div>
-
-    <p class="note">Already have an account? <a href="login.html">Log in</a></p>
+  <div class="container">
+    <h2>Create Account</h2>
+    <input type="email" id="signupEmail" placeholder="Email" required>
+    <input type="password" id="signupPassword" placeholder="Password" required>
+    <button onclick="signup()">Sign Up</button>
+    <a href="login.html">Already have an account? Login</a>
   </div>
 
-  <!-- load auth module (which imports firebase-config.js) -->
   <script type="module" src="auth.js"></script>
 </body>
 </html>
