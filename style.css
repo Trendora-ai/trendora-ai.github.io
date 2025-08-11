@@ -1,53 +1,61 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f7f9fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
 }
 
-.container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
-    width: 300px;
-    text-align: center;
+.auth-container {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  width: 300px;
 }
 
-h2 {
-    margin-bottom: 20px;
+.auth-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.auth-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.auth-container button {
+  width: 100%;
+  padding: 10px;
+  background: #4CAF50;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-button:hover {
-    background: #45a049;
+.auth-container button:hover {
+  background: #45a049;
 }
 
-#toggle-text {
-    margin-top: 15px;
+.auth-container p {
+  text-align: center;
+  font-size: 14px;
 }
 
-#message {
-    margin-top: 10px;
-    color: red;
-    font-size: 14px;
+.auth-container span {
+  color: #4CAF50;
+  cursor: pointer;
+}
+
+#forgot {
+  margin-top: 10px;
+  color: #888;
+  cursor: pointer;
 }
