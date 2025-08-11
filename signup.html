@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trendora - Sign Up</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trendora — Sign up</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="auth-container">
-    <h1 class="logo">Trendora</h1>
-    <h2>Create Account</h2>
-    <form id="signup-form">
-      <input type="text" id="signup-name" placeholder="Full Name" required>
-      <input type="email" id="signup-email" placeholder="Email" required>
-      <input type="password" id="signup-password" placeholder="Password" required>
-      <button type="submit">Sign Up</button>
-      <p class="switch">Already have an account? <a href="login.html">Login</a></p>
+    <div class="brand">
+      <div class="logo">T</div>
+      <div>
+        <h1 class="logo-text">Trendora</h1>
+        <div class="sub" style="margin-top:4px">AI-powered product research</div>
+      </div>
+    </div>
+
+    <h2>Create your account</h2>
+    <p class="sub">Start your free trial — no credit card required.</p>
+
+    <form id="signup-form" novalidate>
+      <div class="form-group">
+        <input type="text" id="signup-name" placeholder="Full name (optional)">
+      </div>
+      <div class="form-group">
+        <input type="email" id="signup-email" placeholder="Email address" required>
+      </div>
+      <div class="form-group">
+        <input type="password" id="signup-password" placeholder="Create password" required>
+      </div>
+      <button class="primary" type="submit">Create account</button>
     </form>
-    <p id="signup-error" class="error"></p>
+
+    <div id="signup-msg" class="msg"></div>
+
+    <p class="note">Already have an account? <a href="login.html">Log in</a></p>
   </div>
-  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="auth.js"></script>
+
+  <!-- load the module which imports your firebase-config.js -->
+  <script type="module" src="auth.js"></script>
 </body>
 </html>
