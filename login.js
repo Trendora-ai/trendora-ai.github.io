@@ -1,28 +1,20 @@
-// src/login.js
-import { auth } from "./firebase-config.js";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trendora - Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <a href="signup.html">Create an account</a>
+    <a href="#" onclick="forgotPassword()">Forgot Password?</a>
+  </div>
 
-// Already logged-in user → dashboard bhejo
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    window.location.href = "dashboard.html";
-  }
-});
-
-document.getElementById("loginBtn").addEventListener("click", () => {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  if (!email || !password) {
-    alert("Please fill all fields!");
-    return;
-  }
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      window.location.href = "dashboard.html";
-    })
-    .catch(() => {
-      alert("Invalid email or password!");
-    });
-});
+  <script type="module" src="auth.js"></script>
+</body>
+</html>
