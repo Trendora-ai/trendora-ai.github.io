@@ -1,54 +1,49 @@
-// Firebase SDK import
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// Firebase Auth Functions
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
-// Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
+  apiKey: "YOUR_API_KEY",
   authDomain: "trendora-auth.firebaseapp.com",
   projectId: "trendora-auth",
-  storageBucket: "trendora-auth.firebasestorage.app",
+  storageBucket: "trendora-auth.appspot.com",
   messagingSenderId: "169775124553",
   appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
 };
 
-// Init
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-let isSignup = true;
+// Signup
+const signupForm = document.getElementById('signup-form');
+if (signupForm) {
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert('Signup successful!');
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+}
 
-document.getElementById("auth-btn").addEventListener("click", () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  if (isSignup) {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => alert("Signup successful!"))
-      .catch(err => alert(err.message));
-  } else {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => alert("Login successful!"))
-      .catch(err => alert(err.message));
-  }
-});
-
-window.toggleForm = function () {
-  isSignup = !isSignup;
-  document.getElementById("form-title").textContent = isSignup ? "Signup" : "Login";
-  document.getElementById("auth-btn").textContent = isSignup ? "Signup" : "Login";
-  document.getElementById("switch").innerHTML = isSignup
-    ? 'Already have an account? <span onclick="toggleForm()">Login</span>'
-    : 'Don\'t have an account? <span onclick="toggleForm()">Signup</span>';
-};
-
-window.forgotPassword = function () {
-  const email = document.getElementById("email").value;
-  if (!email) {
-    alert("Enter your email to reset password");
-    return;
-  }
-  sendPasswordResetEmail(auth, email)
-    .then(() => alert("Password reset email sent!"))
-    .catch(err => alert(err.message));
-};
+// Login
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert('Login successful!');
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+}
