@@ -1,19 +1,28 @@
-import { auth } from "./firebase-config.js";
-import { signInWithEmailAndPassword } from "firebase/auth";
+// src/login.js
+import { auth } from "./firebase.js";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+// Agar already logged in hai → dashboard bhejo
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "dashboard.html";
+  }
+});
 
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
+document.getElementById("loginBtn").addEventListener("click", () => {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // ✅ Login successful
-            alert("Login successful! Redirecting to dashboard...");
-            window.location.href = "dashboard.html"; // Redirect to dashboard page
-        })
-        .catch((error) => {
-            alert(error.message);
-        });
+  if (!email || !password) {
+    alert("Please fill all fields!");
+    return;
+  }
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      window.location.href = "dashboard.html";
+    })
+    .catch(() => {
+      alert("Invalid email or password!");
+    });
 });
