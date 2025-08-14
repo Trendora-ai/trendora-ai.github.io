@@ -1,85 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign Up - Trendora AI</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Signup</title>
   <style>
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: white;
-      font-weight: 500;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      z-index: 9999;
-    }
-    .notification.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    body { font-family: Arial, sans-serif; max-width: 400px; margin: auto; padding: 20px; }
+    input { width: 100%; padding: 10px; margin: 8px 0; }
+    button { width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; }
+    a { display: block; margin-top: 10px; text-align: center; }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
+  <h2>Signup</h2>
+  <div id="alert-box" style="display:none;"></div>
+  
+  <form id="signup-form">
+    <input type="email" id="signup-email" placeholder="Email" required>
+    <input type="password" id="signup-password" placeholder="Password" required>
+    <button type="submit">Create Account</button>
+  </form>
 
-  <!-- Notification -->
-  <div id="notification" class="notification"></div>
+  <a href="login.html">Already have an account? Login</a>
 
-  <div class="flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h2 class="text-2xl font-bold text-center mb-6 text-blue-600">Create Account</h2>
-
-      <form id="signup-form" class="space-y-4">
-        <input type="text" id="signup-name" placeholder="Full Name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-600" required>
-        <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-600" required>
-        <input type="password" id="signup-password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-600" required>
-
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Sign Up</button>
-      </form>
-
-      <p class="mt-4 text-center text-gray-600">
-        Already have an account? 
-        <a href="login.html" class="text-blue-600 hover:underline">Login</a>
-      </p>
-    </div>
-  </div>
-
-  <script type="module">
-    import { auth, createUserWithEmailAndPassword, updateProfile } from './firebase.js';
-
-    const signupForm = document.getElementById("signup-form");
-    const notification = document.getElementById("notification");
-
-    function showNotification(message, type) {
-      notification.textContent = message;
-      notification.className = `notification show ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
-      setTimeout(() => {
-        notification.classList.remove("show");
-      }, 3000);
-    }
-
-    signupForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const name = document.getElementById("signup-name").value;
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCredential.user, { displayName: name });
-        showNotification("Signup successful!", "success");
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 1000);
-      } catch (error) {
-        showNotification(error.message, "error");
-      }
-    });
-  </script>
+  <script type="module" src="auth.js"></script>
 </body>
 </html>
