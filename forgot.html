@@ -5,67 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Forgot Password - Trendora AI</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 9999;
+    }
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
+  <!-- Notification -->
+  <div id="notification" class="notification"></div>
+
   <div class="flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h2 class="text-2xl font-bold text-center mb-6 text-blue-600">Reset Your Password</h2>
+      <h2 class="text-2xl font-bold text-center mb-6 text-blue-600">Reset Password</h2>
 
       <form id="forgot-form" class="space-y-4">
-        <input 
-          type="email" 
-          id="forgot-email" 
-          placeholder="Enter your email" 
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-600" 
-          required
-        >
-
-        <button 
-          type="submit" 
-          class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-          Send Reset Link
-        </button>
+        <input type="email" id="forgot-email" placeholder="Enter your email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-600" required>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Send Reset Link</button>
       </form>
 
       <p class="mt-4 text-center text-gray-600">
-        Remembered your password?  
+        Remember your password? 
         <a href="login.html" class="text-blue-600 hover:underline">Login</a>
       </p>
     </div>
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { auth, sendPasswordResetEmail } from './firebase.js';
 
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
-      authDomain: "trendora-auth.firebaseapp.com",
-      projectId: "trendora-auth",
-      storageBucket: "trendora-auth.firebasestorage.app",
-      messagingSenderId: "169775124553",
-      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
-    };
+    const forgotForm = document.getElementById("forgot-form");
+    const notification = document.getElementById("notification");
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    function showNotification(message, type) {
+      notification.textContent = message;
+      notification.className = `notification show ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+      setTimeout(() => {
+        notification.classList.remove("show");
+      }, 3000);
+    }
 
-    document.getElementById("forgot-form").addEventListener("submit", function(e) {
+    forgotForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = document.getElementById("forgot-email").value;
 
-      sendPasswordResetEmail(auth, email)
-        .then(() => {
-          alert("Password reset email sent! Check your inbox.");
-        })
-        .catch((error) => {
-          alert("Error: " + error.message);
-        });
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showNotification("Password reset email sent!", "success");
+      } catch (error) {
+        showNotification(error.message, "error");
+      }
     });
   </script>
-
 </body>
 </html>
