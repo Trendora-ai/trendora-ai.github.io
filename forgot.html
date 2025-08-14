@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Forgot Password</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 400px; margin: auto; padding: 20px; }
-    input { width: 100%; padding: 10px; margin: 8px 0; }
-    button { width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; }
-    a { display: block; margin-top: 10px; text-align: center; }
-  </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Password - Trendora AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script type="module" src="auth.js" defer></script>
 </head>
-<body>
-  <h2>Forgot Password</h2>
-  <div id="alert-box" style="display:none;"></div>
+<body class="bg-gray-50 text-gray-800">
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-8">
+      <h1 class="text-2xl font-bold text-center text-blue-600">Reset Your Password</h1>
 
-  <form id="forgot-form">
-    <input type="email" id="forgot-email" placeholder="Enter your email" required>
-    <button type="submit">Send Reset Link</button>
-  </form>
+      <!-- alert -->
+      <div id="message-box" class="hidden mt-4 text-sm rounded-lg p-3"></div>
 
-  <a href="login.html">Back to Login</a>
+      <form id="forgot-form" class="mt-6 space-y-4">
+        <input type="email" id="forgot-email" placeholder="Enter your email"
+               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-blue-600" required>
 
-  <script type="module" src="auth.js"></script>
+        <button type="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+          Send Reset Link
+        </button>
+      </form>
+
+      <p class="mt-4 text-center">
+        <a class="text-blue-600 hover:underline" href="login.html">Back to Login</a>
+      </p>
+    </div>
+  </div>
 </body>
 </html>
