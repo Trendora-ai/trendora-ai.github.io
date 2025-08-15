@@ -1,97 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Upgrade to Trendora Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Tailwind same version as your site -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
-  <!-- Firebase (same config you’re already using) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    // Your existing Trendora Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
-      authDomain: "trendora-auth.firebaseapp.com",
-      projectId: "trendora-auth",
-      storageBucket: "trendora-auth.firebasestorage.app",
-      messagingSenderId: "169775124553",
-      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Elements
-    const emailSpan = () => document.getElementById("user-email");
-    const upgradeBtn = () => document.getElementById("upgrade-btn");
-    const message = (t, ok=true) => {
-      const el = document.getElementById("message");
-      el.textContent = t;
-      el.className =
-        "mt-4 text-sm rounded-lg p-3 " +
-        (ok ? "bg-green-100 text-green-800 border border-green-300"
-            : "bg-red-100 text-red-800 border border-red-300");
-      el.classList.remove("hidden");
-    };
-
-    const PRICE_ID = "pro_01jyvvvzb5bw47tq74jf0dcrrc"; // your paid plan (Paddle Billing)
-    const successUrl = encodeURIComponent(window.location.origin + "/dashboard.html");
-    const cancelUrl  = encodeURIComponent(window.location.href);
-
-    // Wait for login state so we can prefill email
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        // Not logged in → send them to login first
-        window.location.href = "login.html";
-        return;
-      }
-      // Show email
-      emailSpan().textContent = user.email || "your@email.com";
-
-      // Bind Upgrade button
-      upgradeBtn().addEventListener("click", () => {
-        const email = encodeURIComponent(user.email || "");
-        const url = `https://buy.paddle.com/checkout?price=${PRICE_ID}&customer_email=${email}&success_url=${successUrl}&cancel_url=${cancelUrl}`;
-        // Open hosted checkout (same tab)
-        window.location.href = url;
-      });
-
-      // Optional: show small note
-      message("Logged in as " + (user.email || "user"), true);
-    });
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Pro - Trendora</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+    <script>
+        // Paddle initialization
+        Paddle.Setup({ vendor: 237682 });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .upgrade-container {
+            background: #121212;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        h1 {
+            color: #ff4b2b;
+        }
+        p {
+            color: #ccc;
+        }
+        button {
+            background-color: #ff4b2b;
+            border: none;
+            padding: 12px 25px;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #e63d20;
+        }
+    </style>
 </head>
-
-<body class="bg-gray-50 text-gray-800">
-  <div class="min-h-screen flex items-center justify-center px-4">
-    <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-8 text-center">
-      <h1 class="text-2xl font-bold text-blue-600">Upgrade to Trendora Pro</h1>
-      <p class="mt-2 text-gray-600">Unlock all premium research features instantly.</p>
-
-      <div id="message" class="hidden mt-4 text-sm rounded-lg p-3"></div>
-
-      <div class="mt-6 p-4 bg-blue-50 rounded-lg text-left">
-        <p class="text-sm text-gray-700">
-          Signed in as: <span id="user-email" class="font-semibold text-blue-700">…</span>
-        </p>
-        <ul class="mt-3 list-disc list-inside text-gray-700 text-sm">
-          <li>Unlimited product scans</li>
-          <li>Market & trend insights</li>
-          <li>Competitor analysis</li>
-        </ul>
-      </div>
-
-      <button id="upgrade-btn"
-              class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
-        Upgrade Now
-      </button>
-
-      <a href="dashboard.html" class="block mt-4 text-blue-600 hover:underline text-sm">Back to Dashboard</a>
+<body>
+    <div class="upgrade-container">
+        <h1>Upgrade to Pro</h1>
+        <p>Get unlimited access to all Trendora AI features.</p>
+        <button onclick="openCheckout()">Upgrade Now</button>
     </div>
-  </div>
+
+    <script>
+        function openCheckout() {
+            Paddle.Checkout.open({
+                product: 'pro_01jyvvvzb5bw47tq74jf0dcrrc',
+                success: 'https://trendora-ai.github.io/payment-success.html'
+            });
+        }
+    </script>
 </body>
-      </html>
+</html>
