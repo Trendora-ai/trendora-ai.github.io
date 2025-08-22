@@ -3,67 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Cancelled - Trendora</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #0a0a0a;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      background-color: #121212;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-      max-width: 400px;
-      text-align: center;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    .icon {
-      font-size: 50px;
-      color: #ff4b2b; /* Trendora theme accent */
-    }
-    h1 {
-      margin-top: 15px;
-      font-size: 26px;
-      color: #ff4b2b;
-    }
-    p {
-      margin: 15px 0;
-      font-size: 16px;
-      color: #ccc;
-    }
-    a {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 20px;
-      background-color: #ff4b2b;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: background 0.3s ease;
-    }
-    a:hover {
-      background-color: #e84322;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-  </style>
+  <title>Payment Canceled - Trendora AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <div class="container">
-    <div class="icon">❌</div>
-    <h1>Payment Cancelled</h1>
-    <p>Your payment process was cancelled. You can try again anytime.</p>
-    <a href="upgrade.html">Try Again</a>
-  </div>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <a href="/" class="text-2xl font-bold text-blue-600">Trendora AI</a>
+      <nav>
+        <a href="/dashboard.html" class="text-gray-600 hover:text-blue-600 mx-2">Dashboard</a>
+        <a href="/pricing.html" class="text-gray-600 hover:text-blue-600 mx-2">Pricing</a>
+        <a href="/support.html" class="text-gray-600 hover:text-blue-600 mx-2">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center">
+    <div class="bg-white rounded-2xl shadow-lg p-10 text-center max-w-md w-full">
+      <svg class="mx-auto mb-6 text-red-500" xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+      <h1 class="text-3xl font-bold text-red-600 mb-4">Payment Canceled</h1>
+      <p class="text-gray-600 mb-6">Your payment was not completed. You can try again anytime.</p>
+      <a href="/pricing.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">Back to Pricing</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow mt-10">
+    <div class="container mx-auto text-center p-4 text-gray-500 text-sm">
+      &copy; 2025 Trendora AI. All rights reserved.
+    </div>
+  </footer>
+
 </body>
 </html>
