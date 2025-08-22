@@ -57,8 +57,12 @@
     <script>
         function openCheckout() {
             Paddle.Checkout.open({
-                product: 'pro_01jyvvvzb5bw47tq74jf0dcrrc',
-                success: 'https://trendora-ai.github.io/payment-success.html'
+                product: 'pro_01jyvvvzb5bw47tq74jf0dcrrc', // Tumhara paid plan ID
+                successUrl: 'https://trendora-ai.github.io/payment-success.html', // Success page
+                closeCallback: function() {
+                    // Jab user checkout cancel ya close kare
+                    window.location.href = 'https://trendora-ai.github.io/cancel.html';
+                }
             });
         }
     </script>
