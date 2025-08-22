@@ -55,8 +55,27 @@
       color: #0d6efd;
     }
   </style>
+  <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+  <script>
+    // Initialize Paddle with your vendor/client-side token
+    Paddle.Environment.set('production');
+    Paddle.Setup({
+      token: 'live_73539ffd4e5d4fbc2fc69643543'
+    });function openCheckout() {
+  Paddle.Checkout.open({
+    items: [{
+      priceId: 'pro_01jyvvvzb5bw47tq74jf0dcrrc',
+      quantity: 1
+    }],
+    successUrl: '/payment-success.html',
+    cancelUrl: '/payment-cancel.html'
+  });
+}
+
+  </script>
 </head>
-<body>  <div class="container py-5">
+<body>
+  <div class="container py-5">
     <h1 class="header-title">Choose Your Plan</h1>
     <div class="row g-4 justify-content-center"><!-- Free Plan -->
   <div class="col-md-5">
@@ -99,17 +118,6 @@
 
 </div>
 
-  </div>  <!-- Paddle Integration -->  <script src="https://cdn.paddle.com/paddle/paddle.js"></script>  <script>
-    Paddle.Setup({ vendor: 237682 }); // Replace with your Vendor ID
-
-    function openCheckout() {
-      Paddle.Checkout.open({
-        product: 'pro_01jyvvvzb5bw47tq74jf0dcrrc',
-        successUrl: 'https://trendora-ai.github.io/payment-success.html',
-        closeCallback: function() {
-          window.location.href = 'https://trendora-ai.github.io/cancel.html';
-        }
-      });
-    }
-  </script></body>
+  </div>
+</body>
 </html>
