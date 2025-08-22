@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -57,53 +56,60 @@
     }
   </style>
 </head>
-<body>
-
-  <div class="container py-5">
+<body>  <div class="container py-5">
     <h1 class="header-title">Choose Your Plan</h1>
-    <div class="row g-4 justify-content-center">
-
-      <!-- Free Plan -->
-      <div class="col-md-5">
-        <div class="plan-card">
-          <h3 class="text-center">Free Plan</h3>
-          <p class="text-muted text-center">Free forever plan, 1 product/day, limited features</p>
-          <p class="price text-center">$0<span class="fs-5">/month</span></p>
-          <ul class="feature-list">
-            <li><span class="check">✔</span> 1 Product Search / day</li>
-            <li><span class="check">✔</span> Limited Data Access</li>
-            <li><span class="check">✔</span> Basic Filters</li>
-            <li><span class="cross">✖</span> No Analytics</li>
-            <li><span class="cross">✖</span> No CSV Export</li>
-          </ul>
-          <div class="text-center mt-4">
-            <a href="/signup.html" class="btn btn-primary px-4">Start for Free</a>
-          </div>
-        </div>
+    <div class="row g-4 justify-content-center"><!-- Free Plan -->
+  <div class="col-md-5">
+    <div class="plan-card">
+      <h3 class="text-center">Free Plan</h3>
+      <p class="text-muted text-center">Free forever plan, 1 product/day, limited features</p>
+      <p class="price text-center">$0<span class="fs-5">/month</span></p>
+      <ul class="feature-list">
+        <li><span class="check">✔</span> 1 Product Search / day</li>
+        <li><span class="check">✔</span> Limited Data Access</li>
+        <li><span class="check">✔</span> Basic Filters</li>
+        <li><span class="cross">✖</span> No Analytics</li>
+        <li><span class="cross">✖</span> No CSV Export</li>
+      </ul>
+      <div class="text-center mt-4">
+        <a href="/signup.html" class="btn btn-primary px-4">Start for Free</a>
       </div>
-
-      <!-- Pro Plan -->
-      <div class="col-md-5">
-        <div class="plan-card border-primary">
-          <h3 class="text-center">Pro Plan – Monthly</h3>
-          <p class="text-muted text-center">Full access to all features with 3-day free trial</p>
-          <p class="price text-center">$29<span class="fs-5">/month</span></p>
-          <ul class="feature-list">
-            <li><span class="check">✔</span> Unlimited Product Searches</li>
-            <li><span class="check">✔</span> Access to Winning Product Data</li>
-            <li><span class="check">✔</span> Analytics & Insights</li>
-            <li><span class="check">✔</span> CSV Export</li>
-            <li><span class="check">✔</span> Priority Support</li>
-            <li><span class="check">✔</span> Generate High-Converting Ad Images</li>
-          </ul>
-          <div class="text-center mt-4">
-            <a href="#" class="btn btn-primary px-4">Start Free Trial</a>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 
-</body>
+  <!-- Pro Plan -->
+  <div class="col-md-5">
+    <div class="plan-card border-primary">
+      <h3 class="text-center">Pro Plan – Monthly</h3>
+      <p class="text-muted text-center">Full access to all features with 3-day free trial</p>
+      <p class="price text-center">$29<span class="fs-5">/month</span></p>
+      <ul class="feature-list">
+        <li><span class="check">✔</span> Unlimited Product Searches</li>
+        <li><span class="check">✔</span> Access to Winning Product Data</li>
+        <li><span class="check">✔</span> Analytics & Insights</li>
+        <li><span class="check">✔</span> CSV Export</li>
+        <li><span class="check">✔</span> Priority Support</li>
+        <li><span class="check">✔</span> Generate High-Converting Ad Images</li>
+      </ul>
+      <div class="text-center mt-4">
+        <button onclick="openCheckout()" class="btn btn-primary px-4">Start Free Trial</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  </div>  <!-- Paddle Integration -->  <script src="https://cdn.paddle.com/paddle/paddle.js"></script>  <script>
+    Paddle.Setup({ vendor: 237682 }); // Replace with your Vendor ID
+
+    function openCheckout() {
+      Paddle.Checkout.open({
+        product: 'pro_01jyvvvzb5bw47tq74jf0dcrrc',
+        successUrl: 'https://trendora-ai.github.io/payment-success.html',
+        closeCallback: function() {
+          window.location.href = 'https://trendora-ai.github.io/cancel.html';
+        }
+      });
+    }
+  </script></body>
 </html>
