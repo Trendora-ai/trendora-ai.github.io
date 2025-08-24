@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing - Trendora AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+  <script src="https://cdn.paddle.com/paddle.js"></script>
   <script>
-    // Setup Paddle
+    // Paddle setup
     Paddle.Environment.set('production');
     Paddle.Setup({
+      token: 'live_73539ffd4e5d4fbc2fc69643543', // Your client-side token
       vendor: 237682 // Your vendor ID
     });
 
@@ -26,7 +27,7 @@
   <div class="max-w-7xl mx-auto px-4 py-10">
     <h1 class="text-3xl font-bold text-center text-blue-600 mb-12">Choose Your Plan</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      
+
       <!-- Free Plan -->
       <div class="bg-white border-2 border-gray-200 rounded-2xl p-8 shadow hover:scale-105 hover:border-blue-600 transition">
         <h3 class="text-xl font-semibold text-center">Free Plan</h3>
