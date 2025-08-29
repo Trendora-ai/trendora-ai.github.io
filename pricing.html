@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing - Trendora AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Use Paddle Billing SDK instead of old paddle.js -->
-  <script src="https://cdn.paddle.com/paddle.billing.js"></script>
+  <!-- Correct Paddle Billing SDK -->
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
     // Initialize Paddle Billing
     Paddle.Initialize({
@@ -18,8 +18,10 @@
         items: [
           { priceId: 'pro_01jyvvvzb5bw47tq74jf0dcrrc', quantity: 1 }
         ],
-        successUrl: '/payment-success.html',
-        cancelUrl: '/cancel.html'
+        settings: {
+          successUrl: 'https://trendora-ai.github.io/payment-success.html',
+          cancelUrl: 'https://trendora-ai.github.io/cancel.html'
+        }
       });
     }
   </script>
@@ -49,7 +51,7 @@
         </ul>
         <div class="text-center mt-6">
           <a
-            href="/signup.html"
+            href="https://trendora-ai.github.io/signup.html"
             class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
             >Start for Free</a
           >
