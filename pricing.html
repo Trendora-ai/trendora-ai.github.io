@@ -5,22 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing - Trendora AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- ✅ Correct Paddle Billing SDK -->
-  <script src="https://cdn.paddle.com/paddle.billing.js"></script>
+  <!-- Paddle Billing SDK -->
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
-    // ✅ Initialize Paddle Billing with your client-side token
-    Paddle.Initialize({
-      token: 'live_73539ffd4e5d4fbc2fc69643543'
+    // ✅ Initialize Paddle Billing (small "i")
+    Paddle.initialize({
+      token: 'live_73539ffd4e5d4fbc2fc69643543' // your client-side token
     });
 
+    // ✅ Checkout function
     function openCheckout() {
       Paddle.Checkout.open({
         items: [
           { priceId: 'pro_01jyvvvzb5bw47tq74jf0dcrrc', quantity: 1 }
         ],
-        successUrl: 'https://trendora-ai.github.io/payment-success.html',
-        cancelUrl: 'https://trendora-ai.github.io/cancel.html'
+        settings: {
+          successUrl: 'https://trendora-ai.github.io/payment-success.html',
+          cancelUrl: 'https://trendora-ai.github.io/cancel.html'
+        }
       });
     }
   </script>
