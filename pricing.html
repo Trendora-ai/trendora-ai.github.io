@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing - Trendora AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.paddle.com/paddle.js"></script>
+  <!-- Use Paddle Billing SDK instead of old paddle.js -->
+  <script src="https://cdn.paddle.com/paddle.billing.js"></script>
   <script>
-    // Paddle setup
-    Paddle.Environment.set('production');
-    Paddle.Setup({
-      token: 'live_73539ffd4e5d4fbc2fc69643543', // Client-side token
-      vendor: 237682 // Replace if your Paddle dashboard shows a different vendor ID
+    // Initialize Paddle Billing
+    Paddle.Initialize({
+      token: 'live_73539ffd4e5d4fbc2fc69643543' // your client-side token
     });
 
     function openCheckout() {
