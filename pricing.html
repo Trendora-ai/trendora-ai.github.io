@@ -8,16 +8,16 @@
   <!-- Paddle Billing SDK -->
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
-    // ✅ Initialize Paddle Billing (small "i")
+    // ✅ Initialize Paddle Billing
     Paddle.initialize({
       token: 'live_73539ffd4e5d4fbc2fc69643543' // your client-side token
     });
 
-    // ✅ Checkout function
+    // ✅ Checkout function (using Price ID instead of Product ID)
     function openCheckout() {
       Paddle.Checkout.open({
         items: [
-          { priceId: 'pro_01jyvvvzb5bw47tq74jf0dcrrc', quantity: 1 }
+          { priceId: 'pri_01jyvvxqw2n2v6tkaj78fqy5n0', quantity: 1 }
         ],
         settings: {
           successUrl: 'https://trendora-ai.github.io/payment-success.html',
