@@ -9,10 +9,12 @@
   <!-- ✅ Paddle Billing v2 SDK -->
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
-    // ✅ Initialize Paddle Billing (live client-side token)
-    Paddle.initialize({ token: 'live_73539ffd4e5d4fbc2fc69643543' });
+    // ✅ Initialize Paddle Billing (use your public client-side token starting with pk_live_)
+    Paddle.Initialize({
+      token: 'pk_live_xxxxxxxxxxxxxxxxxxxxx' // <-- replace with your actual public key
+    });
 
-    // ✅ Open checkout with PRICE ID (not product id)
+    // ✅ Open checkout with PRICE ID
     function openCheckout() {
       try {
         Paddle.Checkout.open({
