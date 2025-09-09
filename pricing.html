@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pricing - Trendora AI (Sandbox)</title>
+  <title>Pricing - Trendora AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ✅ Paddle Billing v2 SDK -->
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
-    // ✅ Initialize Paddle Billing (Sandbox token)
+    // ✅ Initialize Paddle with Sandbox client token
     Paddle.Initialize({
-      token: 'test_fdc7c1c82176205229f1425c967' // Sandbox client-side token
+      token: 'test_fdc7c1c82176205229f1425c967' // ← Sandbox client-side token
     });
 
-    // ✅ Open checkout with PRICE ID (Sandbox)
+    // ✅ Open checkout with PRICE ID
     function openCheckout() {
       try {
         Paddle.Checkout.open({
-          items: [{ priceId: 'pri_01k4q9qtna918qfp3fcg3k1fye', quantity: 1 }], 
+          items: [{ priceId: 'pri_01k4q9qtna918qfp3fcg3k1fye', quantity: 1 }],
           settings: {
             successUrl: 'https://trendora-ai.github.io/payment-success.html',
             displayMode: 'overlay'
@@ -33,20 +33,14 @@
 </head>
 <body class="bg-gray-50 font-sans">
   <div class="max-w-7xl mx-auto px-4 py-10">
-    <h1 class="text-3xl font-bold text-center text-blue-600 mb-12">
-      Choose Your Plan (Sandbox Testing)
-    </h1>
+    <h1 class="text-3xl font-bold text-center text-blue-600 mb-12">Choose Your Plan</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Free Plan -->
       <div class="bg-white border-2 border-gray-200 rounded-2xl p-8 shadow hover:scale-105 hover:border-blue-600 transition">
         <h3 class="text-xl font-semibold text-center">Free Plan</h3>
-        <p class="text-gray-500 text-center mt-2">
-          Free forever plan, 1 product/day, limited features
-        </p>
-        <p class="text-4xl font-bold text-blue-600 text-center mt-4">
-          $0<span class="text-lg font-normal">/month</span>
-        </p>
+        <p class="text-gray-500 text-center mt-2">Free forever plan, 1 product/day, limited features</p>
+        <p class="text-4xl font-bold text-blue-600 text-center mt-4">$0<span class="text-lg font-normal">/month</span></p>
         <ul class="mt-6 space-y-3 text-gray-700">
           <li>✔ 1 Product Search / day</li>
           <li>✔ Limited Data Access</li>
@@ -55,22 +49,15 @@
           <li class="text-red-500">✖ No CSV Export</li>
         </ul>
         <div class="text-center mt-6">
-          <a href="https://trendora-ai.github.io/signup.html"
-            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-            Start for Free
-          </a>
+          <a href="https://trendora-ai.github.io/signup.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Start for Free</a>
         </div>
       </div>
 
       <!-- Pro Plan -->
       <div class="bg-white border-2 border-gray-200 rounded-2xl p-8 shadow hover:scale-105 hover:border-blue-600 transition">
         <h3 class="text-xl font-semibold text-center">Pro Plan – Monthly</h3>
-        <p class="text-gray-500 text-center mt-2">
-          Full access to all features with 3-day free trial
-        </p>
-        <p class="text-4xl font-bold text-blue-600 text-center mt-4">
-          $29<span class="text-lg font-normal">/month</span>
-        </p>
+        <p class="text-gray-500 text-center mt-2">Full access to all features with 3-day free trial</p>
+        <p class="text-4xl font-bold text-blue-600 text-center mt-4">$29<span class="text-lg font-normal">/month</span></p>
         <ul class="mt-6 space-y-3 text-gray-700">
           <li>✔ Unlimited Product Searches</li>
           <li>✔ Access to Winning Product Data</li>
@@ -80,8 +67,7 @@
           <li>✔ Generate High-Converting Ad Images</li>
         </ul>
         <div class="text-center mt-6">
-          <button onclick="openCheckout()"
-            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+          <button onclick="openCheckout()" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
             Start Free Trial
           </button>
         </div>
