@@ -5,38 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Successful - Trendora AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
+<body class="bg-gradient-to-r from-blue-50 to-indigo-100 min-h-screen flex flex-col">
 
   <!-- Navbar -->
-  <header class="bg-white shadow">
+  <header class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
       <a href="index.html" class="text-2xl font-bold text-blue-600">Trendora AI</a>
       <nav>
-        <a href="dashboard.html" class="text-gray-600 hover:text-blue-600 mx-2">Dashboard</a>
-        <a href="pricing.html" class="text-gray-600 hover:text-blue-600 mx-2">Pricing</a>
-        <a href="support.html" class="text-gray-600 hover:text-blue-600 mx-2">Support</a>
+        <a href="dashboard.html" class="text-gray-600 hover:text-blue-600 mx-3 transition">Dashboard</a>
+        <a href="pricing.html" class="text-gray-600 hover:text-blue-600 mx-3 transition">Pricing</a>
+        <a href="support.html" class="text-gray-600 hover:text-blue-600 mx-3 transition">Support</a>
       </nav>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="flex-grow flex items-center justify-center">
-    <div class="bg-white rounded-2xl shadow-lg p-10 text-center max-w-md w-full">
-      <!-- Success Icon -->
-      <svg class="mx-auto mb-6 text-green-500" xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+  <main class="flex-grow flex items-center justify-center p-6">
+    <div class="bg-white rounded-2xl shadow-2xl p-10 text-center max-w-lg w-full transform transition hover:scale-[1.02]">
       
-      <h1 class="text-3xl font-bold text-green-600 mb-4">Payment Successful!</h1>
-      <p class="text-gray-600 mb-6">Thank you for subscribing to the <strong>Pro Plan</strong>. Your account has been upgraded successfully.</p>
+      <!-- Animated Success Icon -->
+      <lottie-player 
+        src="https://assets10.lottiefiles.com/packages/lf20_jbrw3hcz.json"  
+        background="transparent"  
+        speed="1"  
+        style="width: 120px; height: 120px; margin: 0 auto 20px;"  
+        autoplay>
+      </lottie-player>
+
+      <h1 class="text-4xl font-extrabold text-green-600 mb-4">Payment Successful!</h1>
+      <p class="text-gray-600 mb-6 leading-relaxed">
+        🎉 Thank you for subscribing to the <span class="font-semibold text-blue-600">Pro Plan</span>.  
+        Your account has been upgraded successfully. Enjoy full access to all features!
+      </p>
       
-      <a href="dashboard.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+      <a href="dashboard.html" 
+         class="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium px-8 py-3 rounded-xl shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 transition transform hover:scale-105">
         Go to Dashboard
       </a>
+
+      <p class="mt-6 text-sm text-gray-500">
+        Need help? <a href="support.html" class="text-blue-600 hover:underline">Contact Support</a>
+      </p>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-white shadow mt-10">
+  <footer class="bg-white/80 backdrop-blur-md shadow mt-10">
     <div class="max-w-6xl mx-auto text-center p-4 text-gray-500 text-sm">
       &copy; 2025 Trendora AI. All rights reserved.
     </div>
