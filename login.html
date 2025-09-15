@@ -21,7 +21,21 @@
       <!-- alert -->
       <div id="message-box" class="hidden mt-4 text-sm rounded-lg p-3"></div>
 
-      <form id="login-form" class="mt-6 space-y-4">
+      <!-- Google Login -->
+      <button id="google-login"
+              class="w-full flex items-center justify-center gap-2 border py-3 rounded-lg hover:bg-gray-100 transition mt-6">
+        <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" class="h-5 w-5">
+        Continue with Google
+      </button>
+
+      <div class="flex items-center my-4">
+        <div class="flex-grow border-t"></div>
+        <span class="mx-2 text-gray-500 text-sm">or</span>
+        <div class="flex-grow border-t"></div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="space-y-4">
         <input type="email" id="login-email" placeholder="Email"
                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-blue-600" required>
         
@@ -49,6 +63,7 @@
   </div>
 
   <script>
+    // Show/Hide Password
     const togglePassword = document.getElementById("toggle-password");
     const passwordInput = document.getElementById("login-password");
 
@@ -56,6 +71,11 @@
       const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
       passwordInput.setAttribute("type", type);
       togglePassword.textContent = type === "password" ? "👁️" : "🙈";
+    });
+
+    // Google Login (future integration with Firebase / OAuth)
+    document.getElementById("google-login").addEventListener("click", () => {
+      alert("Google login integration coming soon!");
     });
   </script>
 </body>
