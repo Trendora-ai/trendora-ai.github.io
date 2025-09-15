@@ -15,7 +15,7 @@
       token: "test_fdc7c1c82176205229f1425c967" // ✅ your sandbox client-side token
     });
 
-    // ✅ Fake Auth Check (replace with real check)
+    // ✅ Fake Auth Check (replace with real check later)
     function isUserLoggedIn() {
       return localStorage.getItem("trendoraUser") !== null; 
     }
@@ -23,7 +23,7 @@
     // ✅ Open checkout only if logged in
     function openCheckout() {
       if (!isUserLoggedIn()) {
-        alert("Please signup or login before upgrading to Pro Plan.");
+        // 🔥 Direct redirect, no alert
         window.location.href = "https://trendora-ai.github.io/signup.html";
         return;
       }
@@ -38,7 +38,6 @@
         });
       } catch (e) {
         console.error("Paddle open error:", e);
-        alert("Checkout init error. See console for details.");
       }
     }
   </script>
