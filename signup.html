@@ -7,14 +7,14 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script type="module" src="auth.js" defer></script>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-gray-800">
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
 
-  <div class="w-full max-w-md bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl p-8 border border-gray-200">
+  <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 border border-gray-200">
     
     <!-- Logo + Title -->
     <div class="text-center">
-      <h1 class="text-3xl font-extrabold text-blue-600 tracking-tight">Create Your Account</h1>
-      <p class="mt-2 text-sm text-gray-500">Join <span class="font-semibold">Trendora AI</span> and unlock the full experience</p>
+      <h1 class="text-3xl font-extrabold text-gray-900">Create Your Account</h1>
+      <p class="mt-2 text-sm text-gray-600">Join <span class="font-semibold text-blue-600">Trendora AI</span> and unlock the full experience</p>
     </div>
 
     <!-- Alert Box -->
@@ -26,7 +26,7 @@
       <!-- Email -->
       <div class="relative">
         <input type="email" id="signup-email" placeholder="Email address"
-          class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
+          class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900" required>
         <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">
           📧
         </span>
@@ -35,7 +35,7 @@
       <!-- Password -->
       <div class="relative">
         <input type="password" id="signup-password" placeholder="Password"
-          class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" required>
+          class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900" required>
         <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">
           🔒
         </span>
@@ -50,14 +50,14 @@
 
     <!-- Divider -->
     <div class="flex items-center gap-4 my-6">
-      <div class="flex-1 h-px bg-gray-300"></div>
+      <div class="flex-1 h-px bg-gray-200"></div>
       <span class="text-xs text-gray-400">or</span>
-      <div class="flex-1 h-px bg-gray-300"></div>
+      <div class="flex-1 h-px bg-gray-200"></div>
     </div>
 
     <!-- Google Button -->
     <button
-      class="w-full flex items-center justify-center gap-2 bg-white border rounded-xl py-3 text-gray-700 font-medium shadow hover:bg-gray-50 transition">
+      class="w-full flex items-center justify-center gap-2 bg-gray-50 border rounded-xl py-3 text-gray-700 font-medium shadow hover:bg-gray-100 transition">
       <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
       Continue with Google
     </button>
