@@ -11,9 +11,15 @@
 
   <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 border border-gray-200">
     
-    <!-- Logo -->
+    <!-- Logo with fallback -->
     <div class="flex justify-center mb-4">
-      <img src="trendora-logo.png" alt="Trendora AI Logo" class="h-14 w-auto">
+      <img src="trendora-logo.png"
+           alt="Trendora AI Logo"
+           class="h-14 w-auto"
+           onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+      <span id="logo-fallback" class="hidden text-2xl font-extrabold text-gray-900">
+        Trendora AI
+      </span>
     </div>
 
     <!-- Title -->
