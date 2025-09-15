@@ -15,8 +15,19 @@
       token: "test_fdc7c1c82176205229f1425c967" // ✅ your sandbox client-side token
     });
 
-    // ✅ Open checkout with sandbox PRICE ID
+    // ✅ Fake Auth Check (replace with real check)
+    function isUserLoggedIn() {
+      return localStorage.getItem("trendoraUser") !== null; 
+    }
+
+    // ✅ Open checkout only if logged in
     function openCheckout() {
+      if (!isUserLoggedIn()) {
+        alert("Please signup or login before upgrading to Pro Plan.");
+        window.location.href = "https://trendora-ai.github.io/signup.html";
+        return;
+      }
+
       try {
         Paddle.Checkout.open({
           items: [{ priceId: "pri_01k4q9qtna918qfp3fcg3k1fye", quantity: 1 }], // ✅ your sandbox priceId
