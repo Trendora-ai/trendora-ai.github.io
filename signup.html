@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up - Trendora AI</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script type="module" src="auth.js" defer></script>
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
 
@@ -84,22 +83,64 @@
     </p>
   </div>
 
-  <!-- JS for password toggle -->
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
+
   <script>
+    // ✅ Tumhara Firebase Config yahan dalna hoga (console → project settings → SDK setup)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Password toggle
     const togglePassword = document.getElementById("toggle-password");
     const passwordInput = document.getElementById("signup-password");
-
     togglePassword.addEventListener("click", () => {
       const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
       passwordInput.setAttribute("type", type);
       togglePassword.textContent = type === "password" ? "👁️" : "🙈";
     });
 
-    // Google Button Click
-    document.getElementById("google-signup").addEventListener("click", () => {
-      // Firebase/Google Auth JS code yahan add hoga
-      alert("Google Signup will be connected via Firebase Auth");
+    // Email/Password Signup
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        console.log("User signed up:", userCredential.user);
+        alert("Signup successful!");
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        console.error(error.message);
+        alert(error.message);
+      }
+    });
+
+    // Google Signup
+    document.getElementById("google-signup").addEventListener("click", async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        console.log("Google User:", result.user);
+        alert("Google Signup successful!");
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        console.error(error.message);
+        alert(error.message);
+      }
     });
   </script>
 </body>
-        </html>
+</html>
