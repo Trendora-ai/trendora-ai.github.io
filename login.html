@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Trendora AI</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Toast Animation */
+    .toast-show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .toast-hide {
+      transform: translateX(150%);
+      opacity: 0;
+    }
+  </style>
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600">
 
@@ -72,8 +83,8 @@
     </p>
   </div>
 
-  <!-- Toast -->
-  <div id="toast" class="hidden fixed top-5 right-5 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition transform"></div>
+  <!-- Modern Toast -->
+  <div id="toast" class="fixed top-5 right-5 max-w-sm px-5 py-4 rounded-lg shadow-lg text-sm font-medium transition-all duration-500 transform toast-hide"></div>
 
   <!-- Firebase -->
   <script type="module">
@@ -92,14 +103,20 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // ✅ Modern Toast Function
     function showToast(message, type = "success") {
       const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.className = `fixed top-5 right-5 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition transform ${
+      toast.innerHTML = type === "success" 
+        ? `<div class="flex items-center gap-3"><span class="text-xl">✅</span> <span><b>${message}</b></span></div>`
+        : `<div class="flex items-center gap-3"><span class="text-xl">⚠️</span> <span>${message}</span></div>`;
+
+      toast.className = `fixed top-5 right-5 max-w-sm px-5 py-4 rounded-lg shadow-lg text-sm font-medium transition-all duration-500 transform ${
         type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
-      }`;
-      toast.classList.remove("hidden");
-      setTimeout(() => toast.classList.add("hidden"), 3000);
+      } toast-show`;
+
+      setTimeout(() => {
+        toast.classList.replace("toast-show", "toast-hide");
+      }, 3000);
     }
 
     // Toggle Password
@@ -118,8 +135,8 @@
 
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        showToast(`Welcome back ${email}`, "success");
-        setTimeout(() => window.location.href = "dashboard.html", 1200);
+        showToast(`Welcome back, ${email}`, "success");
+        setTimeout(() => window.location.href = "dashboard.html", 1500);
       } catch (error) {
         showToast(error.message, "error");
       }
@@ -130,8 +147,8 @@
       const provider = new GoogleAuthProvider();
       try {
         const result = await signInWithPopup(auth, provider);
-        showToast(`Welcome back ${result.user.email}`, "success");
-        setTimeout(() => window.location.href = "dashboard.html", 1200);
+        showToast(`Welcome back, ${result.user.email}`, "success");
+        setTimeout(() => window.location.href = "dashboard.html", 1500);
       } catch (error) {
         showToast(error.message, "error");
       }
