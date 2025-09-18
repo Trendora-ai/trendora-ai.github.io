@@ -57,9 +57,9 @@
 
       <!-- Forgot Password -->
       <div class="text-right">
-        <button type="button" id="forgot-password" class="text-sm text-blue-600 hover:underline">
+        <a href="forgot.html" class="text-sm text-blue-600 hover:underline">
           Forgot password?
-        </button>
+        </a>
       </div>
 
       <!-- Login Button -->
@@ -96,7 +96,7 @@
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
@@ -160,21 +160,6 @@
         showToast(error.message, "error");
       }
     });
-
-    // Forgot Password
-    document.getElementById("forgot-password").addEventListener("click", async () => {
-      const email = document.getElementById("login-email").value;
-      if (!email) {
-        showToast("Enter your email to reset password", "error");
-        return;
-      }
-      try {
-        await sendPasswordResetEmail(auth, email);
-        showToast("Password reset email sent!", "success");
-      } catch (error) {
-        showToast(error.message, "error");
-      }
-    });
   </script>
 </body>
-  </html>
+</html>
