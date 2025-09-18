@@ -5,30 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Reset Password - Trendora AI</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script type="module" src="auth.js" defer></script>
+  <style>
+    /* Toast Animation */
+    .toast-show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .toast-hide {
+      transform: translateX(150%);
+      opacity: 0;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <div class="min-h-screen flex items-center justify-center px-4">
-    <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-8">
-      <h1 class="text-2xl font-bold text-center text-blue-600">Reset Your Password</h1>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600">
 
-      <!-- alert -->
-      <div id="message-box" class="hidden mt-4 text-sm rounded-lg p-3"></div>
+  <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 border border-gray-200">
+    
+    <!-- Logo -->
+    <div class="flex justify-center mb-4">
+      <img src="assets/logo.png" alt="Trendora AI Logo" class="h-14 w-auto"
+           onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+      <span id="logo-fallback" class="hidden text-2xl font-extrabold text-gray-900">Trendora AI</span>
+    </div>
 
-      <form id="forgot-form" class="mt-6 space-y-4">
-        <input type="email" id="forgot-email" placeholder="Enter your email"
-               class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-blue-600" required>
-
-        <button type="submit"
-                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
-          Send Reset Link
-        </button>
-      </form>
-
-      <p class="mt-4 text-center">
-        <a class="text-blue-600 hover:underline" href="login.html">Back to Login</a>
+    <!-- Title -->
+    <div class="text-center">
+      <h1 class="text-3xl font-extrabold text-gray-900">Reset Your Password</h1>
+      <p class="mt-2 text-sm text-gray-600">
+        Enter your email and we’ll send you a reset link
       </p>
     </div>
+
+    <!-- Form -->
+    <form id="forgot-form" class="mt-6 space-y-5">
+      <div class="relative">
+        <input type="email" id="forgot-email" placeholder="Email address"
+          class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900" required>
+        <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">📧</span>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl font-semibold shadow-md hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-[1.02]">
+        Send Reset Link
+      </button>
+    </form>
+
+    <!-- Back to Login -->
+    <p class="mt-6 text-center text-gray-600 text-sm">
+      Remembered your password?
+      <a class="text-blue-600 font-medium hover:underline" href="login.html">Back to Login</a>
+    </p>
   </div>
+
+  <!-- Modern Toast -->
+  <div id="toast" class="fixed top-5 right-5 max-w-sm px-5 py-4 rounded-lg shadow-lg text-sm font-medium transition-all duration-500 transform toast-hide"></div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
+      authDomain: "trendora-auth.firebaseapp.com",
+      projectId: "trendora-auth",
+      storageBucket: "trendora-auth.appspot.com",
+      messagingSenderId: "169775124553",
+      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ✅ Toast Function
+    function showToast(message, type = "success") {
+      const toast = document.getElementById("toast");
+      toast.innerHTML = type === "success"
+        ? `<div class="flex items-center gap-3"><span class="text-xl">✅</span> <span><b>${message}</b></span></div>`
+        : `<div class="flex items-center gap-3"><span class="text-xl">⚠️</span> <span>${message}</span></div>`;
+
+      toast.className = `fixed top-5 right-5 max-w-sm px-5 py-4 rounded-lg shadow-lg text-sm font-medium transition-all duration-500 transform ${
+        type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
+      } toast-show`;
+
+      setTimeout(() => {
+        toast.classList.replace("toast-show", "toast-hide");
+      }, 3000);
+    }
+
+    // ✅ Handle Reset
+    document.getElementById("forgot-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("forgot-email").value;
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showToast("Password reset link sent to your email!", "success");
+      } catch (error) {
+        showToast(error.message, "error");
+      }
+    });
+  </script>
 </body>
 </html>
