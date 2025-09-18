@@ -29,9 +29,6 @@
       </p>
     </div>
 
-    <!-- Alert Box -->
-    <div id="message-box" class="hidden mt-4 text-sm rounded-lg p-3"></div>
-
     <!-- Signup Form -->
     <form id="signup-form" class="mt-6 space-y-5">
 
@@ -83,6 +80,9 @@
     </p>
   </div>
 
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed top-5 right-5 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition transform"></div>
+
   <!-- Firebase SDKs -->
   <script type="module">
     // Import Firebase
@@ -103,6 +103,20 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // ✅ Toast function
+    function showToast(message, type = "success") {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.className = `fixed top-5 right-5 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition transform ${
+        type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
+      }`;
+      toast.classList.remove("hidden");
+
+      setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 3000);
+    }
+
     // Password toggle
     const togglePassword = document.getElementById("toggle-password");
     const passwordInput = document.getElementById("signup-password");
@@ -120,10 +134,10 @@
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        alert("Signup successful: " + userCredential.user.email);
-        window.location.href = "dashboard.html";
+        showToast(`Welcome ${userCredential.user.email}`, "success");
+        setTimeout(() => window.location.href = "dashboard.html", 1200);
       } catch (error) {
-        alert(error.message);
+        showToast(error.message, "error");
       }
     });
 
@@ -132,11 +146,10 @@
       const provider = new GoogleAuthProvider();
       try {
         const result = await signInWithPopup(auth, provider);
-        alert("Google Signup successful: " + result.user.email);
-        window.location.href = "dashboard.html";
+        showToast(`Welcome ${result.user.email}`, "success");
+        setTimeout(() => window.location.href = "dashboard.html", 1200);
       } catch (error) {
-        console.error(error);
-        alert(error.message);
+        showToast(error.message, "error");
       }
     });
   </script>
