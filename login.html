@@ -55,6 +55,13 @@
           class="absolute inset-y-0 right-4 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">👁️</button>
       </div>
 
+      <!-- Forgot Password -->
+      <div class="text-right">
+        <button type="button" id="forgot-password" class="text-sm text-blue-600 hover:underline">
+          Forgot password?
+        </button>
+      </div>
+
       <!-- Login Button -->
       <button type="submit"
         class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-xl font-semibold shadow-md hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-[1.02]">
@@ -89,7 +96,7 @@
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
@@ -153,6 +160,21 @@
         showToast(error.message, "error");
       }
     });
+
+    // Forgot Password
+    document.getElementById("forgot-password").addEventListener("click", async () => {
+      const email = document.getElementById("login-email").value;
+      if (!email) {
+        showToast("Enter your email to reset password", "error");
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showToast("Password reset email sent!", "success");
+      } catch (error) {
+        showToast(error.message, "error");
+      }
+    });
   </script>
 </body>
-</html>
+  </html>
