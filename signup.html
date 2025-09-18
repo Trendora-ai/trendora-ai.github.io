@@ -80,16 +80,22 @@
     </p>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="hidden fixed top-5 right-5 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition transform"></div>
+  <!-- ✅ Modern Toast -->
+  <div id="toast" class="hidden fixed top-5 right-5 max-w-sm w-full bg-white rounded-xl shadow-lg border border-gray-200 transform transition-all duration-300 opacity-0 -translate-y-5">
+    <div class="flex items-center gap-3 p-4">
+      <div id="toast-icon" class="flex-shrink-0 bg-green-100 text-green-600 p-2 rounded-full">🎉</div>
+      <div class="flex-1">
+        <p id="toast-title" class="font-semibold text-gray-900">Welcome!</p>
+        <p id="toast-message" class="text-sm text-gray-600"></p>
+      </div>
+    </div>
+  </div>
 
   <!-- Firebase SDKs -->
   <script type="module">
-    // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-    // ✅ Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
       authDomain: "trendora-auth.firebaseapp.com",
@@ -99,19 +105,35 @@
       appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // ✅ Toast function
+    // ✅ Modern Toast function
     function showToast(message, type = "success") {
       const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.className = `fixed top-5 right-5 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition transform ${
-        type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
-      }`;
-      toast.classList.remove("hidden");
-      setTimeout(() => toast.classList.add("hidden"), 3000);
+      const toastTitle = document.getElementById("toast-title");
+      const toastMessage = document.getElementById("toast-message");
+      const toastIcon = document.getElementById("toast-icon");
+
+      if (type === "success") {
+        toastTitle.textContent = "🎉 Welcome!";
+        toastMessage.textContent = message;
+        toastIcon.textContent = "✅";
+        toastIcon.className = "flex-shrink-0 bg-green-100 text-green-600 p-2 rounded-full";
+      } else {
+        toastTitle.textContent = "⚠️ Error";
+        toastMessage.textContent = message;
+        toastIcon.textContent = "❌";
+        toastIcon.className = "flex-shrink-0 bg-red-100 text-red-600 p-2 rounded-full";
+      }
+
+      toast.classList.remove("hidden", "opacity-0", "-translate-y-5");
+      toast.classList.add("opacity-100", "translate-y-0");
+
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "-translate-y-5");
+        setTimeout(() => toast.classList.add("hidden"), 300);
+      }, 3000);
     }
 
     // Password toggle
@@ -131,7 +153,7 @@
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        showToast(`Welcome ${userCredential.user.email}`, "success");
+        showToast(`Your account ${userCredential.user.email} has been created`, "success");
         setTimeout(() => window.location.href = "dashboard.html", 1200);
       } catch (error) {
         showToast(error.message, "error");
