@@ -84,11 +84,12 @@
   </div>
 
   <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
+  <script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-  <script>
-    // ✅ Tumhara Firebase Config yahan dalna hoga (console → project settings → SDK setup)
+    // ✅ Tumhara Firebase Config (console se copy karo)
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
       authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -99,8 +100,8 @@
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
     // Password toggle
     const togglePassword = document.getElementById("toggle-password");
@@ -118,26 +119,22 @@
       const password = document.getElementById("signup-password").value;
 
       try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        console.log("User signed up:", userCredential.user);
-        alert("Signup successful!");
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        alert("Signup successful: " + userCredential.user.email);
         window.location.href = "dashboard.html";
       } catch (error) {
-        console.error(error.message);
         alert(error.message);
       }
     });
 
     // Google Signup
     document.getElementById("google-signup").addEventListener("click", async () => {
-      const provider = new firebase.auth.GoogleAuthProvider();
+      const provider = new GoogleAuthProvider();
       try {
-        const result = await auth.signInWithPopup(provider);
-        console.log("Google User:", result.user);
-        alert("Google Signup successful!");
+        const result = await signInWithPopup(auth, provider);
+        alert("Google Signup successful: " + result.user.email);
         window.location.href = "dashboard.html";
       } catch (error) {
-        console.error(error.message);
         alert(error.message);
       }
     });
