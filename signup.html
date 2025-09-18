@@ -89,14 +89,14 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-    // ✅ Tumhara Firebase Config (console se copy karo)
+    // ✅ Tumhara Firebase Config
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
+      authDomain: "trendora-auth.firebaseapp.com",
+      projectId: "trendora-auth",
+      storageBucket: "trendora-auth.appspot.com",
+      messagingSenderId: "169775124553",
+      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
     };
 
     // Initialize Firebase
@@ -135,6 +135,7 @@
         alert("Google Signup successful: " + result.user.email);
         window.location.href = "dashboard.html";
       } catch (error) {
+        console.error(error);
         alert(error.message);
       }
     });
