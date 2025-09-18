@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Trendora AI</title>
+  <title>Sign Up - Trendora AI</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
@@ -23,25 +23,32 @@
 
     <!-- Title -->
     <div class="text-center">
-      <h1 class="text-3xl font-extrabold text-gray-900">Welcome Back</h1>
+      <h1 class="text-3xl font-extrabold text-gray-900">Create Account</h1>
       <p class="mt-2 text-sm text-gray-600">
-        Login to <span class="font-semibold text-blue-600">Trendora AI</span> and continue
+        Join <span class="font-semibold text-blue-600">Trendora AI</span> today
       </p>
     </div>
 
-    <!-- Login Form -->
-    <form id="login-form" class="mt-6 space-y-5">
+    <!-- Signup Form -->
+    <form id="signup-form" class="mt-6 space-y-5">
+
+      <!-- Full Name -->
+      <div class="relative">
+        <input type="text" id="signup-name" placeholder="Full Name"
+          class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900" required>
+        <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">👤</span>
+      </div>
 
       <!-- Email -->
       <div class="relative">
-        <input type="email" id="login-email" placeholder="Email address"
+        <input type="email" id="signup-email" placeholder="Email address"
           class="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900" required>
         <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">📧</span>
       </div>
 
       <!-- Password -->
       <div class="relative">
-        <input type="password" id="login-password" placeholder="Password"
+        <input type="password" id="signup-password" placeholder="Password"
           class="w-full pl-12 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900" required>
         <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">🔒</span>
 
@@ -52,10 +59,10 @@
         </button>
       </div>
 
-      <!-- Login Button -->
+      <!-- Sign Up Button -->
       <button type="submit"
         class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02]">
-        Login
+        Sign Up
       </button>
     </form>
 
@@ -67,7 +74,7 @@
     </div>
 
     <!-- Google Button -->
-    <button id="google-login"
+    <button id="google-signup"
       class="w-full flex items-center justify-center gap-2 bg-gray-50 border rounded-xl py-3 text-gray-700 font-medium shadow hover:bg-gray-100 transition">
       <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
       Continue with Google
@@ -75,12 +82,8 @@
 
     <!-- Links -->
     <p class="mt-6 text-center text-gray-600 text-sm">
-      Forgot password?
-      <a class="text-blue-600 font-medium hover:underline" href="forgot.html">Reset here</a>
-    </p>
-    <p class="text-center text-gray-600 text-sm">
-      Don’t have an account?
-      <a class="text-blue-600 font-medium hover:underline" href="signup.html">Sign Up</a>
+      Already have an account?
+      <a class="text-blue-600 font-medium hover:underline" href="login.html">Login</a>
     </p>
   </div>
 
@@ -91,7 +94,7 @@
   <script type="module">
     // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
     // ✅ Tumhara Firebase Config
     const firebaseConfig = {
@@ -120,34 +123,36 @@
 
     // Password toggle
     const togglePassword = document.getElementById("toggle-password");
-    const passwordInput = document.getElementById("login-password");
+    const passwordInput = document.getElementById("signup-password");
     togglePassword.addEventListener("click", () => {
       const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
       passwordInput.setAttribute("type", type);
       togglePassword.textContent = type === "password" ? "👁️" : "🙈";
     });
 
-    // Email/Password Login
-    document.getElementById("login-form").addEventListener("submit", async (e) => {
+    // Email/Password Signup
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
+      const name = document.getElementById("signup-name").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
 
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        showToast(`Welcome back ${userCredential.user.email}`, "success");
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: name });
+        showToast(`Welcome ${name}! Account created successfully.`, "success");
         setTimeout(() => window.location.href = "dashboard.html", 1200);
       } catch (error) {
         showToast(error.message, "error");
       }
     });
 
-    // Google Login
-    document.getElementById("google-login").addEventListener("click", async () => {
+    // Google Signup
+    document.getElementById("google-signup").addEventListener("click", async () => {
       const provider = new GoogleAuthProvider();
       try {
         const result = await signInWithPopup(auth, provider);
-        showToast(`Welcome back ${result.user.email}`, "success");
+        showToast(`Welcome ${result.user.displayName}`, "success");
         setTimeout(() => window.location.href = "dashboard.html", 1200);
       } catch (error) {
         showToast(error.message, "error");
