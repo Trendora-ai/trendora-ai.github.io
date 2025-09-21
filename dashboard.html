@@ -10,7 +10,6 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Sidebar + Header Wrapper -->
   <div class="flex min-h-screen">
     <!-- Sidebar -->
     <aside class="w-64 bg-gradient-to-b from-white to-gray-50 shadow-xl flex flex-col">
@@ -20,19 +19,13 @@
         <span class="text-xs text-gray-500">Welcome, User</span>
       </div>
       <nav class="mt-6 flex-1 space-y-2 px-4">
-        <a href="dashboard.html" class="flex items-center gap-3 text-blue-600 font-semibold hover:bg-blue-50 p-2 rounded-md">
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2 7-7 7 7M12 5v14"></path></svg>
-          Dashboard
-        </a>
-        <a href="products.html" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6m16 0v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6m16 0H4"></path></svg>
-          Products
-        </a>
+        <a href="dashboard.html" class="flex items-center gap-3 text-blue-600 font-semibold hover:bg-blue-50 p-2 rounded-md">📊 Dashboard</a>
+        <a href="products.html" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🛒 Products</a>
         <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📊 Sales Tracker</a>
         <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🔍 Competitor Research</a>
         <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📦 Product Database</a>
         <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🏭 Suppliers</a>
-        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🎯 Ad Spot</a>
+        <a href="ads.html" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🎨 AI Ad Generator</a>
         <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📁 Portfolio</a>
         <a href="login.html" class="flex items-center gap-3 text-red-500 hover:bg-red-50 p-2 rounded-md mt-10">🚪 Logout</a>
       </nav>
@@ -44,15 +37,12 @@
       <div class="flex justify-between items-center mb-6 sticky top-0 bg-gray-100 py-2 z-10">
         <h2 class="text-3xl font-bold">Dashboard</h2>
         <div class="flex space-x-4 items-center">
-          <!-- Dark Mode Toggle -->
-          <button class="text-gray-600 hover:text-gray-800">
-            🌙
-          </button>
+          <!-- Conditional: Free = Upgrade button / Pro = Badge -->
+          <button id="upgradeBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Upgrade to Pro</button>
+          <span id="proBadge" class="hidden bg-green-100 text-green-700 px-4 py-2 rounded-lg font-medium">✅ You are a Pro Member</span>
           <!-- Notifications -->
           <div class="relative">
-            <button class="relative text-gray-600 hover:text-gray-800">
-              🔔
-            </button>
+            <button class="relative text-gray-600 hover:text-gray-800">🔔</button>
             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
           </div>
           <!-- User Profile -->
@@ -79,12 +69,6 @@
         </div>
       </div>
 
-      <!-- Product Search -->
-      <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">🔍 Search for a Product</h3>
-        <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
-      </div>
-
       <!-- Charts Section -->
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
         <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
@@ -104,6 +88,14 @@
   </div>
 
   <script>
+    // Dummy: Replace with actual plan check (from Firebase / Paddle)
+    const isPro = false; 
+
+    if (isPro) {
+      document.getElementById('upgradeBtn').classList.add('hidden');
+      document.getElementById('proBadge').classList.remove('hidden');
+    }
+
     // Chart 1: Sales Performance
     new Chart(document.getElementById('salesChart'), {
       type: 'line',
