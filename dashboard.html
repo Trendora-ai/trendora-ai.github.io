@@ -13,74 +13,92 @@
   <!-- Sidebar + Header Wrapper -->
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-md flex flex-col">
-      <div class="p-6 text-center border-b">
-        <img src="assets/logo.png" alt="Trendora Logo" class="h-12 mx-auto mb-2">
+    <aside class="w-64 bg-gradient-to-b from-white to-gray-50 shadow-xl flex flex-col">
+      <div class="p-6 flex flex-col items-center border-b">
+        <img src="assets/logo.png" alt="Trendora Logo" class="h-12 mb-3">
         <h1 class="text-xl font-bold text-blue-600">Trendora AI</h1>
-        <p class="text-sm text-gray-500">Welcome, User</p>
+        <span class="text-xs text-gray-500">Welcome, User</span>
       </div>
-      <nav class="mt-6 space-y-2 px-6">
-        <a href="dashboard.html" class="block text-blue-600 font-semibold">Dashboard</a>
-        <a href="products.html" class="block text-gray-700 hover:text-blue-600">Products</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Sales Tracker</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Competitor Research</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Product Database</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Suppliers</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Ad Spot</a>
-        <a href="#" class="block text-gray-700 hover:text-blue-600">Portfolio</a>
-        <a href="login.html" class="block text-gray-700 hover:text-red-500 mt-10">Logout</a>
+      <nav class="mt-6 flex-1 space-y-2 px-4">
+        <a href="dashboard.html" class="flex items-center gap-3 text-blue-600 font-semibold hover:bg-blue-50 p-2 rounded-md">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2 7-7 7 7M12 5v14"></path></svg>
+          Dashboard
+        </a>
+        <a href="products.html" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6m16 0v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6m16 0H4"></path></svg>
+          Products
+        </a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📊 Sales Tracker</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🔍 Competitor Research</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📦 Product Database</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🏭 Suppliers</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🎯 Ad Spot</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📁 Portfolio</a>
+        <a href="login.html" class="flex items-center gap-3 text-red-500 hover:bg-red-50 p-2 rounded-md mt-10">🚪 Logout</a>
       </nav>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 p-8">
       <!-- Header Bar -->
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex justify-between items-center mb-6 sticky top-0 bg-gray-100 py-2 z-10">
         <h2 class="text-3xl font-bold">Dashboard</h2>
         <div class="flex space-x-4 items-center">
           <!-- Dark Mode Toggle -->
           <button class="text-gray-600 hover:text-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.485-8.485l-.707.707M3.515 3.515l-.707.707M21 12h1M2 12H1m15.364 6.364l-.707.707M6.343 6.343l-.707.707" />
-            </svg>
+            🌙
           </button>
           <!-- Notifications -->
-          <button class="relative text-gray-600 hover:text-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405M15 17v-2a4 4 0 00-3-3.874M6 17h.01M4 21h16M4 3v2a3 3 0 003 3h10a3 3 0 003-3V3" />
-            </svg>
+          <div class="relative">
+            <button class="relative text-gray-600 hover:text-gray-800">
+              🔔
+            </button>
             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
-          </button>
+          </div>
           <!-- User Profile -->
           <img src="assets/user.jpg" class="h-8 w-8 rounded-full border-2 border-blue-500" alt="User" />
         </div>
       </div>
 
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-6 rounded-xl shadow hover:scale-105 transition">
+          <h4 class="text-sm">Total Sales</h4>
+          <p class="text-2xl font-bold mt-2">$12,450</p>
+          <p class="text-xs opacity-80">+12% from last week</p>
+        </div>
+        <div class="bg-gradient-to-r from-green-400 to-emerald-500 text-white p-6 rounded-xl shadow hover:scale-105 transition">
+          <h4 class="text-sm">Active Products</h4>
+          <p class="text-2xl font-bold mt-2">340</p>
+          <p class="text-xs opacity-80">+45 new this week</p>
+        </div>
+        <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white p-6 rounded-xl shadow hover:scale-105 transition">
+          <h4 class="text-sm">New Users</h4>
+          <p class="text-2xl font-bold mt-2">1,200</p>
+          <p class="text-xs opacity-80">+200 this week</p>
+        </div>
+      </div>
+
       <!-- Product Search -->
       <div class="bg-white rounded-lg shadow p-6 mb-8">
-        <h3 class="text-xl font-semibold mb-4">🔍 Search for a Product</h3>
+        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">🔍 Search for a Product</h3>
         <input type="text" placeholder="Type product name..." class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500" />
       </div>
 
       <!-- Charts Section -->
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-xl shadow">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
           <h4 class="font-semibold mb-2">📈 Sales Performance</h4>
           <canvas id="salesChart" height="180"></canvas>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
           <h4 class="font-semibold mb-2">📊 Top Categories</h4>
           <canvas id="categoryChart" height="180"></canvas>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow">
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
           <h4 class="font-semibold mb-2">📉 Ad Engagement</h4>
           <canvas id="adChart" height="180"></canvas>
         </div>
-      </div>
-
-      <!-- Main Features Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <!-- Cards stay the same -->
       </div>
     </main>
   </div>
