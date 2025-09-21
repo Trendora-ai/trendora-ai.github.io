@@ -5,28 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trendora Dashboard</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="bg-gray-100 text-gray-800">
 
+  <!-- Tailwind config (enable class-based dark mode) -->
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {} }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Smooth color transitions for theme change */
+    :root { --trans: 250ms; }
+    html { transition: background-color var(--trans), color var(--trans); }
+    .dropdown-enter { transform: translateY(-6px); opacity: 0; }
+    .dropdown-enter-active { transform: translateY(0); opacity: 1; transition: all 160ms ease-out; }
+    .dropdown-leave { transform: translateY(0); opacity: 1; }
+    .dropdown-leave-active { transform: translateY(-6px); opacity: 0; transition: all 120ms ease-in; }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+  <!-- Sidebar + Header Wrapper -->
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-gradient-to-b from-white to-gray-50 shadow-xl flex flex-col">
-      <div class="p-6 flex flex-col items-center border-b">
+    <aside class="w-64 bg-white dark:bg-gray-800 shadow-md flex flex-col">
+      <div class="p-6 flex flex-col items-center border-b border-gray-200 dark:border-gray-700">
         <img src="assets/logo.png" alt="Trendora Logo" class="h-12 mb-3">
-        <h1 class="text-xl font-bold text-blue-600">Trendora AI</h1>
-        <span class="text-xs text-gray-500">Welcome, User</span>
+        <h1 class="text-xl font-bold text-blue-600 dark:text-blue-400">Trendora AI</h1>
+        <span id="user-badge" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Free member</span>
       </div>
       <nav class="mt-6 flex-1 space-y-2 px-4">
-        <a href="dashboard.html" class="flex items-center gap-3 text-blue-600 font-semibold hover:bg-blue-50 p-2 rounded-md">📊 Dashboard</a>
-        <a href="products.html" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🛒 Products</a>
-        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📊 Sales Tracker</a>
-        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🔍 Competitor Research</a>
-        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📦 Product Database</a>
-        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🏭 Suppliers</a>
-        <a href="ads.html" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">🎨 AI Ad Generator</a>
-        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 p-2 rounded-md">📁 Portfolio</a>
+        <a href="dashboard.html" class="flex items-center gap-3 text-blue-600 font-semibold hover:bg-blue-50 dark:hover:bg-gray-700 p-2 rounded-md">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2 7-7 7 7M12 5v14"></path></svg>
+          Dashboard
+        </a>
+        <a href="products.html" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 p-2 rounded-md">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6m16 0v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6m16 0H4"></path></svg>
+          Products
+        </a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 dark:text-gray-300 p-2 rounded-md">📊 Sales Tracker</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 dark:text-gray-300 p-2 rounded-md">🔍 Competitor Research</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 dark:text-gray-300 p-2 rounded-md">📦 Product Database</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 dark:text-gray-300 p-2 rounded-md">🏭 Suppliers</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 dark:text-gray-300 p-2 rounded-md">🎯 Create Ads</a>
+        <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-blue-600 dark:text-gray-300 p-2 rounded-md">📁 Portfolio</a>
         <a href="login.html" class="flex items-center gap-3 text-red-500 hover:bg-red-50 p-2 rounded-md mt-10">🚪 Logout</a>
       </nav>
     </aside>
@@ -34,19 +61,45 @@
     <!-- Main Content -->
     <main class="flex-1 p-8">
       <!-- Header Bar -->
-      <div class="flex justify-between items-center mb-6 sticky top-0 bg-gray-100 py-2 z-10">
+      <div class="flex justify-between items-center mb-6 sticky top-0 bg-gray-100 dark:bg-gray-900 py-2 z-10 rounded">
         <h2 class="text-3xl font-bold">Dashboard</h2>
         <div class="flex space-x-4 items-center">
-          <!-- Conditional: Free = Upgrade button / Pro = Badge -->
-          <button id="upgradeBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Upgrade to Pro</button>
-          <span id="proBadge" class="hidden bg-green-100 text-green-700 px-4 py-2 rounded-lg font-medium">✅ You are a Pro Member</span>
+
+          <!-- Dark Mode Toggle -->
+          <button id="theme-toggle" aria-label="Toggle theme" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition">
+            <span id="theme-icon" class="text-xl">🌙</span>
+          </button>
+
           <!-- Notifications -->
-          <div class="relative">
-            <button class="relative text-gray-600 hover:text-gray-800">🔔</button>
-            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
+          <div class="relative" id="notifications-root">
+            <button id="notif-btn" class="relative p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition" aria-expanded="false" aria-haspopup="true">
+              <span class="text-xl">🔔</span>
+              <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full text-[11px] hidden">0</span>
+            </button>
+
+            <!-- Dropdown -->
+            <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-96 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden z-50 transform origin-top-right">
+              <div class="flex items-center justify-between p-3 border-b border-gray-100 dark:border-gray-700">
+                <strong class="text-sm">Notifications</strong>
+                <div class="flex items-center gap-2">
+                  <button id="mark-read" class="text-xs px-2 py-1 rounded bg-blue-50 dark:bg-gray-700 text-blue-600 hover:opacity-90">Mark all read</button>
+                  <button id="clear-all" class="text-xs px-2 py-1 rounded bg-red-50 dark:bg-red-800 text-red-600 hover:opacity-90">Clear</button>
+                </div>
+              </div>
+              <div id="notif-list" class="max-h-64 overflow-y-auto">
+                <!-- notifications rendered here -->
+                <div class="p-4 text-sm text-gray-500 dark:text-gray-300">No notifications</div>
+              </div>
+              <div class="p-3 border-t text-center border-gray-100 dark:border-gray-700">
+                <a href="#" class="text-xs text-blue-600 dark:text-blue-400 hover:underline">View all notifications</a>
+              </div>
+            </div>
           </div>
+
           <!-- User Profile -->
-          <img src="assets/user.jpg" class="h-8 w-8 rounded-full border-2 border-blue-500" alt="User" />
+          <div class="flex items-center gap-3">
+            <img src="assets/user.jpg" class="h-9 w-9 rounded-full border-2 border-blue-500" alt="User" />
+          </div>
         </div>
       </div>
 
@@ -69,17 +122,23 @@
         </div>
       </div>
 
+      <!-- Product Search -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">🔍 Search for a Product</h3>
+        <input id="product-search" type="text" placeholder="Type product name..." class="w-full border border-gray-300 dark:border-gray-700 rounded px-4 py-2 focus:outline-none focus:border-blue-500 dark:bg-gray-900" />
+      </div>
+
       <!-- Charts Section -->
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition">
           <h4 class="font-semibold mb-2">📈 Sales Performance</h4>
           <canvas id="salesChart" height="180"></canvas>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition">
           <h4 class="font-semibold mb-2">📊 Top Categories</h4>
           <canvas id="categoryChart" height="180"></canvas>
         </div>
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition">
           <h4 class="font-semibold mb-2">📉 Ad Engagement</h4>
           <canvas id="adChart" height="180"></canvas>
         </div>
@@ -88,14 +147,158 @@
   </div>
 
   <script>
-    // Dummy: Replace with actual plan check (from Firebase / Paddle)
-    const isPro = false; 
+    // -------------- Notifications & Dark Mode Logic --------------
 
-    if (isPro) {
-      document.getElementById('upgradeBtn').classList.add('hidden');
-      document.getElementById('proBadge').classList.remove('hidden');
+    // Sample notifications (this could come from API)
+    const DEFAULT_NOTIFICATIONS = [
+      { id: 'n1', title: 'Subscription: Pro activated', body: 'Your Pro plan started today.', time: '2h ago', read: false },
+      { id: 'n2', title: 'New product match', body: 'A product matched your watchlist.', time: '6h ago', read: false },
+      { id: 'n3', title: 'Ad created successfully', body: 'Your ad image has been generated.', time: '1d ago', read: true }
+    ];
+
+    const LS_KEY = 'trendora.notifications.v1';
+    const THEME_KEY = 'trendora.theme';
+
+    // Utilities
+    const saveNotifs = (arr) => localStorage.setItem(LS_KEY, JSON.stringify(arr));
+    const loadNotifs = () => {
+      try {
+        return JSON.parse(localStorage.getItem(LS_KEY)) || DEFAULT_NOTIFICATIONS.slice();
+      } catch { return DEFAULT_NOTIFICATIONS.slice(); }
+    };
+
+    // Render notifications list & badge
+    function renderNotifications() {
+      const listRoot = document.getElementById('notif-list');
+      const badge = document.getElementById('notif-badge');
+      let arr = loadNotifs();
+      const unreadCount = arr.filter(n=>!n.read).length;
+
+      // Badge UI
+      if (unreadCount > 0) {
+        badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+
+      // Render list
+      if (!arr.length) {
+        listRoot.innerHTML = '<div class="p-4 text-sm text-gray-500 dark:text-gray-300">No notifications</div>';
+        return;
+      }
+
+      listRoot.innerHTML = arr.map(n => `
+        <div class="p-3 flex items-start gap-3 border-b last:border-b-0 border-gray-100 dark:border-gray-700 ${n.read ? 'opacity-70' : ''}">
+          <div class="flex-shrink-0">
+            <div class="h-9 w-9 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300 font-semibold">${n.title.charAt(0)}</div>
+          </div>
+          <div class="flex-1">
+            <div class="flex justify-between items-start gap-3">
+              <div>
+                <div class="text-sm font-semibold">${escapeHtml(n.title)}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">${escapeHtml(n.body)}</div>
+              </div>
+              <div class="text-xs text-gray-400 dark:text-gray-500">${n.time}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
 
+    // Escape text to avoid injection
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Mark all read
+    document.getElementById('mark-read').addEventListener('click', () => {
+      let arr = loadNotifs().map(n => ({ ...n, read: true }));
+      saveNotifs(arr);
+      renderNotifications();
+    });
+
+    // Clear all
+    document.getElementById('clear-all').addEventListener('click', () => {
+      saveNotifs([]);
+      renderNotifications();
+    });
+
+    // Toggle dropdown
+    const notifBtn = document.getElementById('notif-btn');
+    const notifDropdown = document.getElementById('notif-dropdown');
+    const notifsRoot = document.getElementById('notifications-root');
+
+    function openDropdown() {
+      notifDropdown.classList.remove('hidden');
+      notifBtn.setAttribute('aria-expanded', 'true');
+      // optional: when opened, mark everything read after a short delay (or provide explicit mark)
+      // don't auto-mark here; keep explicit control.
+    }
+    function closeDropdown() {
+      notifDropdown.classList.add('hidden');
+      notifBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    notifBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (notifDropdown.classList.contains('hidden')) {
+        openDropdown();
+      } else {
+        closeDropdown();
+      }
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+      if (!notifsRoot.contains(e.target)) closeDropdown();
+    });
+
+    // Close on Esc
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDropdown();
+    });
+
+    // Init notifications (persist default if none)
+    if (!localStorage.getItem(LS_KEY)) saveNotifs(DEFAULT_NOTIFICATIONS.slice());
+    renderNotifications();
+
+    // -------------- Theme (Dark Mode) --------------
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+
+    function applyTheme(theme) {
+      const html = document.documentElement;
+      if (theme === 'dark') {
+        html.classList.add('dark');
+        themeIcon.textContent = '☀️';
+      } else {
+        html.classList.remove('dark');
+        themeIcon.textContent = '🌙';
+      }
+      localStorage.setItem(THEME_KEY, theme);
+    }
+
+    // Initialize based on localStorage or system preference
+    (function initTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved) { applyTheme(saved); return; }
+      // use prefers-color-scheme fallback
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(prefersDark ? 'dark' : 'light');
+    })();
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // -------------- Charts (unchanged) --------------
     // Chart 1: Sales Performance
     new Chart(document.getElementById('salesChart'), {
       type: 'line',
@@ -105,7 +308,7 @@
           label: 'Sales ($)',
           data: [120, 190, 300, 250, 280, 320, 400],
           borderColor: '#3b82f6',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          backgroundColor: 'rgba(59, 130, 246, 0.08)',
           fill: true,
           tension: 0.4
         }]
@@ -142,7 +345,15 @@
         plugins: { legend: { display: false } }
       }
     });
-  </script>
 
+    // Accessibility: allow keyboard toggle for notifications via Enter/Space
+    notifBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        notifBtn.click();
+      }
+    });
+
+  </script>
 </body>
-</html>
+  </html>
