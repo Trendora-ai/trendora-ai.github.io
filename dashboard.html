@@ -9,10 +9,7 @@
   <!-- Tailwind config -->
   <script>
     window.tailwind = window.tailwind || {};
-    window.tailwind.config = {
-      darkMode: 'class',
-      theme: { extend: {} }
-    };
+    window.tailwind.config = { darkMode: 'class', theme: { extend: {} } };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -131,12 +128,12 @@
 
     // 🔑 Replace with your Firebase Config
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
+      authDomain: "trendora-auth.firebaseapp.com",
+      projectId: "trendora-auth",
+      storageBucket: "trendora-auth.firebasestorage.app",
+      messagingSenderId: "169775124553",
+      appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
     };
 
     // Init
@@ -167,8 +164,9 @@
         item.className = "flex items-start gap-3 p-3 border-b last:border-0 cursor-pointer " + (read ? "text-gray-500" : "font-semibold");
         item.innerHTML = `
           <div class="flex-1">
-            <p>${notif.message}</p>
-            <span class="text-xs text-gray-400">${notif.time || ""}</span>
+            <p>${notif.title || "Notification"}</p>
+            <p class="text-sm">${notif.message || ""}</p>
+            <span class="text-xs text-gray-400">${notif.createdAt?.toDate ? notif.createdAt.toDate().toLocaleString() : ""}</span>
           </div>
         `;
         item.addEventListener("click", async () => {
@@ -209,9 +207,6 @@
         await updateDoc(doc(db, "Notifications", d.id), { read: true });
       });
     });
-
-    // Example: Add notification manually
-    // await addDoc(collection(db, "Notifications"), { message: "Welcome to Trendora 🎉", time: "Just now", read: false, createdAt: serverTimestamp() });
 
     // --- Dark Mode ---
     const themeToggle = document.getElementById("theme-toggle");
