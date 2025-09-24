@@ -15,11 +15,9 @@
     };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    /* Smooth color transitions for theme change */
     :root { --trans: 250ms; }
     html { transition: background-color var(--trans), color var(--trans); }
     .dropdown-enter { transform: translateY(-6px); opacity: 0; }
@@ -87,7 +85,6 @@
                 </div>
               </div>
               <div id="notif-list" class="max-h-64 overflow-y-auto">
-                <!-- notifications rendered here -->
                 <div class="p-4 text-sm text-gray-500 dark:text-gray-300">No notifications</div>
               </div>
               <div class="p-3 border-t text-center border-gray-100 dark:border-gray-700">
@@ -147,9 +144,17 @@
   </div>
 
   <script>
-    // -------------- Notifications & Dark Mode Logic --------------
+    // Escape text to avoid injection (sabse pehle define)
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
 
-    // Sample notifications (this could come from API)
+    // Notifications & Dark Mode Logic
     const DEFAULT_NOTIFICATIONS = [
       { id: 'n1', title: 'Subscription: Pro activated', body: 'Your Pro plan started today.', time: '2h ago', read: false },
       { id: 'n2', title: 'New product match', body: 'A product matched your watchlist.', time: '6h ago', read: false },
@@ -159,7 +164,6 @@
     const LS_KEY = 'trendora.notifications.v1';
     const THEME_KEY = 'trendora.theme';
 
-    // Utilities
     const saveNotifs = (arr) => localStorage.setItem(LS_KEY, JSON.stringify(arr));
     const loadNotifs = () => {
       try {
@@ -167,14 +171,12 @@
       } catch { return DEFAULT_NOTIFICATIONS.slice(); }
     };
 
-    // Render notifications list & badge
     function renderNotifications() {
       const listRoot = document.getElementById('notif-list');
       const badge = document.getElementById('notif-badge');
       let arr = loadNotifs();
       const unreadCount = arr.filter(n=>!n.read).length;
 
-      // Badge UI
       if (unreadCount > 0) {
         badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
         badge.classList.remove('hidden');
@@ -182,7 +184,6 @@
         badge.classList.add('hidden');
       }
 
-      // Render list
       if (!arr.length) {
         listRoot.innerHTML = '<div class="p-4 text-sm text-gray-500 dark:text-gray-300">No notifications</div>';
         return;
@@ -206,30 +207,17 @@
       `).join('');
     }
 
-    // Escape text to avoid injection
-    function escapeHtml(s) {
-      return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    // Mark all read
     document.getElementById('mark-read').addEventListener('click', () => {
       let arr = loadNotifs().map(n => ({ ...n, read: true }));
       saveNotifs(arr);
       renderNotifications();
     });
 
-    // Clear all
     document.getElementById('clear-all').addEventListener('click', () => {
       saveNotifs([]);
       renderNotifications();
     });
 
-    // Toggle dropdown
     const notifBtn = document.getElementById('notif-btn');
     const notifDropdown = document.getElementById('notif-dropdown');
     const notifsRoot = document.getElementById('notifications-root');
@@ -237,8 +225,6 @@
     function openDropdown() {
       notifDropdown.classList.remove('hidden');
       notifBtn.setAttribute('aria-expanded', 'true');
-      // optional: when opened, mark everything read after a short delay (or provide explicit mark)
-      // don't auto-mark here; keep explicit control.
     }
     function closeDropdown() {
       notifDropdown.classList.add('hidden');
@@ -247,28 +233,20 @@
 
     notifBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (notifDropdown.classList.contains('hidden')) {
-        openDropdown();
-      } else {
-        closeDropdown();
-      }
+      notifDropdown.classList.contains('hidden') ? openDropdown() : closeDropdown();
     });
 
-    // Close dropdown on outside click
     document.addEventListener('click', (e) => {
       if (!notifsRoot.contains(e.target)) closeDropdown();
     });
-
-    // Close on Esc
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeDropdown();
     });
 
-    // Init notifications (persist default if none)
     if (!localStorage.getItem(LS_KEY)) saveNotifs(DEFAULT_NOTIFICATIONS.slice());
     renderNotifications();
 
-    // -------------- Theme (Dark Mode) --------------
+    // Theme Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
 
@@ -284,12 +262,10 @@
       localStorage.setItem(THEME_KEY, theme);
     }
 
-    // Initialize based on localStorage or system preference
     (function initTheme() {
       const saved = localStorage.getItem(THEME_KEY);
       if (saved) { applyTheme(saved); return; }
-      // use prefers-color-scheme fallback
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       applyTheme(prefersDark ? 'dark' : 'light');
     })();
 
@@ -298,8 +274,7 @@
       applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
-    // -------------- Charts (unchanged) --------------
-    // Chart 1: Sales Performance
+    // Charts
     new Chart(document.getElementById('salesChart'), {
       type: 'line',
       data: {
@@ -316,7 +291,6 @@
       options: { responsive: true, plugins: { legend: { display: false } } }
     });
 
-    // Chart 2: Top Categories
     new Chart(document.getElementById('categoryChart'), {
       type: 'pie',
       data: {
@@ -329,7 +303,6 @@
       options: { responsive: true }
     });
 
-    // Chart 3: Ad Engagement
     new Chart(document.getElementById('adChart'), {
       type: 'bar',
       data: {
@@ -340,20 +313,15 @@
           backgroundColor: ['#1877f2', '#000000', '#e1306c']
         }]
       },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } }
-      }
+      options: { responsive: true, plugins: { legend: { display: false } } }
     });
 
-    // Accessibility: allow keyboard toggle for notifications via Enter/Space
     notifBtn.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         notifBtn.click();
       }
     });
-
   </script>
 </body>
-  </html>
+</html>
