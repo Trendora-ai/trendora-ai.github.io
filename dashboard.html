@@ -126,7 +126,7 @@
     import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, serverTimestamp, query, orderBy, getDocs } 
       from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-    // 🔑 Replace with your Firebase Config
+    // 🔑 Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
       authDomain: "trendora-auth.firebaseapp.com",
@@ -207,6 +207,38 @@
         await updateDoc(doc(db, "Notifications", d.id), { read: true });
       });
     });
+
+    // --- Add Useful Notifications Once ---
+    async function addTestNotifications() {
+      const notifications = [
+        {
+          title: "Plan Expiry Alert",
+          message: "Your free plan will expire in 3 days. Upgrade now to avoid interruption.",
+          read: false,
+          createdAt: serverTimestamp()
+        },
+        {
+          title: "Pro Plan Activated 🎉",
+          message: "Congratulations! You have successfully upgraded to the Pro Plan.",
+          read: false,
+          createdAt: serverTimestamp()
+        },
+        {
+          title: "Payment Failed ❌",
+          message: "Your last payment could not be processed. Please update your billing info.",
+          read: false,
+          createdAt: serverTimestamp()
+        }
+      ];
+
+      for (const notif of notifications) {
+        await addDoc(collection(db, "Notifications"), notif);
+      }
+      console.log("✅ 3 notifications added successfully!");
+    }
+
+    // Run once (phir comment kar dena)
+    // addTestNotifications();
 
     // --- Dark Mode ---
     const themeToggle = document.getElementById("theme-toggle");
