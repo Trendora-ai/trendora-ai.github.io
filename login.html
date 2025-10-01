@@ -112,7 +112,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // ✅ Modern Toast Function
+    // ✅ Toast Function
     function showToast(message, type = "success") {
       const toast = document.getElementById("toast");
       toast.innerHTML = type === "success" 
@@ -128,13 +128,15 @@
       }, 3000);
     }
 
-    // ✅ Add Notification in Firestore
-    async function addNotification(message, type = "info") {
+    // ✅ Add Notification (with userId)
+    async function addNotification(userId, title, message) {
       try {
         await addDoc(collection(db, "Notifications"), {
+          userId,
+          title,
           message,
-          type,
-          timestamp: serverTimestamp()
+          read: false,
+          createdAt: serverTimestamp()
         });
       } catch (err) {
         console.error("Error adding notification:", err);
@@ -156,9 +158,13 @@
       const password = document.getElementById("login-password").value;
 
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCred = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCred.user;
         showToast(`Welcome back, ${email}`, "success");
-        await addNotification(`🔑 ${email} logged in successfully`, "success");
+
+        // ✅ Firestore notification
+        await addNotification(user.uid, "🔑 Login", `${email} logged in successfully`);
+
         setTimeout(() => window.location.href = "dashboard.html", 1500);
       } catch (error) {
         showToast(error.message, "error");
@@ -171,7 +177,10 @@
       try {
         const result = await signInWithPopup(auth, provider);
         showToast(`Welcome back, ${result.user.email}`, "success");
-        await addNotification(`🔑 ${result.user.email} logged in with Google`, "success");
+
+        // ✅ Firestore notification
+        await addNotification(result.user.uid, "🔑 Google Login", `${result.user.email} logged in with Google`);
+
         setTimeout(() => window.location.href = "dashboard.html", 1500);
       } catch (error) {
         showToast(error.message, "error");
