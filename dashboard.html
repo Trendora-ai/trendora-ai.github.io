@@ -76,6 +76,12 @@
           <p class="text-2xl font-bold mt-2">1,200</p>
         </div>
       </div>
+
+      <!-- Chart Example -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <h3 class="text-lg font-semibold mb-4">Monthly Sales</h3>
+        <canvas id="salesChart"></canvas>
+      </div>
     </main>
   </div>
 
@@ -103,6 +109,7 @@
     const clearAllBtn = document.getElementById("clear-all");
     const markAllReadBtn = document.getElementById("mark-all-read");
 
+    // Notifications
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         notifList.innerHTML = '<div class="p-3 text-sm text-gray-500">Login to see notifications</div>';
@@ -117,7 +124,7 @@
 
         snapshot.forEach((docSnap) => {
           const notif = docSnap.data();
-          if (notif.userId !== user.uid) return; // ✅ Only current user
+          if (notif.userId !== user.uid) return;
 
           const id = docSnap.id;
           const read = notif.read || false;
@@ -168,6 +175,24 @@
           }
         });
       });
+    });
+
+    // Chart.js Example
+    const ctx = document.getElementById("salesChart");
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        datasets: [{
+          label: "Sales ($)",
+          data: [1200, 1900, 3000, 2500, 3200, 4000],
+          borderColor: "rgb(59,130,246)",
+          backgroundColor: "rgba(59,130,246,0.3)",
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: true } } }
     });
   </script>
 </body>
