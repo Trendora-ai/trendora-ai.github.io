@@ -10,7 +10,7 @@
 
   <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 border border-gray-200">
     
-    <!-- Logo with fallback -->
+    <!-- Logo -->
     <div class="flex justify-center mb-4">
       <img src="assets/logo.png"
            alt="Trendora AI Logo"
@@ -73,7 +73,7 @@
     </p>
   </div>
 
-  <!-- ✅ Modern Toast -->
+  <!-- ✅ Toast -->
   <div id="toast" class="hidden fixed top-5 right-5 max-w-sm w-full bg-white rounded-xl shadow-lg border border-gray-200 transform transition-all duration-300 opacity-0 -translate-y-5">
     <div class="flex items-center gap-3 p-4">
       <div id="toast-icon" class="flex-shrink-0 bg-green-100 text-green-600 p-2 rounded-full">🎉</div>
@@ -88,8 +88,10 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-    import { addNotification, showToast } from "./notification.js";  // ✅ IMPORT NOTIFICATION FILE
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { showToast } from "./notification.js";
 
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
       authDomain: "trendora-auth.firebaseapp.com",
@@ -101,6 +103,18 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Helper → addNotification
+    async function addNotification(uid, title, message) {
+      if (!uid) return;
+      await addDoc(collection(db, "Notifications", uid, "items"), {
+        title,
+        message,
+        read: false,
+        createdAt: serverTimestamp()
+      });
+    }
 
     // Password toggle
     const togglePassword = document.getElementById("toggle-password");
