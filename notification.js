@@ -66,18 +66,30 @@ export function listenNotifications(userId) {
   const q = query(collection(db, "Notifications"), orderBy("createdAt", "desc"));
   onSnapshot(q, (snapshot) => {
     const notifList = document.getElementById("notification-list");
-    if (!notifList) return;
+    const notifCount = document.getElementById("notification-count");
+    if (!notifList || !notifCount) return;
 
     notifList.innerHTML = "";
+    let count = 0;
+
     snapshot.forEach((doc) => {
       const data = doc.data();
       if (data.userId === userId) {
+        count++;
         const li = document.createElement("li");
         li.className = `p-3 border-b ${data.read ? "bg-white" : "bg-blue-50 font-semibold"}`;
         li.textContent = `${data.title} - ${data.message}`;
         notifList.appendChild(li);
       }
     });
+
+    // 🔔 Update badge
+    if (count > 0) {
+      notifCount.textContent = count;
+      notifCount.classList.remove("hidden");
+    } else {
+      notifCount.classList.add("hidden");
+    }
   });
 }
 
