@@ -97,6 +97,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
@@ -109,6 +110,7 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
     // ✅ Modern Toast Function
     function showToast(message, type = "success") {
@@ -124,6 +126,19 @@
       setTimeout(() => {
         toast.classList.replace("toast-show", "toast-hide");
       }, 3000);
+    }
+
+    // ✅ Add Notification in Firestore
+    async function addNotification(message, type = "info") {
+      try {
+        await addDoc(collection(db, "Notifications"), {
+          message,
+          type,
+          timestamp: serverTimestamp()
+        });
+      } catch (err) {
+        console.error("Error adding notification:", err);
+      }
     }
 
     // Toggle Password
@@ -143,6 +158,7 @@
       try {
         await signInWithEmailAndPassword(auth, email, password);
         showToast(`Welcome back, ${email}`, "success");
+        await addNotification(`🔑 ${email} logged in successfully`, "success");
         setTimeout(() => window.location.href = "dashboard.html", 1500);
       } catch (error) {
         showToast(error.message, "error");
@@ -155,6 +171,7 @@
       try {
         const result = await signInWithPopup(auth, provider);
         showToast(`Welcome back, ${result.user.email}`, "success");
+        await addNotification(`🔑 ${result.user.email} logged in with Google`, "success");
         setTimeout(() => window.location.href = "dashboard.html", 1500);
       } catch (error) {
         showToast(error.message, "error");
