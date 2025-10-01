@@ -5,27 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trendora Dashboard</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-
-  <!-- Tailwind config -->
-  <script>
-    window.tailwind = window.tailwind || {};
-    window.tailwind.config = { darkMode: 'class', theme: { extend: {} } };
-  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    :root { --trans: 250ms; }
-    html { transition: background-color var(--trans), color var(--trans); }
-  </style>
 </head>
 <body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
 
-  <!-- Sidebar + Header Wrapper -->
   <div class="flex min-h-screen">
     <!-- Sidebar -->
     <aside class="w-64 bg-white dark:bg-gray-800 shadow-md flex flex-col">
-      <div class="p-6 flex flex-col items-center border-b border-gray-200 dark:border-gray-700">
+      <div class="p-6 flex flex-col items-center border-b">
         <img src="assets/logo.png" alt="Trendora Logo" class="h-12 mb-3">
         <h1 class="text-xl font-bold text-blue-600 dark:text-blue-400">Trendora AI</h1>
         <span id="user-badge" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Free member</span>
@@ -43,17 +31,12 @@
       </nav>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main -->
     <main class="flex-1 p-8">
       <!-- Header -->
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold">Dashboard</h2>
         <div class="flex items-center gap-4">
-          <!-- Dark Mode Toggle -->
-          <button id="theme-toggle" class="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-            <span id="theme-icon">🌙</span>
-          </button>
-
           <!-- Notifications -->
           <div class="relative">
             <button id="notif-btn" class="relative p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
@@ -73,7 +56,6 @@
               </div>
             </div>
           </div>
-
           <!-- User -->
           <img src="assets/user.jpg" class="h-9 w-9 rounded-full border-2 border-blue-500" alt="User"/>
         </div>
@@ -94,47 +76,19 @@
           <p class="text-2xl font-bold mt-2">1,200</p>
         </div>
       </div>
-
-      <!-- Product Search -->
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow mb-8">
-        <h3 class="text-xl mb-4">🔍 Search for a Product</h3>
-        <input type="text" placeholder="Type product name..." class="w-full border rounded px-4 py-2"/>
-      </div>
-
-      <!-- Charts -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
-          <h4>📈 Sales Performance</h4>
-          <canvas id="salesChart"></canvas>
-        </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
-          <h4>📊 Top Categories</h4>
-          <canvas id="categoryChart"></canvas>
-        </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
-          <h4>📉 Ad Engagement</h4>
-          <canvas id="adChart"></canvas>
-        </div>
-      </div>
     </main>
   </div>
 
-  <!-- Firestore + App Scripts -->
+  <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { 
-      getFirestore, collection, onSnapshot, addDoc, deleteDoc, 
-      doc, updateDoc, serverTimestamp, query, orderBy, getDocs 
-    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-    import { 
-      getAuth, onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy, updateDoc, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC7ehbN_SlpBz14zuZ4Etok31vdw1XmGOQ",
       authDomain: "trendora-auth.firebaseapp.com",
       projectId: "trendora-auth",
-      messagingSenderId: "169775124553",
       appId: "1:169775124553:web:0d06cccd6dd110c72aef98"
     };
 
@@ -149,17 +103,13 @@
     const clearAllBtn = document.getElementById("clear-all");
     const markAllReadBtn = document.getElementById("mark-all-read");
 
-    // 🔔 User-specific notifications
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        notifList.innerHTML = '<div class="p-3 text-sm text-gray-500">Please login to see notifications</div>';
+        notifList.innerHTML = '<div class="p-3 text-sm text-gray-500">Login to see notifications</div>';
         return;
       }
 
-      const q = query(
-        collection(db, "Notifications", user.uid, "items"),
-        orderBy("createdAt", "desc")
-      );
+      const q = query(collection(db, "Notifications"), orderBy("createdAt", "desc"));
 
       onSnapshot(q, (snapshot) => {
         notifList.innerHTML = "";
@@ -167,21 +117,20 @@
 
         snapshot.forEach((docSnap) => {
           const notif = docSnap.data();
+          if (notif.userId !== user.uid) return; // ✅ Only current user
+
           const id = docSnap.id;
           const read = notif.read || false;
           if (!read) unreadCount++;
 
           const item = document.createElement("div");
-          item.className = "flex items-start gap-3 p-3 border-b last:border-0 cursor-pointer " + (read ? "text-gray-500" : "font-semibold");
+          item.className = "p-3 border-b cursor-pointer " + (read ? "text-gray-500" : "font-semibold");
           item.innerHTML = `
-            <div class="flex-1">
-              <p>${notif.title || "Notification"}</p>
-              <p class="text-sm">${notif.message || ""}</p>
-              <span class="text-xs text-gray-400">${notif.createdAt?.toDate ? notif.createdAt.toDate().toLocaleString() : ""}</span>
-            </div>
+            <p>${notif.title || "Notification"}</p>
+            <p class="text-sm">${notif.message || ""}</p>
           `;
           item.addEventListener("click", async () => {
-            await updateDoc(doc(db, "Notifications", user.uid, "items", id), { read: true });
+            await updateDoc(doc(db, "Notifications", id), { read: true });
           });
           notifList.appendChild(item);
         });
@@ -193,7 +142,7 @@
           notifBadge.classList.add("hidden");
         }
 
-        if (snapshot.empty) {
+        if (notifList.innerHTML === "") {
           notifList.innerHTML = '<div class="p-3 text-sm text-gray-500">No notifications</div>';
         }
       });
@@ -203,84 +152,22 @@
       });
 
       clearAllBtn.addEventListener("click", async () => {
-        const querySnapshot = await getDocs(collection(db, "Notifications", user.uid, "items"));
+        const querySnapshot = await getDocs(collection(db, "Notifications"));
         querySnapshot.forEach(async (d) => {
-          await deleteDoc(doc(db, "Notifications", user.uid, "items", d.id));
+          if (d.data().userId === user.uid) {
+            await deleteDoc(doc(db, "Notifications", d.id));
+          }
         });
       });
 
       markAllReadBtn.addEventListener("click", async () => {
-        const querySnapshot = await getDocs(collection(db, "Notifications", user.uid, "items"));
+        const querySnapshot = await getDocs(collection(db, "Notifications"));
         querySnapshot.forEach(async (d) => {
-          await updateDoc(doc(db, "Notifications", user.uid, "items", d.id), { read: true });
+          if (d.data().userId === user.uid) {
+            await updateDoc(doc(db, "Notifications", d.id), { read: true });
+          }
         });
       });
-
-      // 🚀 Seed notifications (first time only)
-      async function addTestNotifications() {
-        const querySnapshot = await getDocs(collection(db, "Notifications", user.uid, "items"));
-        if (querySnapshot.empty) {
-          const notifications = [
-            {
-              title: "Plan Expiry Alert",
-              message: "Your free plan will expire in 3 days. Upgrade now to avoid interruption.",
-              read: false,
-              createdAt: serverTimestamp()
-            },
-            {
-              title: "Pro Plan Activated 🎉",
-              message: "Congratulations! You have successfully upgraded to the Pro Plan.",
-              read: false,
-              createdAt: serverTimestamp()
-            },
-            {
-              title: "Payment Failed ❌",
-              message: "Your last payment could not be processed. Please update your billing info.",
-              read: false,
-              createdAt: serverTimestamp()
-            }
-          ];
-          for (const notif of notifications) {
-            await addDoc(collection(db, "Notifications", user.uid, "items"), notif);
-          }
-          console.log("✅ Seeded notifications");
-        }
-      }
-      addTestNotifications();
-    });
-
-    // 🌙 Dark Mode
-    const themeToggle = document.getElementById("theme-toggle");
-    const themeIcon = document.getElementById("theme-icon");
-    function applyTheme(dark) {
-      if (dark) {
-        document.documentElement.classList.add("dark");
-        themeIcon.textContent = "☀️";
-      } else {
-        document.documentElement.classList.remove("dark");
-        themeIcon.textContent = "🌙";
-      }
-    }
-    themeToggle.addEventListener("click", () => {
-      const isDark = document.documentElement.classList.contains("dark");
-      applyTheme(!isDark);
-    });
-
-    // 📊 Charts
-    new Chart(document.getElementById('salesChart'), {
-      type: 'line',
-      data: { labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"], datasets: [{ data: [120,190,300,250,280,320,400], borderColor:"#3b82f6" }] },
-      options: { responsive:true, plugins:{ legend:{display:false} } }
-    });
-    new Chart(document.getElementById('categoryChart'), {
-      type: 'pie',
-      data: { labels:["Home","Fitness","Beauty","Electronics"], datasets:[{ data:[35,25,20,20], backgroundColor:["#3b82f6","#10b981","#f59e0b","#ef4444"] }] },
-      options: { responsive:true }
-    });
-    new Chart(document.getElementById('adChart'), {
-      type: 'bar',
-      data: { labels:["Facebook","TikTok","Instagram"], datasets:[{ data:[500,300,450], backgroundColor:["#1877f2","#000","#e1306c"] }] },
-      options: { responsive:true, plugins:{ legend:{display:false} } }
     });
   </script>
 </body>
