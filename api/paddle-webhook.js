@@ -1,54 +1,44 @@
-export const config = {
-  api: {
-    bodyParser: false, // Paddle sends raw form data
-  },
-};
+import admin from "firebase-admin";
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    }),
+  });
+}
+
+const db = admin.firestore();
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    res.setHeader("Allow", ["POST"]);
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
   try {
-    // 🧾 Get raw body
-    let rawBody = "";
-    await new Promise((resolve, reject) => {
-      req.on("data", chunk => (rawBody += chunk));
-      req.on("end", resolve);
-      req.on("error", reject);
-    });
+    const body = req.body;
+    console.log("🔔 Paddle Webhook Received:", body);
 
-    // 🔄 Parse x-www-form-urlencoded
-    const params = new URLSearchParams(rawBody);
-    const body = Object.fromEntries(params.entries());
+    if (body.alert_name === "subscription_payment_succeeded") {
+      const subscriptionId = body.subscription_id;
+      const email = body.email;
 
-    console.log("🔔 Paddle Webhook Received:", body.alert_name);
+      await db.collection("paddle_payments").add({
+        subscription_id: subscriptionId,
+        email: email,
+        amount: body.sale_gross,
+        status: "success",
+        createdAt: new Date(),
+      });
 
-    // 🧠 Handle Paddle events
-    switch (body.alert_name) {
-      case "subscription_created":
-        console.log("✅ New subscription created:", body.email);
-        break;
-      case "subscription_payment_succeeded":
-        console.log("💰 Payment succeeded for subscription:", body.subscription_id);
-        break;
-      case "subscription_cancelled":
-        console.log("⚠️ Subscription cancelled:", body.subscription_id);
-        break;
-      default:
-        console.log("ℹ️ Other event:", body.alert_name);
+      console.log("✅ Payment stored in Firestore for:", email);
     }
 
-    // ✅ Send a clean response back
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ received: true }));
-
-  } catch (err) {
-    console.error("❌ Webhook Error:", err);
-    if (!res.headersSent) {
-      res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: err.message }));
-    }
+    res.status(200).json({ received: true });
+  } catch (error) {
+    console.error("❌ Error handling webhook:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }
