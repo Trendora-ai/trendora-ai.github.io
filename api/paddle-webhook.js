@@ -1,12 +1,15 @@
 import * as admin from "firebase-admin";
 
-if (!admin.apps.length) {
-  // Initialize Firebase Admin SDK
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+try {
+  if (!admin.apps.length) {
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
-  if (!privateKey || !process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL) {
-    console.error("❌ Missing Firebase environment variables");
-  } else {
+    console.log("🔥 Firebase Config:", {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKeyExists: !!privateKey,
+    });
+
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
@@ -15,47 +18,34 @@ if (!admin.apps.length) {
       }),
     });
   }
+} catch (initError) {
+  console.error("❌ Firebase init error:", initError);
 }
 
 const db = admin.firestore();
 
 export default async function handler(req, res) {
-  // Only allow POST requests
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
   try {
-    const body = req.body;
-    console.log("🔔 Paddle Webhook Received:", body);
+    console.log("🟢 Webhook Body:", req.body);
 
-    // Handle successful subscription payment
-    if (body.alert_name === "subscription_payment_succeeded") {
-      const subscriptionId = body.subscription_id;
-      const email = body.email;
-
+    if (req.body.alert_name === "subscription_payment_succeeded") {
       await db.collection("paddle_payments").add({
-        subscription_id: subscriptionId,
-        email: email || "unknown",
-        amount: body.sale_gross || 0,
+        email: req.body.email,
+        subscription_id: req.body.subscription_id,
+        amount: req.body.sale_gross,
         status: "success",
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       });
-
-      console.log("✅ Payment stored in Firestore for:", email);
+      console.log("✅ Payment saved for:", req.body.email);
     }
 
-    // Respond to Paddle
     return res.status(200).json({ received: true });
   } catch (error) {
-    console.error("❌ Error handling webhook:", error);
-    return res.status(500).json({ error: "Internal Server Error", details: error.message });
+    console.error("❌ Webhook handler error:", error);
+    return res.status(500).json({ error: error.message });
   }
 }
-
-// Optional: Disable body parsing so Paddle raw body can be verified later if needed
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};
