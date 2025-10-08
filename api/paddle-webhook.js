@@ -1,13 +1,20 @@
+import { buffer } from "micro";
 import admin from "firebase-admin";
 
+// Disable automatic body parsing so we can handle Paddle's raw body
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+// Initialize Firebase Admin SDK
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-          ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
-          : undefined,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       }),
     });
@@ -25,9 +32,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log("🔔 Paddle Webhook Received:", req.body);
+    const rawBody = (await buffer(req)).toString();
+    const params = new URLSearchParams(rawBody);
+    const body = Object.fromEntries(params);
 
-    const body = req.body;
+    console.log("🔔 Paddle Webhook Received:", body);
 
     if (body.alert_name === "subscription_payment_succeeded") {
       const paymentData = {
@@ -38,8 +47,8 @@ export default async function handler(req, res) {
         createdAt: new Date().toISOString(),
       };
 
-      await db.collection("paddle_payments").add(paymentData);
-      console.log("✅ Payment stored in Firestore for:", body.email);
+      const docRef = await db.collection("paddle_payments").add(paymentData);
+      console.log("✅ Payment stored with ID:", docRef.id);
     }
 
     return res.status(200).json({ received: true });
