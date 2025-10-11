@@ -21,9 +21,20 @@ const db = admin.firestore();
 
 export const config = {
   api: {
-    bodyParser: false, // Important: disable default body parser
+    bodyParser: false, // Disable default body parser for raw body
   },
 };
+
+async function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+    req.on("end", () => resolve(body));
+    req.on("error", (err) => reject(err));
+  });
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -31,20 +42,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 🔹 Read the raw request body (Paddle sends form-data, not JSON)
-    const chunks = [];
-    for await (const chunk of req) {
-      chunks.push(chunk);
-    }
-    const rawBody = Buffer.concat(chunks).toString("utf8");
+    const rawBody = await getRawBody(req);
     console.log("🧾 RAW BODY:", rawBody);
 
-    // 🔹 Convert URL-encoded body to JS object
+    // If no body received
+    if (!rawBody) {
+      return res.status(400).json({ error: "Empty body received" });
+    }
+
+    // Decode Paddle x-www-form-urlencoded
     const params = new URLSearchParams(rawBody);
     const body = Object.fromEntries(params.entries());
     console.log("🔔 Parsed Paddle Body:", body);
 
-    // 🔹 Check for successful payment alert
+    // Handle successful payments
     if (body.alert_name === "subscription_payment_succeeded") {
       const paymentData = {
         subscription_id: body.subscription_id || "unknown",
@@ -60,9 +71,11 @@ export default async function handler(req, res) {
       console.log("ℹ️ Ignored alert:", body.alert_name);
     }
 
-    return res.status(200).json({ received: true });
+    res.status(200).json({ received: true });
   } catch (error) {
     console.error("❌ Webhook error:", error);
-    return res.status(500).json({ error: error.message });
+    if (!res.headersSent) {
+      res.status(500).json({ error: error.message });
+    }
   }
 }
