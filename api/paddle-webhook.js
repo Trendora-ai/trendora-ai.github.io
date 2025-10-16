@@ -72,10 +72,26 @@ export default async function handler(req, res) {
     }
 
     res.status(200).json({ received: true });
+
   } catch (error) {
-    console.error("❌ Webhook error:", error);
+    console.error("❌ Webhook error full details:", error);
+
+    if (error.stack) {
+      console.error("🧩 STACK TRACE:", error.stack);
+    }
+
+    // Firebase or key related hints
+    if (error.message?.includes("private key")) {
+      console.error("🚨 Looks like FIREBASE_PRIVATE_KEY is not formatted correctly. Check for '\\n' vs new lines.");
+    }
+
     if (!res.headersSent) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+        error: error.message,
+        stack: error.stack || "No stack trace available",
+      });
     }
   }
 }
