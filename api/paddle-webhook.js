@@ -1,4 +1,3 @@
-// File: pages/api/paddle-webhook.js
 import admin from "firebase-admin";
 
 if (!admin.apps.length) {
@@ -25,7 +24,6 @@ export const config = {
   },
 };
 
-// Helper function to read raw request body
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     let data = "";
@@ -42,15 +40,18 @@ export default async function handler(req, res) {
     }
 
     const rawBody = await getRawBody(req);
-    if (!rawBody) {
-      return res.status(400).json({ error: "Empty body" });
+
+    // Try parsing both URL-encoded and JSON
+    let body;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      const params = new URLSearchParams(rawBody);
+      body = Object.fromEntries(params.entries());
     }
 
-    const params = new URLSearchParams(rawBody);
-    const body = Object.fromEntries(params.entries());
-    console.log("🔔 Paddle Webhook:", body);
+    console.log("🔔 Paddle Webhook Body:", body);
 
-    // 🧠 Store all Paddle events
     const alertType = body.alert_name || "unknown_alert";
 
     const eventData = {
@@ -58,13 +59,14 @@ export default async function handler(req, res) {
       subscription_id: body.subscription_id || null,
       email: body.email || null,
       user_id: body.user_id || null,
-      status: body.status || "unknown",
+      status: body.status || body.state || "unknown",
       amount: body.sale_gross || body.amount || "0",
       currency: body.currency || "USD",
       next_bill_date: body.next_bill_date || null,
       checkout_id: body.checkout_id || null,
       plan_id: body.subscription_plan_id || null,
       event_time: body.event_time || new Date().toISOString(),
+      raw: body, // 🧠 store full raw data too for debugging
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -76,12 +78,8 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.error("❌ Webhook error:", error);
-    try {
-      if (!res.headersSent) {
-        res.status(500).json({ error: error.message });
-      }
-    } catch (sendErr) {
-      console.error("⚠️ Response send failed:", sendErr);
+    if (!res.headersSent) {
+      res.status(500).json({ error: error.message });
     }
   }
-        }
+      }
