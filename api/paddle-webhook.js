@@ -5,9 +5,7 @@ if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-          ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
-          : undefined,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       }),
     });
@@ -21,41 +19,34 @@ const db = admin.firestore();
 
 export const config = {
   api: {
-    bodyParser: false, // Disable default body parser for raw body
+    bodyParser: false,
   },
 };
 
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
-    let body = "";
-    req.on("data", (chunk) => {
-      body += chunk.toString();
-    });
-    req.on("end", () => resolve(body));
-    req.on("error", (err) => reject(err));
+    let data = "";
+    req.on("data", chunk => (data += chunk));
+    req.on("end", () => resolve(data));
+    req.on("error", err => reject(err));
   });
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
-  }
-
   try {
-    const rawBody = await getRawBody(req);
-    console.log("🧾 RAW BODY:", rawBody);
-
-    // If no body received
-    if (!rawBody) {
-      return res.status(400).json({ error: "Empty body received" });
+    if (req.method !== "POST") {
+      return res.status(405).json({ message: "Method Not Allowed" });
     }
 
-    // Decode Paddle x-www-form-urlencoded
+    const rawBody = await getRawBody(req);
+    if (!rawBody) {
+      return res.status(400).json({ error: "Empty body" });
+    }
+
     const params = new URLSearchParams(rawBody);
     const body = Object.fromEntries(params.entries());
-    console.log("🔔 Parsed Paddle Body:", body);
+    console.log("🔔 Paddle Body:", body);
 
-    // Handle successful payments
     if (body.alert_name === "subscription_payment_succeeded") {
       const paymentData = {
         subscription_id: body.subscription_id || "unknown",
@@ -65,33 +56,23 @@ export default async function handler(req, res) {
         createdAt: new Date().toISOString(),
       };
 
-      const docRef = await db.collection("paddle_payments").add(paymentData);
-      console.log("✅ Firestore doc added with ID:", docRef.id);
+      await db.collection("paddle_payments").add(paymentData);
+      console.log("✅ Payment saved to Firestore");
     } else {
       console.log("ℹ️ Ignored alert:", body.alert_name);
     }
 
-    res.status(200).json({ received: true });
-
-  } catch (error) {
-    console.error("❌ Webhook error full details:", error);
-
-    if (error.stack) {
-      console.error("🧩 STACK TRACE:", error.stack);
-    }
-
-    // Firebase or key related hints
-    if (error.message?.includes("private key")) {
-      console.error("🚨 Looks like FIREBASE_PRIVATE_KEY is not formatted correctly. Check for '\\n' vs new lines.");
-    }
-
     if (!res.headersSent) {
-      res.status(500).json({
-        success: false,
-        message: "Internal Server Error",
-        error: error.message,
-        stack: error.stack || "No stack trace available",
-      });
+      res.status(200).json({ received: true });
+    }
+  } catch (error) {
+    console.error("❌ Webhook error:", error);
+    try {
+      if (!res.headersSent) {
+        res.status(500).json({ error: error.message });
+      }
+    } catch (sendErr) {
+      console.error("⚠️ Response send failed:", sendErr);
     }
   }
 }
