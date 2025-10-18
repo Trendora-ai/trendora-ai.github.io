@@ -24,7 +24,7 @@ export const config = {
   },
 };
 
-// Get raw request body (required for Paddle webhooks)
+// Read raw request body (Paddle requires this)
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     let data = "";
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
     const rawBody = await getRawBody(req);
 
-    // 🧠 Try to parse body (support JSON and x-www-form-urlencoded)
+    // Parse both JSON and form-encoded webhooks
     let body;
     try {
       body = JSON.parse(rawBody);
@@ -53,67 +53,88 @@ export default async function handler(req, res) {
 
     console.log("🔔 Paddle Webhook Received:", body);
 
-    // ✅ Smarter alert detection (works for all Paddle versions)
+    // Handle both Paddle Classic and Billing structure
+    const data = body.data || {};
+
+    // Detect alert type (works for both systems)
     const alertType =
       body.alert_name ||
       body.event_type ||
       body.type ||
-      body?.data?.alert_name ||
+      data.alert_name ||
       "unknown_alert";
 
-    // ✅ Normalize data to store in Firestore
+    // Extract key details safely
     const eventData = {
       alert_name: alertType,
-      status: body.status || body.state || body?.data?.status || "unknown",
+      status: body.status || body.state || data.status || "unknown",
+
+      // Payment amounts
       amount:
-        body.sale_gross ||
         body.amount ||
-        body?.data?.amount ||
-        body?.data?.total ||
+        body.sale_gross ||
+        data.amount ||
+        data.total ||
+        data.transaction_total ||
         "0",
-      currency: body.currency || body.currency_code || "USD",
+      currency:
+        body.currency ||
+        body.currency_code ||
+        data.currency_code ||
+        "USD",
+
+      // User and subscription info
       email:
         body.email ||
         body.customer_email ||
-        body?.data?.customer_email ||
-        null,
-      subscription_id:
-        body.subscription_id ||
-        body?.data?.subscription_id ||
-        body?.data?.id ||
-        null,
-      plan_id:
-        body.subscription_plan_id ||
-        body.plan_id ||
-        body?.data?.product_id ||
-        null,
-      checkout_id: body.checkout_id || body?.data?.checkout_id || null,
-      next_bill_date:
-        body.next_bill_date ||
-        body?.data?.next_billed_at ||
-        body?.data?.next_payment_date ||
+        data.customer_email ||
+        data.customer?.email ||
         null,
       user_id:
         body.user_id ||
         body.customer_id ||
-        body?.data?.user_id ||
+        data.customer_id ||
+        data.customer?.id ||
         null,
-      event_time: body.event_time || new Date().toISOString(),
-      raw: body, // store complete raw body for debugging
+      subscription_id:
+        body.subscription_id ||
+        data.subscription_id ||
+        data.id ||
+        null,
+      plan_id:
+        body.subscription_plan_id ||
+        body.plan_id ||
+        data.product_id ||
+        data.items?.[0]?.price?.product_id ||
+        null,
+      checkout_id:
+        body.checkout_id ||
+        data.checkout_id ||
+        data.transaction_id ||
+        null,
+      next_bill_date:
+        body.next_bill_date ||
+        data.next_billed_at ||
+        data.billing_period?.next_billed_at ||
+        null,
+
+      // Time and metadata
+      event_time: body.event_time || data.canceled_at || new Date().toISOString(),
+      raw: body, // Full raw data for debugging
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // ✅ Store in Firestore
+    // Store in Firestore
     const docRef = await db.collection("paddle_webhooks").add(eventData);
-    console.log(`✅ Alert stored successfully (${alertType}) → Doc ID: ${docRef.id}`);
+    console.log(`✅ Stored alert: ${alertType} → Doc ID: ${docRef.id}`);
 
-    // ✅ Send 200 OK response to Paddle
+    // Respond success to Paddle
     if (!res.headersSent) {
       res.status(200).json({ success: true, alert: alertType });
     }
 
   } catch (error) {
-    console.error("❌ Webhook error:", error);
+    console.error("❌ Webhook Error:", error);
     if (!res.headersSent) {
       res.status(500).json({ error: error.message });
     }
