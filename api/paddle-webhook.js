@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
     const rawBody = await getRawBody(req);
 
-    // Try parsing both URL-encoded and JSON
+    // 🧩 Try parsing as JSON first, fallback to form data
     let body;
     try {
       body = JSON.parse(rawBody);
@@ -52,21 +52,44 @@ export default async function handler(req, res) {
 
     console.log("🔔 Paddle Webhook Body:", body);
 
-    const alertType = body.alert_name || "unknown_alert";
+    // ✅ Smarter event detection
+    const alertType =
+      body.alert_name ||
+      body.event_type ||
+      body.type ||
+      (body.data && body.data.alert_name) ||
+      "unknown_alert";
 
     const eventData = {
       alert_name: alertType,
-      subscription_id: body.subscription_id || null,
-      email: body.email || null,
-      user_id: body.user_id || null,
-      status: body.status || body.state || "unknown",
-      amount: body.sale_gross || body.amount || "0",
-      currency: body.currency || "USD",
-      next_bill_date: body.next_bill_date || null,
-      checkout_id: body.checkout_id || null,
-      plan_id: body.subscription_plan_id || null,
+      status: body.status || body.state || body.data?.status || "unknown",
+      amount:
+        body.sale_gross ||
+        body.amount ||
+        body.data?.amount ||
+        body.data?.total ||
+        "0",
+      currency: body.currency || body.currency_code || "USD",
+      email: body.email || body.customer_email || body.data?.customer_email || null,
+      subscription_id:
+        body.subscription_id ||
+        body.data?.id ||
+        body.data?.subscription_id ||
+        null,
+      plan_id:
+        body.subscription_plan_id ||
+        body.plan_id ||
+        body.data?.product_id ||
+        null,
+      checkout_id: body.checkout_id || body.data?.checkout_id || null,
+      next_bill_date:
+        body.next_bill_date ||
+        body.data?.next_billed_at ||
+        body.data?.next_payment_date ||
+        null,
+      user_id: body.user_id || body.customer_id || body.data?.user_id || null,
       event_time: body.event_time || new Date().toISOString(),
-      raw: body, // 🧠 store full raw data too for debugging
+      raw: body,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -82,4 +105,4 @@ export default async function handler(req, res) {
       res.status(500).json({ error: error.message });
     }
   }
-      }
+}
