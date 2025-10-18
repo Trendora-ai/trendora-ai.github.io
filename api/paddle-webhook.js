@@ -19,9 +19,7 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+  api: { bodyParser: false },
 };
 
 async function getRawBody(req) {
@@ -35,13 +33,11 @@ async function getRawBody(req) {
 
 export default async function handler(req, res) {
   try {
-    if (req.method !== "POST") {
+    if (req.method !== "POST")
       return res.status(405).json({ message: "Method Not Allowed" });
-    }
 
     const rawBody = await getRawBody(req);
 
-    // 🧩 Try parsing as JSON first, fallback to form data
     let body;
     try {
       body = JSON.parse(rawBody);
@@ -52,43 +48,71 @@ export default async function handler(req, res) {
 
     console.log("🔔 Paddle Webhook Body:", body);
 
-    // ✅ Smarter event detection
+    // 🔹 Detect event name from multiple fields
     const alertType =
       body.alert_name ||
       body.event_type ||
       body.type ||
-      (body.data && body.data.alert_name) ||
+      body?.data?.alert_name ||
       "unknown_alert";
+
+    // 🔹 Extract important info safely (supporting both old and new Paddle formats)
+    const data = body.data || {};
 
     const eventData = {
       alert_name: alertType,
-      status: body.status || body.state || body.data?.status || "unknown",
+      status:
+        body.status ||
+        data.status ||
+        body.state ||
+        "unknown",
       amount:
         body.sale_gross ||
         body.amount ||
-        body.data?.amount ||
-        body.data?.total ||
+        data.amount ||
+        data.total ||
+        data?.items?.[0]?.price?.unit_price?.amount ||
         "0",
-      currency: body.currency || body.currency_code || "USD",
-      email: body.email || body.customer_email || body.data?.customer_email || null,
+      currency:
+        body.currency ||
+        data.currency_code ||
+        data.currency ||
+        "USD",
+      email:
+        body.email ||
+        body.customer_email ||
+        data.customer_email ||
+        data.customer?.email ||
+        null,
       subscription_id:
         body.subscription_id ||
-        body.data?.id ||
-        body.data?.subscription_id ||
+        data.id ||
+        data.subscription_id ||
         null,
       plan_id:
         body.subscription_plan_id ||
-        body.plan_id ||
-        body.data?.product_id ||
+        data.product_id ||
+        data.items?.[0]?.product_id ||
         null,
-      checkout_id: body.checkout_id || body.data?.checkout_id || null,
+      checkout_id:
+        body.checkout_id ||
+        data.checkout_id ||
+        null,
       next_bill_date:
         body.next_bill_date ||
-        body.data?.next_billed_at ||
-        body.data?.next_payment_date ||
+        data.next_billed_at ||
+        data.next_payment_date ||
         null,
-      user_id: body.user_id || body.customer_id || body.data?.user_id || null,
-      event_time: body.event_time || new Date().toISOString(),
+      user_id:
+        body.user_id ||
+        body.customer_id ||
+        data.user_id ||
+        data.customer_id ||
+        null,
+      event_time:
+        body.event_time ||
+        data.occurred_at ||
+        new Date().toISOString(),
       raw: body,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
@@ -96,13 +120,11 @@ export default async function handler(req, res) {
     await db.collection("paddle_webhooks").add(eventData);
     console.log(`✅ Stored alert: ${alertType}`);
 
-    if (!res.headersSent) {
+    if (!res.headersSent)
       res.status(200).json({ received: true });
-    }
   } catch (error) {
     console.error("❌ Webhook error:", error);
-    if (!res.headersSent) {
+    if (!res.headersSent)
       res.status(500).json({ error: error.message });
-    }
   }
 }
