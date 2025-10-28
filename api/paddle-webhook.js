@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
 
-// ✅ Initialize Firebase Admin only once
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
@@ -19,12 +18,13 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-// ✅ Required for raw body in Next.js API routes
 export const config = {
-  api: { bodyParser: false },
+  api: {
+    bodyParser: false,
+  },
 };
 
-// 🧠 Utility: read raw POST body
+// Get raw request body (required for Paddle webhooks)
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     let data = "";
@@ -35,18 +35,14 @@ async function getRawBody(req) {
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
-  }
-
   try {
+    if (req.method !== "POST") {
+      return res.status(405).json({ message: "Method Not Allowed" });
+    }
+
     const rawBody = await getRawBody(req);
 
-    // Respond to Paddle FIRST to avoid timeout
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ received: true }));
-
-    // Parse body after responding
+    // 🧠 Try to parse body (support JSON and x-www-form-urlencoded)
     let body;
     try {
       body = JSON.parse(rawBody);
@@ -55,80 +51,69 @@ export default async function handler(req, res) {
       body = Object.fromEntries(params.entries());
     }
 
-    console.log("🔔 Paddle Webhook:", body);
+    console.log("🔔 Paddle Webhook Received:", body);
 
-    const data = body.data || {};
+    // ✅ Smarter alert detection (works for all Paddle versions)
     const alertType =
       body.alert_name ||
       body.event_type ||
       body.type ||
-      data.alert_name ||
+      body?.data?.alert_name ||
       "unknown_alert";
 
+    // ✅ Normalize data to store in Firestore
     const eventData = {
       alert_name: alertType,
-      status: body.status || body.state || data.status || "unknown",
+      status: body.status || body.state || body?.data?.status || "unknown",
       amount:
-        body.amount ||
         body.sale_gross ||
-        data.amount ||
-        data.total ||
-        data.transaction_total ||
+        body.amount ||
+        body?.data?.amount ||
+        body?.data?.total ||
         "0",
-      currency:
-        body.currency ||
-        body.currency_code ||
-        data.currency_code ||
-        "USD",
+      currency: body.currency || body.currency_code || "USD",
       email:
         body.email ||
         body.customer_email ||
-        data.customer_email ||
-        data.customer?.email ||
-        null,
-      user_id:
-        body.user_id ||
-        body.customer_id ||
-        data.customer_id ||
-        data.customer?.id ||
+        body?.data?.customer_email ||
         null,
       subscription_id:
         body.subscription_id ||
-        data.subscription_id ||
-        data.id ||
+        body?.data?.subscription_id ||
+        body?.data?.id ||
         null,
       plan_id:
         body.subscription_plan_id ||
         body.plan_id ||
-        data.product_id ||
-        data.items?.[0]?.price?.product_id ||
+        body?.data?.product_id ||
         null,
-      checkout_id:
-        body.checkout_id ||
-        data.checkout_id ||
-        data.transaction_id ||
-        null,
+      checkout_id: body.checkout_id || body?.data?.checkout_id || null,
       next_bill_date:
         body.next_bill_date ||
-        data.next_billed_at ||
-        data.billing_period?.next_billed_at ||
+        body?.data?.next_billed_at ||
+        body?.data?.next_payment_date ||
         null,
-      event_time:
-        body.event_time ||
-        body.occurred_at ||
-        new Date().toISOString(),
-      raw: body,
+      user_id:
+        body.user_id ||
+        body.customer_id ||
+        body?.data?.user_id ||
+        null,
+      event_time: body.event_time || new Date().toISOString(),
+      raw: body, // store complete raw body for debugging
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // Store to Firestore asynchronously (after responding)
-    db.collection("paddle_webhooks")
-      .add(eventData)
-      .then(() => console.log(`✅ Saved: ${alertType}`))
-      .catch(err => console.error("❌ Firestore Error:", err));
+    // ✅ Store in Firestore
+    const docRef = await db.collection("paddle_webhooks").add(eventData);
+    console.log(`✅ Alert stored successfully (${alertType}) → Doc ID: ${docRef.id}`);
+
+    // ✅ Send 200 OK response to Paddle
+    if (!res.headersSent) {
+      res.status(200).json({ success: true, alert: alertType });
+    }
 
   } catch (error) {
-    console.error("❌ Webhook Error:", error);
+    console.error("❌ Webhook error:", error);
     if (!res.headersSent) {
       res.status(500).json({ error: error.message });
     }
