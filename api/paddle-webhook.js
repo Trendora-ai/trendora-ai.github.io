@@ -24,7 +24,6 @@ export const config = {
   },
 };
 
-// Read raw request body (Paddle requires this)
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     let data = "";
@@ -35,14 +34,12 @@ async function getRawBody(req) {
 }
 
 export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
+  }
+
   try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ message: "Method Not Allowed" });
-    }
-
     const rawBody = await getRawBody(req);
-
-    // Parse both JSON and form-encoded webhooks
     let body;
     try {
       body = JSON.parse(rawBody);
@@ -51,12 +48,8 @@ export default async function handler(req, res) {
       body = Object.fromEntries(params.entries());
     }
 
-    console.log("🔔 Paddle Webhook Received:", body);
-
-    // Handle both Paddle Classic and Billing structure
     const data = body.data || {};
 
-    // Detect alert type (works for both systems)
     const alertType =
       body.alert_name ||
       body.event_type ||
@@ -64,12 +57,9 @@ export default async function handler(req, res) {
       data.alert_name ||
       "unknown_alert";
 
-    // Extract key details safely
     const eventData = {
       alert_name: alertType,
       status: body.status || body.state || data.status || "unknown",
-
-      // Payment amounts
       amount:
         body.amount ||
         body.sale_gross ||
@@ -82,8 +72,6 @@ export default async function handler(req, res) {
         body.currency_code ||
         data.currency_code ||
         "USD",
-
-      // User and subscription info
       email:
         body.email ||
         body.customer_email ||
@@ -117,26 +105,24 @@ export default async function handler(req, res) {
         data.next_billed_at ||
         data.billing_period?.next_billed_at ||
         null,
-
-      // Time and metadata
-      event_time: body.event_time || data.canceled_at || new Date().toISOString(),
-      raw: body, // Full raw data for debugging
+      event_time: body.event_time || new Date().toISOString(),
+      raw: body,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // Store in Firestore
-    const docRef = await db.collection("paddle_webhooks").add(eventData);
-    console.log(`✅ Stored alert: ${alertType} → Doc ID: ${docRef.id}`);
+    // ✅ Respond to Paddle immediately
+    res.status(200).json({ success: true, alert: alertType });
 
-    // Respond success to Paddle
-    if (!res.headersSent) {
-      res.status(200).json({ success: true, alert: alertType });
-    }
+    // 🔄 Firestore write happens asynchronously (won’t block response)
+    db.collection("paddle_webhooks")
+      .add(eventData)
+      .then(() => console.log(`✅ Stored alert: ${alertType}`))
+      .catch(err => console.error("❌ Firestore error:", err));
 
-  } catch (error) {
-    console.error("❌ Webhook Error:", error);
+  } catch (err) {
+    console.error("❌ Webhook error:", err);
     if (!res.headersSent) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: err.message });
     }
   }
-}
+      }
