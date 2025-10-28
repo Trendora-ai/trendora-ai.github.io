@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 
+// 🔥 Initialize Firebase only once
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
@@ -18,20 +19,18 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
+// 🚫 Disable default body parser
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Get raw request body (required for Paddle webhooks)
+// ✅ Safe way to read raw body for Vercel
 async function getRawBody(req) {
-  return new Promise((resolve, reject) => {
-    let data = "";
-    req.on("data", chunk => (data += chunk));
-    req.on("end", () => resolve(data));
-    req.on("error", err => reject(err));
-  });
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  return Buffer.concat(chunks).toString("utf8");
 }
 
 export default async function handler(req, res) {
@@ -42,7 +41,7 @@ export default async function handler(req, res) {
 
     const rawBody = await getRawBody(req);
 
-    // 🧠 Try to parse body (support JSON and x-www-form-urlencoded)
+    // Try parsing JSON; if fails, fallback to URL-encoded
     let body;
     try {
       body = JSON.parse(rawBody);
@@ -53,69 +52,31 @@ export default async function handler(req, res) {
 
     console.log("🔔 Paddle Webhook Received:", body);
 
-    // ✅ Smarter alert detection (works for all Paddle versions)
-    const alertType =
-      body.alert_name ||
-      body.event_type ||
-      body.type ||
-      body?.data?.alert_name ||
-      "unknown_alert";
+    const alertType = body.alert_name || "unknown_alert";
 
-    // ✅ Normalize data to store in Firestore
     const eventData = {
       alert_name: alertType,
-      status: body.status || body.state || body?.data?.status || "unknown",
-      amount:
-        body.sale_gross ||
-        body.amount ||
-        body?.data?.amount ||
-        body?.data?.total ||
-        "0",
+      subscription_id: body.subscription_id || body.id || null,
+      email: body.email || null,
+      user_id: body.user_id || body.customer_id || null,
+      status: body.status || body.state || "unknown",
+      amount: body.sale_gross || body.amount || "0",
       currency: body.currency || body.currency_code || "USD",
-      email:
-        body.email ||
-        body.customer_email ||
-        body?.data?.customer_email ||
-        null,
-      subscription_id:
-        body.subscription_id ||
-        body?.data?.subscription_id ||
-        body?.data?.id ||
-        null,
-      plan_id:
-        body.subscription_plan_id ||
-        body.plan_id ||
-        body?.data?.product_id ||
-        null,
-      checkout_id: body.checkout_id || body?.data?.checkout_id || null,
-      next_bill_date:
-        body.next_bill_date ||
-        body?.data?.next_billed_at ||
-        body?.data?.next_payment_date ||
-        null,
-      user_id:
-        body.user_id ||
-        body.customer_id ||
-        body?.data?.user_id ||
-        null,
-      event_time: body.event_time || new Date().toISOString(),
-      raw: body, // store complete raw body for debugging
+      next_bill_date: body.next_bill_date || body.next_billed_at || null,
+      checkout_id: body.checkout_id || null,
+      plan_id: body.subscription_plan_id || body.product_id || null,
+      event_time: body.event_time || body.created_at || new Date().toISOString(),
+      raw: body,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // ✅ Store in Firestore
-    const docRef = await db.collection("paddle_webhooks").add(eventData);
-    console.log(`✅ Alert stored successfully (${alertType}) → Doc ID: ${docRef.id}`);
+    await db.collection("paddle_webhooks").add(eventData);
+    console.log(`✅ Stored alert in Firestore: ${alertType}`);
 
-    // ✅ Send 200 OK response to Paddle
-    if (!res.headersSent) {
-      res.status(200).json({ success: true, alert: alertType });
-    }
-
+    // ✅ Respond immediately to prevent timeout/abort
+    res.status(200).json({ success: true });
   } catch (error) {
-    console.error("❌ Webhook error:", error);
-    if (!res.headersSent) {
-      res.status(500).json({ error: error.message });
-    }
+    console.error("❌ Webhook processing error:", error);
+    res.status(500).json({ error: error.message });
   }
-}
+        }
