@@ -77,6 +77,7 @@ export default async function handler(req, res) {
         body.customer_email ||
         data.customer_email ||
         data.customer?.email ||
+        data.customer?.name || // 🆕 fallback if Paddle sends name instead of email in test mode
         null,
       subscription_id:
         body.subscription_id ||
@@ -85,8 +86,10 @@ export default async function handler(req, res) {
         null,
       plan_id:
         body.subscription_plan_id ||
+        data.plan_id ||
         data.product_id ||
         data.items?.[0]?.product_id ||
+        data.items?.[0]?.product?.name || // 🆕 readable plan name if available
         null,
       checkout_id:
         body.checkout_id ||
@@ -124,4 +127,4 @@ export default async function handler(req, res) {
     if (!res.headersSent)
       res.status(500).json({ error: error.message });
   }
-        }
+      }
