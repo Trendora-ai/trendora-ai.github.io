@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 
+// ✅ Initialize Firebase Admin only once
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
@@ -18,12 +19,12 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
+// ✅ Required for raw body in Next.js API routes
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+  api: { bodyParser: false },
 };
 
+// 🧠 Utility: read raw POST body
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     let data = "";
@@ -40,6 +41,12 @@ export default async function handler(req, res) {
 
   try {
     const rawBody = await getRawBody(req);
+
+    // Respond to Paddle FIRST to avoid timeout
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ received: true }));
+
+    // Parse body after responding
     let body;
     try {
       body = JSON.parse(rawBody);
@@ -48,8 +55,9 @@ export default async function handler(req, res) {
       body = Object.fromEntries(params.entries());
     }
 
-    const data = body.data || {};
+    console.log("🔔 Paddle Webhook:", body);
 
+    const data = body.data || {};
     const alertType =
       body.alert_name ||
       body.event_type ||
@@ -105,24 +113,24 @@ export default async function handler(req, res) {
         data.next_billed_at ||
         data.billing_period?.next_billed_at ||
         null,
-      event_time: body.event_time || new Date().toISOString(),
+      event_time:
+        body.event_time ||
+        body.occurred_at ||
+        new Date().toISOString(),
       raw: body,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // ✅ Respond to Paddle immediately
-    res.status(200).json({ success: true, alert: alertType });
-
-    // 🔄 Firestore write happens asynchronously (won’t block response)
+    // Store to Firestore asynchronously (after responding)
     db.collection("paddle_webhooks")
       .add(eventData)
-      .then(() => console.log(`✅ Stored alert: ${alertType}`))
-      .catch(err => console.error("❌ Firestore error:", err));
+      .then(() => console.log(`✅ Saved: ${alertType}`))
+      .catch(err => console.error("❌ Firestore Error:", err));
 
-  } catch (err) {
-    console.error("❌ Webhook error:", err);
+  } catch (error) {
+    console.error("❌ Webhook Error:", error);
     if (!res.headersSent) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: error.message });
     }
   }
-      }
+}
