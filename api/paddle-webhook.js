@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 
+// ✅ 1. Prevent double initialization errors
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
@@ -22,13 +23,11 @@ export const config = {
   api: { bodyParser: false },
 };
 
+// ✅ 2. Safe async iterator (instead of req.on/end → avoids hanging on Vercel)
 async function getRawBody(req) {
-  return new Promise((resolve, reject) => {
-    let data = "";
-    req.on("data", chunk => (data += chunk));
-    req.on("end", () => resolve(data));
-    req.on("error", err => reject(err));
-  });
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  return Buffer.concat(chunks).toString("utf8");
 }
 
 export default async function handler(req, res) {
@@ -48,7 +47,6 @@ export default async function handler(req, res) {
 
     console.log("🔔 Paddle Webhook Body:", body);
 
-    // 🔹 Detect event name from multiple fields
     const alertType =
       body.alert_name ||
       body.event_type ||
@@ -56,16 +54,12 @@ export default async function handler(req, res) {
       body?.data?.alert_name ||
       "unknown_alert";
 
-    // 🔹 Extract important info safely (supporting both old and new Paddle formats)
     const data = body.data || {};
 
     const eventData = {
       alert_name: alertType,
       status:
-        body.status ||
-        data.status ||
-        body.state ||
-        "unknown",
+        body.status || data.status || body.state || "unknown",
       amount:
         body.sale_gross ||
         body.amount ||
@@ -117,14 +111,17 @@ export default async function handler(req, res) {
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    await db.collection("paddle_webhooks").add(eventData);
-    console.log(`✅ Stored alert: ${alertType}`);
+    // ✅ 3. Don’t block response; return instantly after scheduling Firestore write
+    db.collection("paddle_webhooks").add(eventData)
+      .then(() => console.log(`✅ Stored alert: ${alertType}`))
+      .catch(err => console.error("⚠️ Firestore save error:", err));
 
-    if (!res.headersSent)
-      res.status(200).json({ received: true });
+    // ✅ 4. Respond immediately to Paddle
+    return res.status(200).json({ received: true, alert: alertType });
+
   } catch (error) {
     console.error("❌ Webhook error:", error);
     if (!res.headersSent)
       res.status(500).json({ error: error.message });
   }
-      }
+        }
