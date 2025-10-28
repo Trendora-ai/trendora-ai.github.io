@@ -23,7 +23,7 @@ export const config = {
   api: { bodyParser: false },
 };
 
-// ✅ Read raw body safely (for Paddle signature verification or Vercel)
+// ✅ Helper: safely get raw body for Paddle signature verification
 async function getRawBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
     console.log("🔔 Paddle Webhook Body:", body);
 
-    // ✅ Detect event name
+    // ✅ Detect event type
     const alertType =
       body.alert_name ||
       body.event_type ||
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
 
     const data = body.data || {};
 
-    // ✅ Prepare event data for storage
+    // ✅ Prepare event data for logging
     const eventData = {
       alert_name: alertType,
       status: body.status || data.status || "unknown",
@@ -107,32 +107,32 @@ export default async function handler(req, res) {
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // ✅ 1. Store all webhook events
+    // ✅ 1. Store webhook logs
     await db.collection("paddle_webhooks").add(eventData);
     console.log(`✅ Stored alert: ${alertType}`);
 
-    // ✅ 2. Update user plan automatically
+    // ✅ 2. Update user's plan automatically (only if email exists)
     if (eventData.email) {
       const userRef = db.collection("users").doc(eventData.email);
 
-      let userPlan = "free";
+      let newPlan = "free";
       if (
         alertType.includes("activated") ||
         alertType.includes("payment_succeeded") ||
         alertType.includes("subscription.created")
       ) {
-        userPlan = "pro";
+        newPlan = "pro";
       } else if (
         alertType.includes("canceled") ||
         alertType.includes("payment_failed") ||
         alertType.includes("subscription.paused")
       ) {
-        userPlan = "free";
+        newPlan = "free";
       }
 
       await userRef.set(
         {
-          plan: userPlan,
+          plan: newPlan,
           subscription_id: eventData.subscription_id,
           next_bill_date: eventData.next_bill_date,
           status: eventData.status,
@@ -141,12 +141,12 @@ export default async function handler(req, res) {
         { merge: true }
       );
 
-      console.log(`📦 User plan updated: ${eventData.email} → ${userPlan}`);
+      console.log(`📦 User plan updated: ${eventData.email} → ${newPlan}`);
     } else {
-      console.warn("⚠️ No email found in webhook — user plan not updated.");
+      console.warn("⚠️ Email missing — user plan not updated.");
     }
 
-    // ✅ 3. Check and auto-downgrade expired subscriptions
+    // ✅ 3. Auto-downgrade expired subscriptions
     const usersSnapshot = await db.collection("users").get();
     const now = new Date();
 
@@ -165,10 +165,10 @@ export default async function handler(req, res) {
       }
     }
 
-    // ✅ 4. Respond to Paddle
+    // ✅ 4. Response to Paddle (important)
     return res.status(200).json({ received: true, alert: alertType });
   } catch (error) {
-    console.error("❌ Webhook error:", error);
+    console.error("❌ Webhook Error:", error);
     if (!res.headersSent)
       res.status(500).json({ error: error.message });
   }
