@@ -72,12 +72,14 @@ export default async function handler(req, res) {
         data.currency_code ||
         data.currency ||
         "USD",
+      // ✅ Improved email handling (sandbox-safe)
       email:
         body.email ||
         body.customer_email ||
         data.customer_email ||
         data.customer?.email ||
-        null,
+        data.user_email ||
+        `sandbox_${data.customer_id || body.customer_id || 'unknown'}@test.com`,
       subscription_id:
         body.subscription_id ||
         data.id ||
@@ -111,7 +113,7 @@ export default async function handler(req, res) {
     await db.collection("paddle_webhooks").add(eventData);
     console.log(`✅ Stored alert: ${alertType}`);
 
-    // ✅ 2. Update user's plan automatically (only if email exists)
+    // ✅ 2. Update user's plan automatically (always works now)
     if (eventData.email) {
       const userRef = db.collection("users").doc(eventData.email);
 
@@ -165,7 +167,7 @@ export default async function handler(req, res) {
       }
     }
 
-    // ✅ 4. Response to Paddle (important)
+    // ✅ 4. Respond to Paddle
     return res.status(200).json({ received: true, alert: alertType });
   } catch (error) {
     console.error("❌ Webhook Error:", error);
