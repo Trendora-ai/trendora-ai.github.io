@@ -23,7 +23,7 @@ export const config = {
   api: { bodyParser: false },
 };
 
-// ✅ Helper: safely get raw body for Paddle signature verification
+// ✅ Helper: safely get raw body
 async function getRawBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
@@ -36,8 +36,8 @@ export default async function handler(req, res) {
       return res.status(405).json({ message: "Method Not Allowed" });
 
     const rawBody = await getRawBody(req);
-
     let body;
+
     try {
       body = JSON.parse(rawBody);
     } catch {
@@ -45,9 +45,9 @@ export default async function handler(req, res) {
       body = Object.fromEntries(params.entries());
     }
 
-    console.log("🔔 Paddle Webhook Body:", body);
+    console.log("🔔 Paddle Webhook Received:", body);
 
-    // ✅ Detect event type
+    // ✅ Detect alert type
     const alertType =
       body.alert_name ||
       body.event_type ||
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
 
     const data = body.data || {};
 
-    // ✅ Prepare event data for logging
+    // ✅ Collect webhook data
     const eventData = {
       alert_name: alertType,
       status: body.status || data.status || "unknown",
@@ -72,14 +72,13 @@ export default async function handler(req, res) {
         data.currency_code ||
         data.currency ||
         "USD",
-      // ✅ Improved email handling (sandbox-safe)
       email:
         body.email ||
         body.customer_email ||
         data.customer_email ||
         data.customer?.email ||
         data.user_email ||
-        `sandbox_${data.customer_id || body.customer_id || 'unknown'}@test.com`,
+        `sandbox_${data.customer_id || body.customer_id || "unknown"}@test.com`,
       subscription_id:
         body.subscription_id ||
         data.id ||
@@ -109,15 +108,15 @@ export default async function handler(req, res) {
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // ✅ 1. Store webhook logs
+    // ✅ 1. Log webhook in Firestore
     await db.collection("paddle_webhooks").add(eventData);
-    console.log(`✅ Stored alert: ${alertType}`);
+    console.log(`✅ Stored webhook event: ${alertType}`);
 
-    // ✅ 2. Update user's plan automatically (always works now)
+    // ✅ 2. Auto-update user’s plan
     if (eventData.email) {
       const userRef = db.collection("users").doc(eventData.email);
-
       let newPlan = "free";
+
       if (
         alertType.includes("activated") ||
         alertType.includes("payment_succeeded") ||
@@ -145,10 +144,10 @@ export default async function handler(req, res) {
 
       console.log(`📦 User plan updated: ${eventData.email} → ${newPlan}`);
     } else {
-      console.warn("⚠️ Email missing — user plan not updated.");
+      console.warn("⚠️ No email found in webhook — plan not updated.");
     }
 
-    // ✅ 3. Auto-downgrade expired subscriptions
+    // ✅ 3. Auto-expire old pro users
     const usersSnapshot = await db.collection("users").get();
     const now = new Date();
 
@@ -162,16 +161,16 @@ export default async function handler(req, res) {
             status: "expired",
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
           });
-          console.log(`🔁 Auto-downgraded expired plan for: ${doc.id}`);
+          console.log(`🔁 Auto-downgraded expired user: ${doc.id}`);
         }
       }
     }
 
     // ✅ 4. Respond to Paddle
-    return res.status(200).json({ received: true, alert: alertType });
+    return res.status(200).json({ success: true, alert: alertType });
   } catch (error) {
-    console.error("❌ Webhook Error:", error);
+    console.error("❌ Paddle Webhook Error:", error);
     if (!res.headersSent)
       res.status(500).json({ error: error.message });
   }
-}
+        }
