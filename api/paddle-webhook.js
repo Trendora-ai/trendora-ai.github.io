@@ -112,7 +112,7 @@ export default async function handler(req, res) {
     await db.collection("paddle_webhooks").add(eventData);
     console.log(`✅ Stored webhook event: ${alertType}`);
 
-    // ✅ 2. Auto-update user’s plan
+    // ✅ 2. Auto-update user’s plan (with cleanData filter)
     if (eventData.email) {
       const userRef = db.collection("users").doc(eventData.email);
       let newPlan = "free";
@@ -131,17 +131,18 @@ export default async function handler(req, res) {
         newPlan = "free";
       }
 
-      await userRef.set(
-        {
+      // ✅ Clean up null or undefined fields before saving
+      const cleanData = Object.fromEntries(
+        Object.entries({
           plan: newPlan,
           subscription_id: eventData.subscription_id,
           next_bill_date: eventData.next_bill_date,
           status: eventData.status,
           updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-        },
-        { merge: true }
+        }).filter(([_, v]) => v !== null && v !== undefined)
       );
 
+      await userRef.set(cleanData, { merge: true });
       console.log(`📦 User plan updated: ${eventData.email} → ${newPlan}`);
     } else {
       console.warn("⚠️ No email found in webhook — plan not updated.");
@@ -173,4 +174,4 @@ export default async function handler(req, res) {
     if (!res.headersSent)
       res.status(500).json({ error: error.message });
   }
-        }
+}
