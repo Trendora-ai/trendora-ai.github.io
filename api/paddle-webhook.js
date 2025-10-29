@@ -57,6 +57,21 @@ export default async function handler(req, res) {
 
     const data = body.data || {};
 
+    // ✅ Handle next_bill_date safely
+    let nextBillDate =
+      body.next_bill_date ||
+      data.next_billed_at ||
+      data.next_payment_date ||
+      null;
+
+    // 🧩 Fix missing or old date (e.g., 2024 date)
+    if (!nextBillDate || new Date(nextBillDate) < new Date()) {
+      const nextMonth = new Date();
+      nextMonth.setDate(nextMonth.getDate() + 30);
+      nextBillDate = nextMonth.toISOString();
+      console.log(`🕓 next_bill_date fixed to: ${nextBillDate}`);
+    }
+
     // ✅ Collect webhook data
     const eventData = {
       alert_name: alertType,
@@ -89,11 +104,7 @@ export default async function handler(req, res) {
         data.product_id ||
         data.items?.[0]?.product_id ||
         null,
-      next_bill_date:
-        body.next_bill_date ||
-        data.next_billed_at ||
-        data.next_payment_date ||
-        null,
+      next_bill_date: nextBillDate,
       user_id:
         body.user_id ||
         body.customer_id ||
@@ -112,7 +123,7 @@ export default async function handler(req, res) {
     await db.collection("paddle_webhooks").add(eventData);
     console.log(`✅ Stored webhook event: ${alertType}`);
 
-    // ✅ 2. Auto-update user’s plan (with cleanData filter)
+    // ✅ 2. Auto-update user’s plan
     if (eventData.email) {
       const userRef = db.collection("users").doc(eventData.email);
       let newPlan = "free";
@@ -131,7 +142,7 @@ export default async function handler(req, res) {
         newPlan = "free";
       }
 
-      // ✅ Clean up null or undefined fields before saving
+      // ✅ Clean null values before saving
       const cleanData = Object.fromEntries(
         Object.entries({
           plan: newPlan,
