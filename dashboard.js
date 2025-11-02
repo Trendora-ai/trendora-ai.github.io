@@ -2,7 +2,7 @@
 import { auth } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
-// Agar login nahi hai → login page bhejo
+// If not logged in → login page
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
