@@ -23,7 +23,7 @@ export const config = {
   api: { bodyParser: false },
 };
 
-// ✅ Helper: safely get raw body
+// ✅ Helper to read raw body
 async function getRawBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
@@ -64,15 +64,23 @@ export default async function handler(req, res) {
       data.next_payment_date ||
       null;
 
-    // 🧩 Fix missing or old date (e.g., 2024 date)
+    // 🧩 Fix missing or old date
     if (!nextBillDate || new Date(nextBillDate) < new Date()) {
       const nextMonth = new Date();
       nextMonth.setDate(nextMonth.getDate() + 30);
       nextBillDate = nextMonth.toISOString();
-      console.log(`🕓 next_bill_date fixed to: ${nextBillDate}`);
+      console.log(`🕓 next_bill_date fixed to future: ${nextBillDate}`);
     }
 
     // ✅ Collect webhook data
+    const email =
+      body.email ||
+      body.customer_email ||
+      data.customer_email ||
+      data.customer?.email ||
+      data.user_email ||
+      `sandbox_${data.customer_id || body.customer_id || "unknown"}@test.com`;
+
     const eventData = {
       alert_name: alertType,
       status: body.status || data.status || "unknown",
@@ -87,13 +95,7 @@ export default async function handler(req, res) {
         data.currency_code ||
         data.currency ||
         "USD",
-      email:
-        body.email ||
-        body.customer_email ||
-        data.customer_email ||
-        data.customer?.email ||
-        data.user_email ||
-        `sandbox_${data.customer_id || body.customer_id || "unknown"}@test.com`,
+      email,
       subscription_id:
         body.subscription_id ||
         data.id ||
@@ -105,12 +107,6 @@ export default async function handler(req, res) {
         data.items?.[0]?.product_id ||
         null,
       next_bill_date: nextBillDate,
-      user_id:
-        body.user_id ||
-        body.customer_id ||
-        data.user_id ||
-        data.customer_id ||
-        null,
       event_time:
         body.event_time ||
         data.occurred_at ||
@@ -119,47 +115,57 @@ export default async function handler(req, res) {
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     };
 
-    // ✅ 1. Log webhook in Firestore
+    // ✅ 1. Store webhook event with unique ID
     await db.collection("paddle_webhooks").add(eventData);
-    console.log(`✅ Stored webhook event: ${alertType}`);
+    console.log(`✅ Webhook stored: ${alertType}`);
 
-    // ✅ 2. Auto-update user’s plan
-    if (eventData.email) {
-      const userRef = db.collection("users").doc(eventData.email);
+    // ✅ 2. Update User Plan
+    if (email) {
+      const userRef = db.collection("users").doc(email);
+      const userDoc = await userRef.get();
+
+      // ➤ If user does NOT exist, create it
+      if (!userDoc.exists) {
+        await userRef.set({
+          email,
+          plan: "free",
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        console.log(`🆕 User created in Firestore: ${email}`);
+      }
+
       let newPlan = "free";
-
       if (
-        alertType.includes("activated") ||
-        alertType.includes("payment_succeeded") ||
-        alertType.includes("subscription.created")
+        ["activated", "payment_succeeded", "subscription.created"].some(t =>
+          alertType.includes(t)
+        )
       ) {
         newPlan = "pro";
-      } else if (
-        alertType.includes("canceled") ||
-        alertType.includes("payment_failed") ||
-        alertType.includes("subscription.paused")
+      }
+
+      if (
+        ["canceled", "payment_failed", "subscription.paused"].some(t =>
+          alertType.includes(t)
+        )
       ) {
         newPlan = "free";
       }
 
-      // ✅ Clean null values before saving
       const cleanData = Object.fromEntries(
         Object.entries({
           plan: newPlan,
           subscription_id: eventData.subscription_id,
-          next_bill_date: eventData.next_bill_date,
+          next_bill_date: nextBillDate,
           status: eventData.status,
           updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         }).filter(([_, v]) => v !== null && v !== undefined)
       );
 
       await userRef.set(cleanData, { merge: true });
-      console.log(`📦 User plan updated: ${eventData.email} → ${newPlan}`);
-    } else {
-      console.warn("⚠️ No email found in webhook — plan not updated.");
+      console.log(`📦 User updated: ${email} → ${newPlan}`);
     }
 
-    // ✅ 3. Auto-expire old pro users
+    // ✅ 3. Auto-downgrade expired users
     const usersSnapshot = await db.collection("users").get();
     const now = new Date();
 
@@ -173,16 +179,15 @@ export default async function handler(req, res) {
             status: "expired",
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
           });
-          console.log(`🔁 Auto-downgraded expired user: ${doc.id}`);
+          console.log(`🔁 Downgraded expired user: ${doc.id}`);
         }
       }
     }
 
-    // ✅ 4. Respond to Paddle
     return res.status(200).json({ success: true, alert: alertType });
   } catch (error) {
-    console.error("❌ Paddle Webhook Error:", error);
+    console.error("❌ Webhook Error:", error);
     if (!res.headersSent)
       res.status(500).json({ error: error.message });
   }
-}
+        }
